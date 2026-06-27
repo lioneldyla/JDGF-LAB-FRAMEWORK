@@ -1,0 +1,40 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: DatabaseServiceRegistry
+metadata:
+  version: 0.2.0
+  lifecycle: specified
+services:
+  - id: postgres
+    version: 17.10.0
+    type: relational
+    lifecycle: specified
+    enabled: false
+    endpoint: postgresql://postgres:5432/jdgf
+    dependencies: []
+  - id: neo4j
+    version: 2026.5.0
+    type: graph
+    lifecycle: specified
+    enabled: false
+    endpoint: bolt://neo4j:7687
+    dependencies: []
+  - id: qdrant
+    version: 1.18.2
+    type: vector
+    lifecycle: specified
+    enabled: false
+    endpoint: http://qdrant:6333
+    dependencies: []
+  - id: redis
+    version: 7.4.9
+    type: cache
+    lifecycle: specified
+    enabled: false
+    endpoint: redis://redis:6379
+    dependencies: []
+connections:
+  default_sql: postgres
+  default_graph: neo4j
+  default_vector: qdrant
+  default_cache: redis

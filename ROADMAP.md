@@ -23,11 +23,19 @@ active.
 - workflow and event contracts;
 - knowledge-source and data-governance contracts.
 
-## Adapters — deferred
+Advanced RAG component contracts are now specified. Runtime retrieval,
+generation, memory and graph adapters remain deferred.
 
-Model gateways, databases, vector stores, automation, monitoring, APIs and user
-interfaces will be introduced only through portable adapters backed by a real
-use case, tests and operating documentation.
+The Knowledge Platform foundation now validates metadata, collections,
+ontology and pipeline contracts. Extraction, indexing and retrieval runtimes
+remain deferred until tested adapters exist.
+
+## Adapter runtimes — deferred
+
+Model, database, vector-store, automation, monitoring and interface contracts
+are specified. Their runtime activation remains deferred until portable
+adapters are backed by integration, security and recovery tests plus operating
+documentation.
 
 Named external projects and domain-specific business logic are outside the
 framework repository. They may consume public contracts without becoming core

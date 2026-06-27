@@ -1,0 +1,29 @@
+api_version: jdgf.io/v1alpha1
+kind: ModuleManifest
+modules:
+  - id: bootstrap
+    lifecycle: active
+  - id: project-registry
+    lifecycle: active
+  - id: manifest-validation
+    lifecycle: active
+  - id: rag-contracts
+    lifecycle: specified
+  - id: docker-service-contracts
+    lifecycle: specified
+  - id: ai-platform-contracts
+    lifecycle: specified
+  - id: data-platform-contracts
+    lifecycle: specified
+  - id: knowledge-platform-contracts
+    lifecycle: specified
+  - id: infrastructure
+    lifecycle: specified
+  - id: model-adapters
+    lifecycle: specified
+  - id: data-adapters
+    lifecycle: deferred
+  - id: monitoring
+    lifecycle: specified
+  - id: automation
+    lifecycle: specified

@@ -1,0 +1,12 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: CapabilityManifest
+metadata:
+  id: advanced-rag-engine
+  version: 0.1.0
+spec:
+  lifecycle: specified
+  installable: false
+  engine: platform/rag/rag-engine.yaml
+  registry: registry/rag.yaml
+  compatibility: platform/rag/compatibility.yaml

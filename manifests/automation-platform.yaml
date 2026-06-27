@@ -1,0 +1,23 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: PlatformManifest
+metadata:
+  id: automation-monitoring-platform
+  name: Automation and Monitoring Platform
+  version: 0.2.0
+spec:
+  lifecycle: specified
+  installable: false
+  runtime_tested: false
+  registry: registry/automation.yaml
+  components: [n8n, searxng, prometheus, grafana, loki]
+  automation:
+    configured: true
+  search:
+    configured: true
+  monitoring:
+    metrics_configured: true
+    datasources_provisioned: true
+    dashboards_provisioned: false
+    alerting_configured: false
+    log_collection_configured: false

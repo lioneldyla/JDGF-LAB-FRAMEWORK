@@ -1,0 +1,42 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: AutomationMonitoringRegistry
+metadata:
+  version: 0.2.0
+  lifecycle: specified
+services:
+  - id: n8n
+    version: 2.27.4
+    category: automation
+    lifecycle: specified
+    enabled: false
+    endpoint: http://n8n:5678
+    dependencies: [postgres, redis]
+  - id: searxng
+    version: 2026.6.26-f8ffbf36f
+    category: search
+    lifecycle: specified
+    enabled: false
+    endpoint: http://searxng:8080
+    dependencies: [redis]
+  - id: prometheus
+    version: 3.12.0
+    category: metrics
+    lifecycle: specified
+    enabled: false
+    endpoint: http://prometheus:9090
+    dependencies: []
+  - id: grafana
+    version: 13.0.2
+    category: visualization
+    lifecycle: specified
+    enabled: false
+    endpoint: http://grafana:3000
+    dependencies: [prometheus, loki]
+  - id: loki
+    version: 3.7.3
+    category: logging
+    lifecycle: specified
+    enabled: false
+    endpoint: http://loki:3100
+    dependencies: []

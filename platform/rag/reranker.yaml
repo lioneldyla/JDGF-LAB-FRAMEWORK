@@ -1,0 +1,11 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: RagReranker
+metadata:
+  name: evidence-reranker
+  lifecycle: specified
+spec:
+  enabled: false
+  strategies: [relevance, recency, authority, citation-quality]
+  minimum_score: 0.65
+  outputs: [ranked-chunks, excluded-chunks, justification]

@@ -1,0 +1,39 @@
+services:
+  open-webui:
+    image: ${OPEN_WEBUI_IMAGE}
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${WEBUI_PORT:-3000}:8080"
+    environment:
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://ollama:11434}
+      WEBUI_NAME: ${WEBUI_NAME:-JDGF Lab AI}
+      WEBUI_SECRET_KEY: ${WEBUI_SECRET_KEY}
+      ENABLE_SIGNUP: ${ENABLE_SIGNUP:-false}
+      ENABLE_COMMUNITY_SHARING: ${ENABLE_COMMUNITY_SHARING:-false}
+      ENABLE_RAG_WEB_SEARCH: ${ENABLE_RAG_WEB_SEARCH:-false}
+      DEFAULT_MODELS: ${DEFAULT_MODEL:-qwen3:8b}
+    volumes:
+      - open-webui-data:/app/backend/data
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - >-
+          python -c "import urllib.request;
+          urllib.request.urlopen('http://localhost:8080/health')"
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - jdgf-network
+
+volumes:
+  open-webui-data:
+    name: ${OPEN_WEBUI_VOLUME:-jdgf-open-webui-data}
+
+networks:
+  jdgf-network:
+    external: true
+    name: ${JDGF_NETWORK:-jdgf-network}

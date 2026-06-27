@@ -1,0 +1,24 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: KnowledgeRegistry
+metadata:
+  version: 0.3.0
+  lifecycle: specified
+artifacts:
+  config: knowledge/knowledge.yaml
+  ontology: knowledge/ontology.yaml
+  metadata_schema: knowledge/metadata.schema.yaml
+  indexing: knowledge/indexing.yaml
+  collections: knowledge/collections.yaml
+  vector_profiles: knowledge/vector_profiles.yaml
+  graph_schema: knowledge/graph_schema.yaml
+  ingestion_pipeline: knowledge/pipelines/document-ingestion.yaml
+  rag_pipeline: knowledge/pipelines/rag.yaml
+collections:
+  - {id: publications, lifecycle: specified, enabled: false}
+  - {id: reports, lifecycle: specified, enabled: false}
+  - {id: standards, lifecycle: specified, enabled: false}
+  - {id: datasets, lifecycle: specified, enabled: false}
+  - {id: documentation, lifecycle: specified, enabled: false}
+  - {id: archives, lifecycle: specified, enabled: false}
+sources: []

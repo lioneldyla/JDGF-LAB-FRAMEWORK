@@ -1,0 +1,18 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: RagConfidenceScoring
+metadata:
+  name: evidence-confidence-scoring
+  lifecycle: specified
+spec:
+  factors:
+    - source-quality
+    - source-recency
+    - source-agreement
+    - retrieval-score
+    - citation-density
+    - reasoning-consistency
+  thresholds:
+    high: 0.80
+    medium: 0.60
+    low: 0.40

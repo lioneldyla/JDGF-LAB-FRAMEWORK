@@ -1,0 +1,3 @@
+api_version: jdgf.io/v1alpha1
+kind: ProjectRegistryReference
+registry: registry/projects.yaml

@@ -1,0 +1,17 @@
+api_version: jdgf.io/v1alpha1
+kind: OpenHandsPolicy
+metadata:
+  lifecycle: specified
+spec:
+  workspace:
+    dedicated: true
+    repository_mount_required: false
+  capabilities:
+    git: true
+    shell: true
+    docker: true
+  security:
+    confirm_destructive_actions: true
+    unattended_execution: false
+    docker_socket_risk_acceptance_required: true
+    log_all_events: false

@@ -1,0 +1,40 @@
+services:
+  neo4j:
+    image: ${NEO4J_IMAGE}
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${NEO4J_HTTP_PORT:-7474}:7474"
+      - "127.0.0.1:${NEO4J_BOLT_PORT:-7687}:7687"
+    environment:
+      NEO4J_AUTH: neo4j/${NEO4J_PASSWORD}
+      NEO4J_PASSWORD: ${NEO4J_PASSWORD}
+      NEO4J_server_memory_heap_initial__size: ${NEO4J_HEAP_INITIAL:-512m}
+      NEO4J_server_memory_heap_max__size: ${NEO4J_HEAP_MAX:-1G}
+    volumes:
+      - neo4j-data:/data
+      - neo4j-logs:/logs
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - >-
+          cypher-shell -u neo4j -p "$${NEO4J_PASSWORD}"
+          "RETURN 1" >/dev/null
+      interval: 15s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - jdgf-network
+
+volumes:
+  neo4j-data:
+    name: ${NEO4J_DATA_VOLUME:-jdgf-neo4j-data}
+  neo4j-logs:
+    name: ${NEO4J_LOGS_VOLUME:-jdgf-neo4j-logs}
+
+networks:
+  jdgf-network:
+    external: true
+    name: ${JDGF_NETWORK:-jdgf-network}

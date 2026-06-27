@@ -1,0 +1,23 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: KnowledgePlatformConfig
+metadata:
+  version: 1.0.0
+  lifecycle: specified
+spec:
+  providers:
+    - {id: filesystem, adapter: filesystem, lifecycle: specified, enabled: false}
+    - {id: qdrant, adapter: vector, lifecycle: specified, enabled: false}
+    - {id: neo4j, adapter: graph, lifecycle: specified, enabled: false}
+  indexing:
+    metadata: false
+    lexical: false
+    vector: false
+    graph: false
+  search:
+    supported_modes: [lexical, semantic, hybrid, graph]
+    default_mode: hybrid
+  governance:
+    checksums_required: true
+    citations_required: true
+    unknown_metadata_fields: reject

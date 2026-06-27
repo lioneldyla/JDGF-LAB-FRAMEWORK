@@ -1,0 +1,14 @@
+api_version: jdgf.io/v1alpha1
+kind: RagCompatibilityPolicy
+metadata:
+  name: advanced-rag-compatibility
+  version: 1.0.0
+spec:
+  current_contract_version: "1.0"
+  supported_api_versions: [jdgf.io/v1alpha1]
+  backward_compatibility: same-major
+  unknown_fields: reject
+  versioning: semantic
+  deprecation:
+    minimum_notice_releases: 2
+    migration_documentation_required: true

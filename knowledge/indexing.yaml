@@ -1,0 +1,17 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: KnowledgeIndexingPlan
+metadata:
+  version: 1.0.0
+  lifecycle: specified
+stages:
+  - {id: discover, action: discover-documents, enabled: false, dependencies: []}
+  - {id: extract, action: extract-text, enabled: false, dependencies: [discover]}
+  - {id: normalize, action: normalize-text, enabled: false, dependencies: [extract]}
+  - {id: metadata, action: validate-metadata, enabled: false, dependencies: [normalize]}
+  - {id: chunk, action: chunk-text, enabled: false, dependencies: [metadata]}
+  - {id: embed, action: create-embeddings, enabled: false, dependencies: [chunk]}
+  - {id: vector-index, action: index-vectors, enabled: false, dependencies: [embed]}
+  - {id: graph-extract, action: extract-graph, enabled: false, dependencies: [metadata]}
+  - {id: graph-index, action: index-graph, enabled: false, dependencies: [graph-extract]}
+  - {id: register, action: register-document, enabled: false, dependencies: [metadata]}

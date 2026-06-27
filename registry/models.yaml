@@ -1,0 +1,12 @@
+api_version: jdgf.io/v1alpha1
+kind: ModelRegistry
+categories:
+  - id: local
+    lifecycle: specified
+    models: [qwen3:8b, codellama, deepseek-r1:8b]
+  - id: cloud
+    lifecycle: deferred
+    models: []
+  - id: embeddings
+    lifecycle: deferred
+    models: []

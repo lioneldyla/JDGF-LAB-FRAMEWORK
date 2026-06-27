@@ -1,0 +1,218 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://jdgf.io/schemas/knowledge-artifacts.schema.yaml
+title: JDGF Knowledge Platform Artifacts
+oneOf:
+  - $ref: "#/$defs/config"
+  - $ref: "#/$defs/ontology"
+  - $ref: "#/$defs/indexing"
+  - $ref: "#/$defs/collections"
+  - $ref: "#/$defs/vectors"
+  - $ref: "#/$defs/graph"
+$defs:
+  identifier:
+    type: string
+    pattern: "^[a-z][a-z0-9-]{2,62}$"
+  version:
+    type: string
+    pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+  lifecycle:
+    enum: [specified, active, deferred, deprecated]
+  metadata:
+    type: object
+    additionalProperties: false
+    required: [version, lifecycle]
+    properties:
+      version: {$ref: "#/$defs/version"}
+      lifecycle: {$ref: "#/$defs/lifecycle"}
+  config:
+    type: object
+    additionalProperties: false
+    required: [api_version, contract_version, kind, metadata, spec]
+    properties:
+      api_version: {const: jdgf.io/v1alpha1}
+      contract_version: {const: "1.0"}
+      kind: {const: KnowledgePlatformConfig}
+      metadata: {$ref: "#/$defs/metadata"}
+      spec:
+        type: object
+        additionalProperties: false
+        required: [providers, indexing, search, governance]
+        properties:
+          providers:
+            type: array
+            minItems: 1
+            uniqueItems: true
+            items:
+              type: object
+              additionalProperties: false
+              required: [id, adapter, lifecycle, enabled]
+              properties:
+                id: {$ref: "#/$defs/identifier"}
+                adapter: {enum: [filesystem, vector, graph]}
+                lifecycle: {$ref: "#/$defs/lifecycle"}
+                enabled: {type: boolean}
+          indexing:
+            type: object
+            additionalProperties: false
+            required: [metadata, lexical, vector, graph]
+            properties:
+              metadata: {type: boolean}
+              lexical: {type: boolean}
+              vector: {type: boolean}
+              graph: {type: boolean}
+          search:
+            type: object
+            additionalProperties: false
+            required: [supported_modes, default_mode]
+            properties:
+              supported_modes:
+                type: array
+                minItems: 1
+                uniqueItems: true
+                items: {enum: [lexical, semantic, hybrid, graph]}
+              default_mode: {enum: [lexical, semantic, hybrid, graph]}
+          governance:
+            type: object
+            additionalProperties: false
+            required: [checksums_required, citations_required, unknown_metadata_fields]
+            properties:
+              checksums_required: {const: true}
+              citations_required: {const: true}
+              unknown_metadata_fields: {const: reject}
+  ontology_item:
+    type: object
+    additionalProperties: false
+    required: [id, lifecycle]
+    properties:
+      id: {$ref: "#/$defs/identifier"}
+      lifecycle: {$ref: "#/$defs/lifecycle"}
+  ontology:
+    type: object
+    additionalProperties: false
+    required: [api_version, contract_version, kind, metadata, types, relationships]
+    properties:
+      api_version: {const: jdgf.io/v1alpha1}
+      contract_version: {const: "1.0"}
+      kind: {const: KnowledgeOntology}
+      metadata: {$ref: "#/$defs/metadata"}
+      types:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items: {$ref: "#/$defs/ontology_item"}
+      relationships:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items: {$ref: "#/$defs/ontology_item"}
+  indexing:
+    type: object
+    additionalProperties: false
+    required: [api_version, contract_version, kind, metadata, stages]
+    properties:
+      api_version: {const: jdgf.io/v1alpha1}
+      contract_version: {const: "1.0"}
+      kind: {const: KnowledgeIndexingPlan}
+      metadata: {$ref: "#/$defs/metadata"}
+      stages:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: object
+          additionalProperties: false
+          required: [id, action, enabled, dependencies]
+          properties:
+            id: {$ref: "#/$defs/identifier"}
+            action:
+              enum:
+                - discover-documents
+                - extract-text
+                - normalize-text
+                - validate-metadata
+                - chunk-text
+                - create-embeddings
+                - index-vectors
+                - extract-graph
+                - index-graph
+                - register-document
+            enabled: {type: boolean}
+            dependencies:
+              type: array
+              uniqueItems: true
+              items: {$ref: "#/$defs/identifier"}
+  collections:
+    type: object
+    additionalProperties: false
+    required: [api_version, contract_version, kind, metadata, collections]
+    properties:
+      api_version: {const: jdgf.io/v1alpha1}
+      contract_version: {const: "1.0"}
+      kind: {const: KnowledgeCollectionCatalog}
+      metadata: {$ref: "#/$defs/metadata"}
+      collections:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: object
+          additionalProperties: false
+          required: [id, lifecycle, description]
+          properties:
+            id: {$ref: "#/$defs/identifier"}
+            lifecycle: {$ref: "#/$defs/lifecycle"}
+            description: {type: string, minLength: 1}
+  vectors:
+    type: object
+    additionalProperties: false
+    required: [api_version, contract_version, kind, metadata, profiles]
+    properties:
+      api_version: {const: jdgf.io/v1alpha1}
+      contract_version: {const: "1.0"}
+      kind: {const: KnowledgeVectorProfileCatalog}
+      metadata: {$ref: "#/$defs/metadata"}
+      profiles:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: object
+          additionalProperties: false
+          required: [id, lifecycle, enabled, model_ref, dimensions, distance]
+          properties:
+            id: {$ref: "#/$defs/identifier"}
+            lifecycle: {$ref: "#/$defs/lifecycle"}
+            enabled: {type: boolean}
+            model_ref:
+              type: [string, "null"]
+              minLength: 1
+            dimensions:
+              type: [integer, "null"]
+              minimum: 1
+            distance: {enum: [cosine, dot, euclidean, manhattan]}
+  graph:
+    type: object
+    additionalProperties: false
+    required: [api_version, contract_version, kind, metadata, adapter, nodes, edges]
+    properties:
+      api_version: {const: jdgf.io/v1alpha1}
+      contract_version: {const: "1.0"}
+      kind: {const: KnowledgeGraphSchema}
+      metadata: {$ref: "#/$defs/metadata"}
+      adapter:
+        type: object
+        additionalProperties: false
+        required: [id, enabled]
+        properties:
+          id: {const: neo4j}
+          enabled: {type: boolean}
+      nodes:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items: {$ref: "#/$defs/identifier"}
+      edges:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items: {$ref: "#/$defs/identifier"}

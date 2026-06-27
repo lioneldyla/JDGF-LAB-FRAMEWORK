@@ -1,0 +1,68 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://jdgf.io/schemas/knowledge-pipeline.schema.yaml
+title: JDGF Knowledge Pipeline
+oneOf:
+  - $ref: "#/$defs/ingestion"
+  - $ref: "#/$defs/rag"
+$defs:
+  identifier:
+    type: string
+    pattern: "^[a-z][a-z0-9-]{2,62}$"
+  metadata:
+    type: object
+    additionalProperties: false
+    required: [id, version, lifecycle]
+    properties:
+      id: {$ref: "#/$defs/identifier"}
+      version:
+        type: string
+        pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+      lifecycle: {enum: [specified, active, deprecated]}
+  ingestion:
+    type: object
+    additionalProperties: false
+    required: [api_version, contract_version, kind, metadata, spec]
+    properties:
+      api_version: {const: jdgf.io/v1alpha1}
+      contract_version: {const: "1.0"}
+      kind: {const: KnowledgeIngestionPipeline}
+      metadata: {$ref: "#/$defs/metadata"}
+      spec:
+        type: object
+        additionalProperties: false
+        required: [enabled, stages, failure_policy, idempotent]
+        properties:
+          enabled: {type: boolean}
+          stages:
+            type: array
+            minItems: 1
+            uniqueItems: true
+            items: {$ref: "#/$defs/identifier"}
+          failure_policy: {enum: [stop, continue, quarantine]}
+          idempotent: {type: boolean}
+  rag:
+    type: object
+    additionalProperties: false
+    required: [api_version, contract_version, kind, metadata, spec]
+    properties:
+      api_version: {const: jdgf.io/v1alpha1}
+      contract_version: {const: "1.0"}
+      kind: {const: KnowledgeRagPipeline}
+      metadata: {$ref: "#/$defs/metadata"}
+      spec:
+        type: object
+        additionalProperties: false
+        required:
+          - enabled
+          - engine_manifest
+          - retrieval_mode
+          - citations_required
+          - reranking
+          - graph_expansion
+        properties:
+          enabled: {type: boolean}
+          engine_manifest: {const: manifests/rag-engine.yaml}
+          retrieval_mode: {enum: [lexical, semantic, hybrid, graph]}
+          citations_required: {const: true}
+          reranking: {type: boolean}
+          graph_expansion: {type: boolean}

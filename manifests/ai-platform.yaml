@@ -1,0 +1,14 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: PlatformManifest
+metadata:
+  id: ai-platform
+  name: AI Platform
+  version: 0.2.0
+spec:
+  lifecycle: specified
+  installable: false
+  configured: true
+  runtime_tested: false
+  registry: registry/ai-services.yaml
+  components: [ollama, litellm, open-webui, openhands]

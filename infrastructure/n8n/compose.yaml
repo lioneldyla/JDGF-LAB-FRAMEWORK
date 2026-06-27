@@ -1,0 +1,53 @@
+services:
+  n8n:
+    image: ${N8N_IMAGE}
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${N8N_PORT:-5678}:5678"
+    environment:
+      N8N_HOST: ${N8N_HOST:-localhost}
+      N8N_PORT: "5678"
+      N8N_PROTOCOL: http
+      N8N_EDITOR_BASE_URL: ${N8N_EDITOR_BASE_URL:-http://localhost:5678}
+      WEBHOOK_URL: ${N8N_WEBHOOK_URL:-http://localhost:5678/}
+      N8N_ENCRYPTION_KEY: ${N8N_ENCRYPTION_KEY}
+      N8N_DIAGNOSTICS_ENABLED: "false"
+      N8N_PERSONALIZATION_ENABLED: "false"
+      N8N_VERSION_NOTIFICATIONS_ENABLED: "false"
+      N8N_BLOCK_ENV_ACCESS_IN_NODE: "true"
+      N8N_METRICS: "true"
+      GENERIC_TIMEZONE: ${TIMEZONE:-Africa/Abidjan}
+      TZ: ${TIMEZONE:-Africa/Abidjan}
+      DB_TYPE: postgresdb
+      DB_POSTGRESDB_HOST: ${N8N_DB_HOST:-postgres}
+      DB_POSTGRESDB_PORT: "5432"
+      DB_POSTGRESDB_DATABASE: ${N8N_DB_NAME:-jdgf}
+      DB_POSTGRESDB_USER: ${N8N_DB_USER:-jdgf}
+      DB_POSTGRESDB_PASSWORD: ${N8N_DB_PASSWORD}
+      DB_TABLE_PREFIX: n8n_
+      EXECUTIONS_MODE: queue
+      QUEUE_BULL_REDIS_HOST: ${N8N_REDIS_HOST:-redis}
+      QUEUE_BULL_REDIS_PORT: "6379"
+      QUEUE_BULL_REDIS_PASSWORD: ${N8N_REDIS_PASSWORD}
+      QUEUE_HEALTH_CHECK_ACTIVE: "true"
+    volumes:
+      - n8n-data:/home/node/.n8n
+    healthcheck:
+      test: [CMD-SHELL, "wget -qO- http://127.0.0.1:5678/healthz >/dev/null"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 40s
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - jdgf-network
+
+volumes:
+  n8n-data:
+    name: ${N8N_VOLUME:-jdgf-n8n-data}
+
+networks:
+  jdgf-network:
+    external: true
+    name: ${JDGF_NETWORK:-jdgf-network}

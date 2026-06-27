@@ -1,0 +1,25 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: KnowledgeCollectionCatalog
+metadata:
+  version: 1.0.0
+  lifecycle: specified
+collections:
+  - id: publications
+    lifecycle: specified
+    description: Versioned published material.
+  - id: reports
+    lifecycle: specified
+    description: Analytical and operational reports.
+  - id: standards
+    lifecycle: specified
+    description: Normative and technical standards.
+  - id: datasets
+    lifecycle: specified
+    description: Governed structured data sources.
+  - id: documentation
+    lifecycle: specified
+    description: Technical and operating documentation.
+  - id: archives
+    lifecycle: specified
+    description: Preserved historical source material.

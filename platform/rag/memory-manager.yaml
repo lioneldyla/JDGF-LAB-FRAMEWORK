@@ -1,0 +1,20 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: RagMemoryManager
+metadata:
+  name: governed-memory-manager
+  lifecycle: specified
+spec:
+  stores:
+    short-term:
+      enabled: false
+      adapter: redis
+    long-term:
+      enabled: false
+      adapter: qdrant
+    graph:
+      enabled: false
+      adapter: neo4j
+    conversation:
+      enabled: false
+      retention_days: 30

@@ -1,0 +1,17 @@
+model_list:
+  - model_name: local-default
+    litellm_params:
+      model: ollama/qwen3:8b
+      api_base: os.environ/OLLAMA_API_BASE
+  - model_name: coding
+    litellm_params:
+      model: ollama/codellama
+      api_base: os.environ/OLLAMA_API_BASE
+  - model_name: reasoning
+    litellm_params:
+      model: ollama/deepseek-r1:8b
+      api_base: os.environ/OLLAMA_API_BASE
+
+litellm_settings:
+  drop_params: true
+  set_verbose: false

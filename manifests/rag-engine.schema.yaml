@@ -1,0 +1,41 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://jdgf.io/schemas/rag-capability-manifest.schema.yaml
+title: JDGF RAG Capability Manifest
+type: object
+additionalProperties: false
+required: [api_version, contract_version, kind, metadata, spec]
+properties:
+  api_version:
+    type: string
+    pattern: "^jdgf\\.io/v[0-9]+(alpha[0-9]+|beta[0-9]+)?$"
+  contract_version:
+    type: string
+    pattern: "^[0-9]+\\.[0-9]+$"
+  kind:
+    const: CapabilityManifest
+  metadata:
+    type: object
+    additionalProperties: false
+    required: [id, version]
+    properties:
+      id:
+        const: advanced-rag-engine
+      version:
+        type: string
+        pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+  spec:
+    type: object
+    additionalProperties: false
+    required: [lifecycle, installable, engine, registry, compatibility]
+    properties:
+      lifecycle:
+        enum: [specified, active, deprecated]
+      installable:
+        type: boolean
+      engine:
+        type: string
+        pattern: "^platform/rag/[a-z0-9-]+\\.yaml$"
+      registry:
+        const: registry/rag.yaml
+      compatibility:
+        const: platform/rag/compatibility.yaml

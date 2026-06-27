@@ -1,0 +1,19 @@
+api_version: jdgf.io/v1alpha1
+kind: OpenWebUIPolicy
+metadata:
+  lifecycle: specified
+spec:
+  application_name: JDGF Lab AI
+  provider: ollama
+  default_model: qwen3:8b
+  generation_defaults:
+    temperature: 0.2
+    max_tokens: 8192
+  features:
+    knowledge_upload: true
+    conversation_history: true
+    web_search: false
+    community_sharing: false
+  access:
+    registration: false
+    first_user_admin: true

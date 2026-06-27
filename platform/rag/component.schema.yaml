@@ -1,0 +1,225 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://jdgf.io/schemas/rag-component.schema.yaml
+title: JDGF RAG Component
+type: object
+additionalProperties: false
+required: [api_version, contract_version, kind, metadata, spec]
+properties:
+  api_version:
+    type: string
+    pattern: "^jdgf\\.io/v[0-9]+(alpha[0-9]+|beta[0-9]+)?$"
+  contract_version:
+    type: string
+    pattern: "^[0-9]+\\.[0-9]+$"
+  kind:
+    enum:
+      - RagRetriever
+      - RagReranker
+      - RagContextBuilder
+      - RagCitationEngine
+      - RagMemoryManager
+      - RagGraphRetriever
+      - RagPromptComposer
+      - RagValidationEngine
+      - RagConfidenceScoring
+  metadata:
+    $ref: "#/$defs/metadata"
+  spec:
+    type: object
+allOf:
+  - if:
+      properties: {kind: {const: RagRetriever}}
+    then:
+      properties: {spec: {$ref: "#/$defs/retriever"}}
+  - if:
+      properties: {kind: {const: RagReranker}}
+    then:
+      properties: {spec: {$ref: "#/$defs/reranker"}}
+  - if:
+      properties: {kind: {const: RagContextBuilder}}
+    then:
+      properties: {spec: {$ref: "#/$defs/context_builder"}}
+  - if:
+      properties: {kind: {const: RagCitationEngine}}
+    then:
+      properties: {spec: {$ref: "#/$defs/citation_engine"}}
+  - if:
+      properties: {kind: {const: RagMemoryManager}}
+    then:
+      properties: {spec: {$ref: "#/$defs/memory_manager"}}
+  - if:
+      properties: {kind: {const: RagGraphRetriever}}
+    then:
+      properties: {spec: {$ref: "#/$defs/graph_retriever"}}
+  - if:
+      properties: {kind: {const: RagPromptComposer}}
+    then:
+      properties: {spec: {$ref: "#/$defs/prompt_composer"}}
+  - if:
+      properties: {kind: {const: RagValidationEngine}}
+    then:
+      properties: {spec: {$ref: "#/$defs/validation_engine"}}
+  - if:
+      properties: {kind: {const: RagConfidenceScoring}}
+    then:
+      properties: {spec: {$ref: "#/$defs/confidence_scoring"}}
+$defs:
+  metadata:
+    type: object
+    additionalProperties: false
+    required: [name, lifecycle]
+    properties:
+      name:
+        type: string
+        pattern: "^[a-z][a-z0-9-]{2,62}$"
+      lifecycle:
+        enum: [specified, active, deprecated]
+  string_list:
+    type: array
+    minItems: 1
+    uniqueItems: true
+    items:
+      type: string
+      minLength: 1
+  score:
+    type: number
+    minimum: 0
+    maximum: 1
+  retriever:
+    type: object
+    additionalProperties: false
+    required: [modes, default_mode, sources, top_k]
+    properties:
+      modes:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items: {enum: [lexical, semantic, hybrid, graph]}
+      default_mode:
+        enum: [lexical, semantic, hybrid, graph]
+      sources:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items: {enum: [filesystem, postgres, qdrant, neo4j]}
+      top_k:
+        type: object
+        additionalProperties: false
+        required: [lexical, semantic, graph, final]
+        properties:
+          lexical: {type: integer, minimum: 1}
+          semantic: {type: integer, minimum: 1}
+          graph: {type: integer, minimum: 1}
+          final: {type: integer, minimum: 1}
+  reranker:
+    type: object
+    additionalProperties: false
+    required: [enabled, strategies, minimum_score, outputs]
+    properties:
+      enabled: {type: boolean}
+      strategies: {$ref: "#/$defs/string_list"}
+      minimum_score: {$ref: "#/$defs/score"}
+      outputs: {$ref: "#/$defs/string_list"}
+  context_builder:
+    type: object
+    additionalProperties: false
+    required: [max_documents, max_tokens, compression, ordering]
+    properties:
+      max_documents: {type: integer, minimum: 1}
+      max_tokens: {type: integer, minimum: 1}
+      compression:
+        type: object
+        additionalProperties: false
+        required: [enabled, strategies]
+        properties:
+          enabled: {type: boolean}
+          strategies: {$ref: "#/$defs/string_list"}
+      ordering: {$ref: "#/$defs/string_list"}
+  citation_engine:
+    type: object
+    additionalProperties: false
+    required: [required, fields, formats]
+    properties:
+      required: {type: boolean}
+      fields: {$ref: "#/$defs/string_list"}
+      formats: {$ref: "#/$defs/string_list"}
+  memory_manager:
+    type: object
+    additionalProperties: false
+    required: [stores]
+    properties:
+      stores:
+        type: object
+        additionalProperties: false
+        required: [short-term, long-term, graph, conversation]
+        properties:
+          short-term: {$ref: "#/$defs/adapter_store"}
+          long-term: {$ref: "#/$defs/adapter_store"}
+          graph: {$ref: "#/$defs/adapter_store"}
+          conversation:
+            type: object
+            additionalProperties: false
+            required: [enabled, retention_days]
+            properties:
+              enabled: {type: boolean}
+              retention_days: {type: integer, minimum: 0}
+  adapter_store:
+    type: object
+    additionalProperties: false
+    required: [enabled, adapter]
+    properties:
+      enabled: {type: boolean}
+      adapter: {enum: [redis, qdrant, neo4j]}
+  graph_retriever:
+    type: object
+    additionalProperties: false
+    required: [enabled, adapter, expansion_depth, node_types, relationship_types]
+    properties:
+      enabled: {type: boolean}
+      adapter: {const: neo4j}
+      expansion_depth: {type: integer, minimum: 0, maximum: 5}
+      node_types: {$ref: "#/$defs/string_list"}
+      relationship_types: {$ref: "#/$defs/string_list"}
+  prompt_composer:
+    type: object
+    additionalProperties: false
+    required: [system_prompt, instructions, output_format, language]
+    properties:
+      system_prompt:
+        type: string
+        pattern: "^[a-z][a-z0-9-]{2,62}$"
+      instructions: {$ref: "#/$defs/string_list"}
+      output_format: {enum: [markdown, json, text]}
+      language:
+        type: string
+        minLength: 2
+  validation_engine:
+    type: object
+    additionalProperties: false
+    required: [checks, outputs]
+    properties:
+      checks:
+        type: object
+        additionalProperties: false
+        minProperties: 1
+        properties:
+          hallucination-detection: {type: boolean}
+          source-alignment: {type: boolean}
+          contradiction-detection: {type: boolean}
+          confidence-scoring: {type: boolean}
+          missing-context-detection: {type: boolean}
+      outputs: {$ref: "#/$defs/string_list"}
+  confidence_scoring:
+    type: object
+    additionalProperties: false
+    required: [factors, thresholds]
+    properties:
+      factors: {$ref: "#/$defs/string_list"}
+      thresholds:
+        type: object
+        additionalProperties: false
+        required: [high, medium, low]
+        properties:
+          high: {$ref: "#/$defs/score"}
+          medium: {$ref: "#/$defs/score"}
+          low: {$ref: "#/$defs/score"}

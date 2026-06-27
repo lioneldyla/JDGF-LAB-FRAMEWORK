@@ -1,0 +1,45 @@
+api_version: jdgf.io/v1alpha1
+kind: ServiceRegistry
+services:
+  - id: docker
+    lifecycle: specified
+    enabled: false
+  - id: ollama
+    lifecycle: specified
+    enabled: false
+  - id: litellm
+    lifecycle: specified
+    enabled: false
+  - id: open-webui
+    lifecycle: specified
+    enabled: false
+  - id: openhands
+    lifecycle: specified
+    enabled: false
+  - id: postgres
+    lifecycle: specified
+    enabled: false
+  - id: neo4j
+    lifecycle: specified
+    enabled: false
+  - id: redis
+    lifecycle: specified
+    enabled: false
+  - id: qdrant
+    lifecycle: specified
+    enabled: false
+  - id: n8n
+    lifecycle: specified
+    enabled: false
+  - id: searxng
+    lifecycle: specified
+    enabled: false
+  - id: prometheus
+    lifecycle: specified
+    enabled: false
+  - id: grafana
+    lifecycle: specified
+    enabled: false
+  - id: loki
+    lifecycle: specified
+    enabled: false

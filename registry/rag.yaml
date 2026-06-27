@@ -1,0 +1,108 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: RagRegistry
+metadata:
+  version: 1.0.0
+  lifecycle: specified
+  maturity: experimental
+capabilities:
+  - lexical-retrieval
+  - semantic-retrieval
+  - hybrid-retrieval
+  - graph-retrieval
+  - evidence-reranking
+  - context-building
+  - citation-preservation
+  - governed-memory
+  - prompt-composition
+  - answer-validation
+  - confidence-scoring
+dependencies:
+  - id: filesystem-source
+    type: source-adapter
+    required_for_runtime: true
+    status: unavailable
+  - id: postgres-source
+    type: source-adapter
+    required_for_runtime: false
+    status: unavailable
+  - id: qdrant-source
+    type: vector-adapter
+    required_for_runtime: false
+    status: unavailable
+  - id: neo4j-source
+    type: graph-adapter
+    required_for_runtime: false
+    status: unavailable
+  - id: redis-memory
+    type: memory-adapter
+    required_for_runtime: false
+    status: unavailable
+  - id: model-gateway
+    type: model-adapter
+    required_for_runtime: true
+    status: unavailable
+components:
+  - id: hybrid-retriever
+    kind: RagRetriever
+    version: 1.0.0
+    maturity: experimental
+    config: platform/rag/retriever.yaml
+    capabilities: [lexical-retrieval, semantic-retrieval, hybrid-retrieval]
+    dependencies: [filesystem-source, postgres-source, qdrant-source, neo4j-source]
+  - id: evidence-reranker
+    kind: RagReranker
+    version: 1.0.0
+    maturity: experimental
+    config: platform/rag/reranker.yaml
+    capabilities: [evidence-reranking]
+    dependencies: [model-gateway]
+  - id: citation-preserving-context-builder
+    kind: RagContextBuilder
+    version: 1.0.0
+    maturity: experimental
+    config: platform/rag/context-builder.yaml
+    capabilities: [context-building]
+    dependencies: [model-gateway]
+  - id: citation-engine
+    kind: RagCitationEngine
+    version: 1.0.0
+    maturity: experimental
+    config: platform/rag/citation-engine.yaml
+    capabilities: [citation-preservation]
+    dependencies: []
+  - id: governed-memory-manager
+    kind: RagMemoryManager
+    version: 1.0.0
+    maturity: experimental
+    config: platform/rag/memory-manager.yaml
+    capabilities: [governed-memory]
+    dependencies: [redis-memory, qdrant-source, neo4j-source]
+  - id: graph-retriever
+    kind: RagGraphRetriever
+    version: 1.0.0
+    maturity: experimental
+    config: platform/rag/graph-rag.yaml
+    capabilities: [graph-retrieval]
+    dependencies: [neo4j-source]
+  - id: governed-answer-composer
+    kind: RagPromptComposer
+    version: 1.0.0
+    maturity: experimental
+    config: platform/rag/prompt-composer.yaml
+    capabilities: [prompt-composition]
+    dependencies: [model-gateway]
+  - id: grounded-answer-validator
+    kind: RagValidationEngine
+    version: 1.0.0
+    maturity: experimental
+    config: platform/rag/validation-engine.yaml
+    capabilities: [answer-validation]
+    dependencies: [model-gateway]
+  - id: evidence-confidence-scoring
+    kind: RagConfidenceScoring
+    version: 1.0.0
+    maturity: experimental
+    config: platform/rag/confidence-scoring.yaml
+    capabilities: [confidence-scoring]
+    dependencies: []

@@ -1,0 +1,23 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: KnowledgeOntology
+metadata:
+  version: 1.0.0
+  lifecycle: specified
+types:
+  - {id: document, lifecycle: specified}
+  - {id: collection, lifecycle: specified}
+  - {id: person, lifecycle: specified}
+  - {id: organization, lifecycle: specified}
+  - {id: publication, lifecycle: specified}
+  - {id: dataset, lifecycle: specified}
+  - {id: concept, lifecycle: specified}
+  - {id: project, lifecycle: specified}
+relationships:
+  - {id: cites, lifecycle: specified}
+  - {id: authored-by, lifecycle: specified}
+  - {id: published-by, lifecycle: specified}
+  - {id: part-of, lifecycle: specified}
+  - {id: derived-from, lifecycle: specified}
+  - {id: references, lifecycle: specified}
+  - {id: related-to, lifecycle: specified}

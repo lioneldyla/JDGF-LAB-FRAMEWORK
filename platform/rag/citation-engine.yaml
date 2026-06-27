@@ -1,0 +1,19 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: RagCitationEngine
+metadata:
+  name: citation-engine
+  lifecycle: specified
+spec:
+  required: true
+  fields:
+    - source
+    - title
+    - author
+    - organization
+    - publication-date
+    - page
+    - paragraph
+    - url
+    - confidence
+  formats: [apa, chicago, domain, markdown]

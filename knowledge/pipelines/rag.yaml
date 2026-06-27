@@ -1,0 +1,14 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: KnowledgeRagPipeline
+metadata:
+  id: governed-rag
+  version: 1.0.0
+  lifecycle: specified
+spec:
+  enabled: false
+  engine_manifest: manifests/rag-engine.yaml
+  retrieval_mode: hybrid
+  citations_required: true
+  reranking: false
+  graph_expansion: false

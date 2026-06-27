@@ -1,0 +1,58 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://jdgf.io/schemas/rag-compatibility.schema.yaml
+title: JDGF RAG Compatibility Policy
+type: object
+additionalProperties: false
+required: [api_version, kind, metadata, spec]
+properties:
+  api_version:
+    const: jdgf.io/v1alpha1
+  kind:
+    const: RagCompatibilityPolicy
+  metadata:
+    type: object
+    additionalProperties: false
+    required: [name, version]
+    properties:
+      name:
+        const: advanced-rag-compatibility
+      version:
+        type: string
+        pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+  spec:
+    type: object
+    additionalProperties: false
+    required:
+      - current_contract_version
+      - supported_api_versions
+      - backward_compatibility
+      - unknown_fields
+      - versioning
+      - deprecation
+    properties:
+      current_contract_version:
+        type: string
+        pattern: "^[0-9]+\\.[0-9]+$"
+      supported_api_versions:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          pattern: "^jdgf\\.io/v[0-9]+(alpha[0-9]+|beta[0-9]+)?$"
+      backward_compatibility:
+        const: same-major
+      unknown_fields:
+        const: reject
+      versioning:
+        const: semantic
+      deprecation:
+        type: object
+        additionalProperties: false
+        required: [minimum_notice_releases, migration_documentation_required]
+        properties:
+          minimum_notice_releases:
+            type: integer
+            minimum: 1
+          migration_documentation_required:
+            const: true

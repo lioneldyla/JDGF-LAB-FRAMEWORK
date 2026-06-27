@@ -1,0 +1,72 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://jdgf.io/schemas/knowledge-registry.schema.yaml
+title: JDGF Knowledge Registry
+type: object
+additionalProperties: false
+required: [api_version, contract_version, kind, metadata, artifacts, collections, sources]
+properties:
+  api_version: {const: jdgf.io/v1alpha1}
+  contract_version: {const: "1.0"}
+  kind: {const: KnowledgeRegistry}
+  metadata:
+    type: object
+    additionalProperties: false
+    required: [version, lifecycle]
+    properties:
+      version: {$ref: "#/$defs/version"}
+      lifecycle: {enum: [specified, active, deprecated]}
+  artifacts:
+    type: object
+    additionalProperties: false
+    required:
+      - config
+      - ontology
+      - metadata_schema
+      - indexing
+      - collections
+      - vector_profiles
+      - graph_schema
+      - ingestion_pipeline
+      - rag_pipeline
+    properties:
+      config: {const: knowledge/knowledge.yaml}
+      ontology: {const: knowledge/ontology.yaml}
+      metadata_schema: {const: knowledge/metadata.schema.yaml}
+      indexing: {const: knowledge/indexing.yaml}
+      collections: {const: knowledge/collections.yaml}
+      vector_profiles: {const: knowledge/vector_profiles.yaml}
+      graph_schema: {const: knowledge/graph_schema.yaml}
+      ingestion_pipeline: {const: knowledge/pipelines/document-ingestion.yaml}
+      rag_pipeline: {const: knowledge/pipelines/rag.yaml}
+  collections:
+    type: array
+    minItems: 1
+    uniqueItems: true
+    items:
+      type: object
+      additionalProperties: false
+      required: [id, lifecycle, enabled]
+      properties:
+        id: {$ref: "#/$defs/identifier"}
+        lifecycle: {enum: [specified, active, deprecated]}
+        enabled: {type: boolean}
+  sources:
+    type: array
+    uniqueItems: true
+    items:
+      type: object
+      additionalProperties: false
+      required: [id, collection, metadata, lifecycle, enabled]
+      properties:
+        id: {$ref: "#/$defs/identifier"}
+        collection: {$ref: "#/$defs/identifier"}
+        metadata: {type: string, pattern: "^knowledge/sources/[a-z0-9._/-]+\\.ya?ml$"}
+        lifecycle: {enum: [specified, active, deprecated]}
+        enabled: {type: boolean}
+$defs:
+  identifier:
+    type: string
+    pattern: "^[a-z][a-z0-9-]{2,62}$"
+  version:
+    type: string
+    pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$"

@@ -1,0 +1,28 @@
+services:
+  loki:
+    image: ${LOKI_IMAGE}
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${LOKI_PORT:-3100}:3100"
+    command: [-config.file=/etc/loki/config.yaml]
+    volumes:
+      - ./config.yaml:/etc/loki/config.yaml:ro
+      - loki-data:/loki
+    healthcheck:
+      test: [CMD, /usr/bin/loki, -version]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - jdgf-network
+
+volumes:
+  loki-data:
+    name: ${LOKI_VOLUME:-jdgf-loki-data}
+
+networks:
+  jdgf-network:
+    external: true
+    name: ${JDGF_NETWORK:-jdgf-network}

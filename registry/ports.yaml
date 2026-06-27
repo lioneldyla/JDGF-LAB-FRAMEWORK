@@ -1,0 +1,16 @@
+api_version: jdgf.io/v1alpha1
+kind: PortRegistry
+ports:
+  - {service: open-webui, port: 3000, lifecycle: reserved}
+  - {service: openhands, port: 3002, lifecycle: reserved}
+  - {service: litellm, port: 4000, lifecycle: reserved}
+  - {service: postgres, port: 5432, lifecycle: reserved}
+  - {service: neo4j, port: 7474, lifecycle: reserved}
+  - {service: redis, port: 6379, lifecycle: reserved}
+  - {service: qdrant, port: 6333, lifecycle: reserved}
+  - {service: ollama, port: 11434, lifecycle: reserved}
+  - {service: n8n, port: 5678, lifecycle: reserved}
+  - {service: searxng, port: 8080, lifecycle: reserved}
+  - {service: prometheus, port: 9090, lifecycle: reserved}
+  - {service: grafana, port: 3001, lifecycle: reserved}
+  - {service: loki, port: 3100, lifecycle: reserved}

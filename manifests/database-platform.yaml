@@ -1,0 +1,18 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: PlatformManifest
+metadata:
+  id: data-platform
+  name: Data Platform
+  version: 0.2.0
+spec:
+  lifecycle: specified
+  installable: false
+  runtime_tested: false
+  registry: registry/database-services.yaml
+  components: [postgres, redis, neo4j, qdrant]
+  healthchecks:
+    configured: true
+  backup:
+    documented: true
+    runtime_tested: false

@@ -1,0 +1,15 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: RagRetriever
+metadata:
+  name: hybrid-retriever
+  lifecycle: specified
+spec:
+  modes: [lexical, semantic, hybrid, graph]
+  default_mode: hybrid
+  sources: [filesystem, postgres, qdrant, neo4j]
+  top_k:
+    lexical: 20
+    semantic: 20
+    graph: 10
+    final: 12

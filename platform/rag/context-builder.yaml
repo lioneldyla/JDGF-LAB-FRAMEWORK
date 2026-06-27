@@ -1,0 +1,13 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: RagContextBuilder
+metadata:
+  name: citation-preserving-context-builder
+  lifecycle: specified
+spec:
+  max_documents: 12
+  max_tokens: 24000
+  compression:
+    enabled: false
+    strategies: [extractive, abstractive, citation-preserving]
+  ordering: [relevance, authority, chronology]

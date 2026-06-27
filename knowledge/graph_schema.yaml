@@ -1,0 +1,11 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: KnowledgeGraphSchema
+metadata:
+  version: 1.0.0
+  lifecycle: specified
+adapter:
+  id: neo4j
+  enabled: false
+nodes: [document, collection, person, organization, publication, dataset, concept, project]
+edges: [cites, authored-by, published-by, part-of, derived-from, references, related-to]

@@ -1,0 +1,40 @@
+services:
+  openhands:
+    image: ${OPENHANDS_IMAGE}
+    profiles: [dangerous-local-agent]
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${OPENHANDS_PORT:-3002}:3000"
+    environment:
+      AGENT_SERVER_IMAGE_REPOSITORY: ghcr.io/openhands/agent-server
+      AGENT_SERVER_IMAGE_TAG: ${AGENT_SERVER_IMAGE_TAG}
+      LOG_ALL_EVENTS: ${LOG_ALL_EVENTS:-false}
+      SANDBOX_VOLUMES: ${OPENHANDS_WORKSPACE}:/workspace:rw
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - openhands-state:/.openhands
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - >-
+          python -c "import urllib.request;
+          urllib.request.urlopen('http://localhost:3000/api/health')"
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - jdgf-network
+
+volumes:
+  openhands-state:
+    name: ${OPENHANDS_STATE_VOLUME:-jdgf-openhands-state}
+
+networks:
+  jdgf-network:
+    external: true
+    name: ${JDGF_NETWORK:-jdgf-network}

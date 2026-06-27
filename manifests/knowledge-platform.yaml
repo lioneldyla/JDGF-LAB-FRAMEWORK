@@ -1,0 +1,15 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: PlatformManifest
+metadata:
+  id: knowledge-platform
+  name: Knowledge Platform
+  version: 0.3.0
+spec:
+  lifecycle: specified
+  installable: false
+  runtime_tested: false
+  registry: registry/knowledge.yaml
+  components: [ontology, metadata, collections, indexing, ingestion, rag, graph, vectors]
+  corpus_committed: false
+  adapters_enabled: false

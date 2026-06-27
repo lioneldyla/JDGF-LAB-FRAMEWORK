@@ -1,0 +1,12 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: RagGraphRetriever
+metadata:
+  name: graph-retriever
+  lifecycle: specified
+spec:
+  enabled: false
+  adapter: neo4j
+  expansion_depth: 2
+  node_types: [Organization, Document, Concept, Dataset, Project, Agent]
+  relationship_types: [CITES, REFERENCES, IMPLEMENTS, DEPENDS_ON, PRODUCES]

@@ -1,0 +1,12 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: KnowledgeIngestionPipeline
+metadata:
+  id: document-ingestion
+  version: 1.0.0
+  lifecycle: specified
+spec:
+  enabled: false
+  stages: [discover, extract, normalize, metadata, chunk, embed, vector-index, graph-extract, graph-index, register]
+  failure_policy: stop
+  idempotent: true

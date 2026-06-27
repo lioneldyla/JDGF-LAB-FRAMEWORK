@@ -1,0 +1,21 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: RagEngine
+metadata:
+  name: advanced-rag-engine
+  version: 1.0.0
+spec:
+  lifecycle: specified
+  mission: Provide hybrid, explainable and citation-aware retrieval-augmented generation.
+  capabilities:
+    - lexical-retrieval
+    - semantic-retrieval
+    - hybrid-retrieval
+    - graph-retrieval
+    - evidence-reranking
+    - context-building
+    - citation-preservation
+    - governed-memory
+    - prompt-composition
+    - answer-validation
+    - confidence-scoring

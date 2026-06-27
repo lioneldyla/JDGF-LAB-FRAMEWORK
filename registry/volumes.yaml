@@ -1,0 +1,15 @@
+api_version: jdgf.io/v1alpha1
+kind: VolumeRegistry
+volumes:
+  - {id: postgres-data, lifecycle: reserved}
+  - {id: neo4j-data, lifecycle: reserved}
+  - {id: redis-data, lifecycle: reserved}
+  - {id: qdrant-data, lifecycle: reserved}
+  - {id: ollama-data, lifecycle: reserved}
+  - {id: openwebui-data, lifecycle: reserved}
+  - {id: litellm-data, lifecycle: reserved}
+  - {id: n8n-data, lifecycle: reserved}
+  - {id: searxng-cache, lifecycle: reserved}
+  - {id: prometheus-data, lifecycle: reserved}
+  - {id: grafana-data, lifecycle: reserved}
+  - {id: loki-data, lifecycle: reserved}

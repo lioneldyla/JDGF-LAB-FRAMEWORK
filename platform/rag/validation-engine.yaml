@@ -1,0 +1,14 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: RagValidationEngine
+metadata:
+  name: grounded-answer-validator
+  lifecycle: specified
+spec:
+  checks:
+    hallucination-detection: true
+    source-alignment: true
+    contradiction-detection: true
+    confidence-scoring: true
+    missing-context-detection: true
+  outputs: [answer, citations, confidence, limitations, follow-up-questions]

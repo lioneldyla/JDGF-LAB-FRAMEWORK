@@ -1,0 +1,45 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: AiServiceRegistry
+metadata:
+  version: 0.2.0
+  lifecycle: specified
+services:
+  - id: ollama
+    version: 0.30.11
+    lifecycle: specified
+    enabled: false
+    role: model-runtime
+    endpoint: http://ollama:11434
+    dependencies: []
+  - id: litellm
+    version: 1.89.4
+    lifecycle: specified
+    enabled: false
+    role: model-gateway
+    endpoint: http://litellm:4000
+    dependencies: [ollama]
+  - id: open-webui
+    version: 0.9.6
+    lifecycle: specified
+    enabled: false
+    role: user-interface
+    endpoint: http://open-webui:8080
+    dependencies: [ollama]
+  - id: openhands
+    version: 1.8.0
+    lifecycle: specified
+    enabled: false
+    role: software-agent
+    endpoint: http://openhands:3000
+    dependencies: [litellm]
+routing:
+  - id: default-chat
+    gateway: litellm
+    model_alias: local-default
+  - id: coding
+    gateway: litellm
+    model_alias: coding
+  - id: reasoning
+    gateway: litellm
+    model_alias: reasoning

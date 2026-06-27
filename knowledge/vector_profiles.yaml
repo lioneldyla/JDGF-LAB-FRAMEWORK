@@ -1,0 +1,19 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: KnowledgeVectorProfileCatalog
+metadata:
+  version: 1.0.0
+  lifecycle: specified
+profiles:
+  - id: default
+    lifecycle: deferred
+    enabled: false
+    model_ref: null
+    dimensions: null
+    distance: cosine
+  - id: multilingual
+    lifecycle: deferred
+    enabled: false
+    model_ref: null
+    dimensions: null
+    distance: cosine

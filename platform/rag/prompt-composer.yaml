@@ -1,0 +1,16 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: RagPromptComposer
+metadata:
+  name: governed-answer-composer
+  lifecycle: specified
+spec:
+  system_prompt: governed-answer
+  instructions:
+    - cite-sources
+    - distinguish-facts-assumptions-opinions
+    - identify-uncertainty
+    - avoid-unsupported-claims
+    - provide-actionable-next-steps
+  output_format: markdown
+  language: auto

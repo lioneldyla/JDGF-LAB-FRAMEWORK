@@ -1,0 +1,66 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://jdgf.io/schemas/automation-platform.schema.yaml
+title: JDGF Automation and Monitoring Platform Manifest
+type: object
+additionalProperties: false
+required: [api_version, contract_version, kind, metadata, spec]
+properties:
+  api_version: {const: jdgf.io/v1alpha1}
+  contract_version: {const: "1.0"}
+  kind: {const: PlatformManifest}
+  metadata:
+    type: object
+    additionalProperties: false
+    required: [id, name, version]
+    properties:
+      id: {const: automation-monitoring-platform}
+      name: {const: Automation and Monitoring Platform}
+      version:
+        type: string
+        pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+  spec:
+    type: object
+    additionalProperties: false
+    required:
+      - lifecycle
+      - installable
+      - runtime_tested
+      - registry
+      - components
+      - automation
+      - search
+      - monitoring
+    properties:
+      lifecycle: {enum: [specified, active, deprecated]}
+      installable: {type: boolean}
+      runtime_tested: {type: boolean}
+      registry: {const: registry/automation.yaml}
+      components:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items: {enum: [n8n, searxng, prometheus, grafana, loki]}
+      automation: {$ref: "#/$defs/configured"}
+      search: {$ref: "#/$defs/configured"}
+      monitoring:
+        type: object
+        additionalProperties: false
+        required:
+          - metrics_configured
+          - datasources_provisioned
+          - dashboards_provisioned
+          - alerting_configured
+          - log_collection_configured
+        properties:
+          metrics_configured: {type: boolean}
+          datasources_provisioned: {type: boolean}
+          dashboards_provisioned: {type: boolean}
+          alerting_configured: {type: boolean}
+          log_collection_configured: {type: boolean}
+$defs:
+  configured:
+    type: object
+    additionalProperties: false
+    required: [configured]
+    properties:
+      configured: {type: boolean}

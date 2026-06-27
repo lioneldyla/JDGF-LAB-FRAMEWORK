@@ -1,0 +1,143 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://jdgf.io/schemas/bootstrap-catalog.schema.yaml
+title: JDGF Bootstrap Catalog
+oneOf:
+  - $ref: "#/$defs/services"
+  - $ref: "#/$defs/models"
+  - $ref: "#/$defs/modules"
+  - $ref: "#/$defs/ports"
+  - $ref: "#/$defs/networks"
+  - $ref: "#/$defs/volumes"
+$defs:
+  identifier:
+    type: string
+    pattern: "^[a-z][a-z0-9-]{2,62}$"
+  lifecycle:
+    enum: [active, specified, deferred, reserved, deprecated]
+  header:
+    type: object
+    required: [api_version, kind]
+    properties:
+      api_version: {const: jdgf.io/v1alpha1}
+      kind: {type: string}
+  services:
+    allOf:
+      - $ref: "#/$defs/header"
+      - type: object
+        additionalProperties: false
+        required: [api_version, kind, services]
+        properties:
+          api_version: {const: jdgf.io/v1alpha1}
+          kind: {const: ServiceRegistry}
+          services:
+            type: array
+            minItems: 1
+            uniqueItems: true
+            items:
+              type: object
+              additionalProperties: false
+              required: [id, lifecycle, enabled]
+              properties:
+                id: {$ref: "#/$defs/identifier"}
+                lifecycle: {$ref: "#/$defs/lifecycle"}
+                enabled: {type: boolean}
+  models:
+    allOf:
+      - $ref: "#/$defs/header"
+      - type: object
+        additionalProperties: false
+        required: [api_version, kind, categories]
+        properties:
+          api_version: {const: jdgf.io/v1alpha1}
+          kind: {const: ModelRegistry}
+          categories:
+            type: array
+            minItems: 1
+            uniqueItems: true
+            items:
+              type: object
+              additionalProperties: false
+              required: [id, lifecycle, models]
+              properties:
+                id: {$ref: "#/$defs/identifier"}
+                lifecycle: {$ref: "#/$defs/lifecycle"}
+                models:
+                  type: array
+                  uniqueItems: true
+                  items: {type: string, minLength: 1}
+  modules:
+    allOf:
+      - $ref: "#/$defs/header"
+      - type: object
+        additionalProperties: false
+        required: [api_version, kind, modules]
+        properties:
+          api_version: {const: jdgf.io/v1alpha1}
+          kind: {const: ModuleRegistry}
+          modules:
+            type: array
+            minItems: 1
+            uniqueItems: true
+            items:
+              type: object
+              additionalProperties: false
+              required: [id, lifecycle]
+              properties:
+                id: {$ref: "#/$defs/identifier"}
+                lifecycle: {$ref: "#/$defs/lifecycle"}
+  ports:
+    allOf:
+      - $ref: "#/$defs/header"
+      - type: object
+        additionalProperties: false
+        required: [api_version, kind, ports]
+        properties:
+          api_version: {const: jdgf.io/v1alpha1}
+          kind: {const: PortRegistry}
+          ports:
+            type: array
+            minItems: 1
+            uniqueItems: true
+            items:
+              type: object
+              additionalProperties: false
+              required: [service, port, lifecycle]
+              properties:
+                service: {$ref: "#/$defs/identifier"}
+                port: {type: integer, minimum: 1, maximum: 65535}
+                lifecycle: {const: reserved}
+  networks:
+    allOf:
+      - $ref: "#/$defs/header"
+      - type: object
+        additionalProperties: false
+        required: [api_version, kind, networks]
+        properties:
+          api_version: {const: jdgf.io/v1alpha1}
+          kind: {const: NetworkRegistry}
+          networks:
+            type: array
+            minItems: 1
+            uniqueItems: true
+            items: {$ref: "#/$defs/reserved_resource"}
+  volumes:
+    allOf:
+      - $ref: "#/$defs/header"
+      - type: object
+        additionalProperties: false
+        required: [api_version, kind, volumes]
+        properties:
+          api_version: {const: jdgf.io/v1alpha1}
+          kind: {const: VolumeRegistry}
+          volumes:
+            type: array
+            minItems: 1
+            uniqueItems: true
+            items: {$ref: "#/$defs/reserved_resource"}
+  reserved_resource:
+    type: object
+    additionalProperties: false
+    required: [id, lifecycle]
+    properties:
+      id: {$ref: "#/$defs/identifier"}
+      lifecycle: {const: reserved}
