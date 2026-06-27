@@ -54,16 +54,18 @@ def _checked_schema(path: Path) -> dict[str, Any]:
     try:
         Draft202012Validator.check_schema(schema)
     except SchemaError as exc:
-        raise KnowledgePlatformError(f"Invalid schema in {path}: {exc.message}") from exc
+        raise KnowledgePlatformError(
+            f"Invalid schema in {path}: {exc.message}"
+        ) from exc
     return schema
 
 
 def _validate(document: dict[str, Any], schema_path: Path, path: Path) -> None:
     schema = _checked_schema(schema_path)
     errors = sorted(
-        Draft202012Validator(
-            schema, format_checker=FormatChecker()
-        ).iter_errors(document),
+        Draft202012Validator(schema, format_checker=FormatChecker()).iter_errors(
+            document
+        ),
         key=lambda error: tuple(str(part) for part in error.absolute_path),
     )
     if errors:
@@ -95,7 +97,9 @@ def validate_document_metadata(root: Path, path: Path) -> dict[str, Any]:
     try:
         resolved.relative_to(root)
     except ValueError as exc:
-        raise KnowledgePlatformError("Metadata document escapes repository root") from exc
+        raise KnowledgePlatformError(
+            "Metadata document escapes repository root"
+        ) from exc
     document = _load_mapping(resolved)
     _validate(document, root / "knowledge" / "metadata.schema.yaml", resolved)
     return document
@@ -245,11 +249,14 @@ def validate_knowledge_platform(root: Path) -> KnowledgePlatformSummary:
             )
 
     spec = manifest["spec"]
-    adapters_enabled = any(
-        provider["enabled"] for provider in config["spec"]["providers"]
-    ) or graph["adapter"]["enabled"]
+    adapters_enabled = (
+        any(provider["enabled"] for provider in config["spec"]["providers"])
+        or graph["adapter"]["enabled"]
+    )
     if spec["adapters_enabled"] != adapters_enabled:
-        raise KnowledgePlatformError("Knowledge adapter activation claim is inconsistent")
+        raise KnowledgePlatformError(
+            "Knowledge adapter activation claim is inconsistent"
+        )
     if spec["installable"] and not (
         spec["runtime_tested"]
         and spec["lifecycle"] == "active"

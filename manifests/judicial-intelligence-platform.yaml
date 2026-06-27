@@ -1,0 +1,14 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: PlatformManifest
+metadata:
+  id: judicial-intelligence-platform
+  name: Judicial Intelligence Platform
+  version: 0.9.0
+spec:
+  lifecycle: specified
+  installable: false
+  runtime_tested: false
+  registry: registry/judicial-intelligence.yaml
+  profile: platform/judicial-intelligence/profile.yaml
+  boundary: optional-domain-extension

@@ -1,0 +1,34 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: SdkDefinition
+metadata:
+  version: 0.7.0
+  lifecycle: active
+spec:
+  entry_point: jdgf
+  generators:
+    - id: project
+      lifecycle: active
+      output_root: projects
+      contract: projects/project.schema.yaml
+    - id: agent
+      lifecycle: deferred
+      output_root: agents
+      contract: null
+    - id: module
+      lifecycle: deferred
+      output_root: modules
+      contract: null
+    - id: plugin
+      lifecycle: deferred
+      output_root: plugins
+      contract: null
+    - id: workflow
+      lifecycle: deferred
+      output_root: orchestration/workflows
+      contract: null
+  safety:
+    path_confinement: true
+    atomic_writes: true
+    overwrite: false
+    auto_register: false

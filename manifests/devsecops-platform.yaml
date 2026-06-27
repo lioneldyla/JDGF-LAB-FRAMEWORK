@@ -1,0 +1,16 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: PlatformManifest
+metadata:
+  id: devsecops-platform
+  name: DevSecOps Platform
+  version: 0.6.0
+spec:
+  lifecycle: specified
+  installable: false
+  runtime_tested: false
+  registry: registry/devsecops.yaml
+  config: devsecops/devsecops.yaml
+  components: [github-actions, ci, security, quality, packaging, release-candidates]
+  deployment_enabled: false
+  release_publishing_enabled: false

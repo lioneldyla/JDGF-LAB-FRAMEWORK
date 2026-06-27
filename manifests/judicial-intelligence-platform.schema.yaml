@@ -1,0 +1,29 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://jdgf.io/schemas/judicial-intelligence-platform.schema.yaml
+title: JDGF Judicial Intelligence Platform Manifest
+type: object
+additionalProperties: false
+required: [api_version, contract_version, kind, metadata, spec]
+properties:
+  api_version: {const: jdgf.io/v1alpha1}
+  contract_version: {const: "1.0"}
+  kind: {const: PlatformManifest}
+  metadata:
+    type: object
+    additionalProperties: false
+    required: [id, name, version]
+    properties:
+      id: {const: judicial-intelligence-platform}
+      name: {const: Judicial Intelligence Platform}
+      version: {type: string, pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$"}
+  spec:
+    type: object
+    additionalProperties: false
+    required: [lifecycle, installable, runtime_tested, registry, profile, boundary]
+    properties:
+      lifecycle: {enum: [specified, deprecated]}
+      installable: {const: false}
+      runtime_tested: {const: false}
+      registry: {const: registry/judicial-intelligence.yaml}
+      profile: {const: platform/judicial-intelligence/profile.yaml}
+      boundary: {const: optional-domain-extension}

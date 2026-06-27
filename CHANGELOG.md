@@ -1,5 +1,65 @@
 # Changelog
 
+## 0.10.0 - 2026-06-27
+
+- Added a tested FastAPI preview for health, registered-project discovery and
+  bounded in-memory lexical retrieval.
+- Cross-checked declared endpoints against generated FastAPI routes and kept
+  the unauthenticated service loopback-only, CORS-free and non-mutating.
+- Documented objective 1.0 readiness criteria instead of claiming unsupported
+  production, enterprise, portal, security or multi-tenant capabilities.
+
+## 0.9.3 - 2026-06-27
+
+- Added a side-effect-free task lifecycle controller with explicit approval
+  references and immutable transition events.
+- Kept planning, execution, concurrency, persistence, tools and publishing
+  disabled instead of claiming an unimplemented multi-agent runtime.
+
+## 0.9.2 - 2026-06-27
+
+- Added deterministic in-memory lexical retrieval with stable citations while
+  preserving the existing nine strict Advanced RAG component contracts.
+- Kept semantic, hybrid, graph, model, memory and generation capabilities
+  deferred and the complete RAG engine non-installable.
+
+## 0.9.1 - 2026-06-27
+
+- Added bounded local TXT/Markdown processing with UTF-8 validation, Unicode
+  normalization, SHA-256 fingerprints and deterministic chunks.
+- Reused the Knowledge metadata schema and kept rich formats, OCR, archives,
+  external connectors and persistence deferred.
+
+## 0.9.0 - 2026-06-27
+
+- Added a disabled Judicial Intelligence extension profile for source-aware
+  search and cited answers that reuses existing Knowledge and RAG contracts.
+- Required source traceability, confidence labels and human review while
+  prohibiting legal-advice claims and project-specific dependencies.
+
+## 0.8.0 - 2026-06-27
+
+- Added explicit Framework Core lifecycle contracts and an offline, read-only
+  doctor for version, environment and contract consistency.
+- Deferred unsafe implicit updates, whole-repository backups and archive-based
+  restores; release packaging remains approval-gated.
+
+## 0.7.0 - 2026-06-27
+
+- Added a validated, atomic project scaffolder with path confinement and
+  overwrite protection.
+- Declared agent, module, plugin and workflow generators deferred until their
+  output contracts and complete implementations exist.
+
+## 0.6.0 - 2026-06-27
+
+- Added three least-privilege GitHub workflows with full-SHA action pins,
+  immutable uv setup and non-persistent checkout credentials.
+- Added Ruff checks, dependency auditing, tracked-secret heuristics and
+  wheel/source-distribution candidates with SHA-256 sums.
+- Kept container publishing, package publishing, signing and deployment
+  disabled because the repository has no authorized targets or credentials.
+
 ## 0.5.0 - 2026-06-27
 
 - Added nine strict governance policies with lifecycle, enforcement mode,

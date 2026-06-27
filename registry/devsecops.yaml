@@ -1,0 +1,34 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: DevSecOpsRegistry
+metadata:
+  version: 0.6.0
+  lifecycle: specified
+workflows:
+  - id: continuous-integration
+    path: .github/workflows/ci.yml
+    triggers: [push, pull_request, workflow_dispatch]
+    enabled: true
+    permissions: contents-read
+    publishes: false
+    deploys: false
+  - id: container-contracts
+    path: .github/workflows/container-contracts.yml
+    triggers: [pull_request, workflow_dispatch]
+    enabled: true
+    permissions: contents-read
+    publishes: false
+    deploys: false
+  - id: release-candidate
+    path: .github/workflows/release-candidate.yml
+    triggers: [workflow_dispatch]
+    enabled: true
+    permissions: contents-read
+    publishes: false
+    deploys: false
+tools:
+  - {id: uv, purpose: dependency-locking}
+  - {id: pytest, purpose: adversarial-tests}
+  - {id: ruff, purpose: python-lint-format}
+  - {id: pip-audit, purpose: dependency-audit}
+  - {id: bash, purpose: shell-syntax}

@@ -32,8 +32,34 @@ Governance policies and evidence checks are now specified. Runtime RBAC, audit,
 encryption verification, backups, compliance mapping and release signing remain
 deferred.
 
-Advanced RAG component contracts are now specified. Runtime retrieval,
-generation, memory and graph adapters remain deferred.
+CI, dependency auditing and release-candidate packaging are now specified.
+Hosted execution evidence, signing, publishing and deployment remain deferred.
+
+Project scaffolding and local Core diagnostics are active. Agent, module,
+plugin and workflow generators remain deferred until they have authoritative
+contracts and complete outputs. Update, backup and restore operations require
+separate threat models and transactional implementations.
+
+The Judicial Intelligence extension is specified as a disabled composition
+profile. Its application runtime remains external and must not introduce
+project-specific logic into the framework core.
+
+Local TXT/Markdown processing and in-memory lexical retrieval are active.
+Rich-document extraction, OCR, semantic retrieval, generation, memory and graph
+adapters remain deferred.
+
+Task lifecycle validation and approval recording are active in memory.
+Multi-agent planning, execution, retries, concurrency, persistence and
+publication remain deferred pending a sandbox and durable audit design.
+
+A local read-only API preview now exposes health, projects and lexical
+retrieval. The next useful backend slice is persistent project storage with a
+transactional migration and tested backup/restore path. Authentication must be
+implemented before any remote binding or mutating endpoint.
+
+The framework remains pre-1.0. Portal, multi-tenancy, SSO, billing, marketplace,
+distributed execution and enterprise-compliance claims are deferred until
+working vertical slices and operational evidence exist.
 
 The Knowledge Platform foundation now validates metadata, collections,
 ontology and pipeline contracts. Extraction, indexing and retrieval runtimes

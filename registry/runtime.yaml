@@ -1,0 +1,17 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: RuntimeRegistry
+metadata:
+  version: 0.9.3
+  lifecycle: specified
+profile: runtime/runtime.yaml
+components:
+  - {id: lifecycle-controller, lifecycle: active, enabled: true}
+  - {id: planner, lifecycle: deferred, enabled: false}
+  - {id: supervisor, lifecycle: deferred, enabled: false}
+  - {id: executor, lifecycle: deferred, enabled: false}
+  - {id: reviewer, lifecycle: deferred, enabled: false}
+  - {id: publisher, lifecycle: deferred, enabled: false}
+  - {id: scheduler, lifecycle: deferred, enabled: false}
+  - {id: model-router, lifecycle: deferred, enabled: false}
+  - {id: event-bus, lifecycle: deferred, enabled: false}

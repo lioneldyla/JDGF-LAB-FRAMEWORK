@@ -3,10 +3,11 @@ contract_version: "1.0"
 kind: CapabilityManifest
 metadata:
   id: advanced-rag-engine
-  version: 0.1.0
+  version: 0.9.2
 spec:
   lifecycle: specified
   installable: false
   engine: platform/rag/rag-engine.yaml
   registry: registry/rag.yaml
   compatibility: platform/rag/compatibility.yaml
+  runtime_profile: platform/rag/local-runtime.yaml

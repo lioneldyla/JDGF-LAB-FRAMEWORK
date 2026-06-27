@@ -23,6 +23,22 @@ modules:
     lifecycle: specified
   - id: governance-platform-contracts
     lifecycle: specified
+  - id: devsecops-platform-contracts
+    lifecycle: specified
+  - id: sdk-platform
+    lifecycle: active
+  - id: framework-core-platform
+    lifecycle: active
+  - id: judicial-intelligence-contracts
+    lifecycle: specified
+  - id: document-processing-runtime
+    lifecycle: active
+  - id: rag-local-runtime
+    lifecycle: active
+  - id: runtime-control
+    lifecycle: active
+  - id: local-api-platform
+    lifecycle: active
   - id: infrastructure
     lifecycle: specified
   - id: model-adapters

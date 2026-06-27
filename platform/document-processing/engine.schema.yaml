@@ -1,0 +1,51 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://jdgf.io/schemas/document-processing-engine.schema.yaml
+title: JDGF Document Processing Engine
+type: object
+additionalProperties: false
+required: [api_version, contract_version, kind, metadata, spec]
+properties:
+  api_version: {const: jdgf.io/v1alpha1}
+  contract_version: {const: "1.0"}
+  kind: {const: DocumentProcessingEngine}
+  metadata:
+    type: object
+    additionalProperties: false
+    required: [version, lifecycle]
+    properties:
+      version: {type: string, pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$"}
+      lifecycle: {enum: [active, deprecated]}
+  spec:
+    type: object
+    additionalProperties: false
+    required: [connector, metadata_schema, active_formats, deferred_formats, limits, stages, outputs]
+    properties:
+      connector: {const: local-filesystem}
+      metadata_schema: {const: knowledge/metadata.schema.yaml}
+      active_formats:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items: {enum: [text, markdown]}
+      deferred_formats:
+        type: array
+        uniqueItems: true
+        items: {enum: [pdf, docx, html, csv, json, xml, xlsx, pptx, image, archive]}
+      limits:
+        type: object
+        additionalProperties: false
+        required: [max_bytes, encoding, max_chunk_chars]
+        properties:
+          max_bytes: {type: integer, minimum: 1, maximum: 10485760}
+          encoding: {const: utf-8}
+          max_chunk_chars: {type: integer, minimum: 100, maximum: 10000}
+      stages:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items: {enum: [validate, decode, normalize, fingerprint, metadata, chunk]}
+      outputs:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items: {enum: [metadata, chunks]}

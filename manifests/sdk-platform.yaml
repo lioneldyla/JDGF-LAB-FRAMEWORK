@@ -1,0 +1,14 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: PlatformManifest
+metadata:
+  id: sdk-platform
+  name: SDK and CLI Platform
+  version: 0.7.0
+spec:
+  lifecycle: active
+  installable: true
+  runtime_tested: true
+  definition: sdk/sdk.yaml
+  registry: registry/sdk.yaml
+  active_generators: [project]

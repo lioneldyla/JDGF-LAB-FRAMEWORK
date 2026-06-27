@@ -1,0 +1,22 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: ExtensionProfile
+metadata:
+  id: judicial-intelligence
+  name: Judicial Intelligence Extension
+  version: 0.9.0
+  lifecycle: specified
+spec:
+  enabled: false
+  runtime_implemented: false
+  composition:
+    document_metadata: knowledge/metadata.schema.yaml
+    knowledge_registry: registry/knowledge.yaml
+    rag_engine: platform/rag/rag-engine.yaml
+    citation_engine: platform/rag/citation-engine.yaml
+  outputs: [search-contract, cited-answer-contract]
+  safeguards:
+    source_traceability: required
+    human_review: required
+    confidence_labels: required
+    legal_advice: prohibited

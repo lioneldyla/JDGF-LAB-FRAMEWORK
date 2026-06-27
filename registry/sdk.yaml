@@ -1,0 +1,23 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: SdkRegistry
+metadata:
+  version: 0.7.0
+  lifecycle: active
+definition: sdk/sdk.yaml
+capabilities:
+  - id: project
+    lifecycle: active
+    command: jdgf scaffold-project
+  - id: agent
+    lifecycle: deferred
+    command: null
+  - id: module
+    lifecycle: deferred
+    command: null
+  - id: plugin
+    lifecycle: deferred
+    command: null
+  - id: workflow
+    lifecycle: deferred
+    command: null

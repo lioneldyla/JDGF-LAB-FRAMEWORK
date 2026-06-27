@@ -26,7 +26,7 @@ properties:
   spec:
     type: object
     additionalProperties: false
-    required: [lifecycle, installable, engine, registry, compatibility]
+    required: [lifecycle, installable, engine, registry, compatibility, runtime_profile]
     properties:
       lifecycle:
         enum: [specified, active, deprecated]
@@ -39,3 +39,5 @@ properties:
         const: registry/rag.yaml
       compatibility:
         const: platform/rag/compatibility.yaml
+      runtime_profile:
+        const: platform/rag/local-runtime.yaml

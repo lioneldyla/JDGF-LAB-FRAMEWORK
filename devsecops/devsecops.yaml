@@ -1,0 +1,33 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: DevSecOpsConfig
+metadata:
+  id: jdgf-devsecops
+  version: 1.0.0
+  owner: JDGF Lab Framework contributors
+  lifecycle: specified
+spec:
+  repository:
+    provider: github
+    minimum_permissions: contents-read
+    actions_pinned: true
+  ci:
+    configured: true
+    locked_dependencies: true
+    lint: true
+    tests: true
+  security:
+    dependency_audit: true
+    secret_heuristics: true
+    workflow_policy: true
+  packaging:
+    wheel: true
+    source_distribution: true
+    checksums: sha256
+  release:
+    candidate_build: true
+    publishing: false
+    signing: false
+  deployment:
+    staging: false
+    production: false

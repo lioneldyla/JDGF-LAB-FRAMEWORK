@@ -1,0 +1,40 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://jdgf.io/schemas/runtime-control.schema.yaml
+title: JDGF Runtime Control Profile
+type: object
+additionalProperties: false
+required: [api_version, contract_version, kind, metadata, spec]
+properties:
+  api_version: {const: jdgf.io/v1alpha1}
+  contract_version: {const: "1.0"}
+  kind: {const: RuntimeControlProfile}
+  metadata:
+    type: object
+    additionalProperties: false
+    required: [version, lifecycle]
+    properties:
+      version: {type: string, pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$"}
+      lifecycle: {const: specified}
+  spec:
+    type: object
+    additionalProperties: false
+    required: [execution_enabled, mode, persistence, max_concurrency, task_schema, event_schema, transitions]
+    properties:
+      execution_enabled: {const: false}
+      mode: {const: validation-only}
+      persistence: {const: none}
+      max_concurrency: {const: 1}
+      task_schema: {const: runtime/task.schema.yaml}
+      event_schema: {const: runtime/event.schema.yaml}
+      transitions:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: object
+          additionalProperties: false
+          required: [from, to, approval_required]
+          properties:
+            from: {enum: [proposed, validated, awaiting-approval, approved]}
+            to: {enum: [validated, awaiting-approval, approved, cancelled]}
+            approval_required: {type: boolean}

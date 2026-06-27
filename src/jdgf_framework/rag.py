@@ -21,6 +21,7 @@ class RagContractSet:
     installable: bool
     component_ids: tuple[str, ...]
     dependency_ids: tuple[str, ...]
+    runtime_capabilities: tuple[str, ...]
 
 
 class RagContractError(ValueError):
@@ -80,8 +81,7 @@ def _require_compatible(
     supported_api_versions = policy["spec"]["supported_api_versions"]
     if document["api_version"] not in supported_api_versions:
         raise RagContractError(
-            f"Unsupported RAG api_version in {document_path}: "
-            f"{document['api_version']}"
+            f"Unsupported RAG api_version in {document_path}: {document['api_version']}"
         )
     current_contract_version = policy["spec"]["current_contract_version"]
     if document["contract_version"] != current_contract_version:
@@ -113,6 +113,17 @@ def validate_rag_contracts(root: Path) -> RagContractSet:
     )
     _require_compatible(manifest, manifest_path, compatibility)
 
+    runtime_path = _resolve_contract(
+        root, spec["runtime_profile"], root / "platform" / "rag"
+    )
+    runtime = _load_mapping(runtime_path)
+    _validate_document(
+        runtime,
+        root / "platform" / "rag" / "local-runtime.schema.yaml",
+        runtime_path,
+    )
+    _require_compatible(runtime, runtime_path, compatibility)
+
     engine_path = _resolve_contract(root, spec["engine"], root / "platform" / "rag")
     registry_path = _resolve_contract(root, spec["registry"], root / "registry")
 
@@ -122,9 +133,7 @@ def validate_rag_contracts(root: Path) -> RagContractSet:
     )
     _require_compatible(engine, engine_path, compatibility)
     registry = _load_mapping(registry_path)
-    _validate_document(
-        registry, root / "registry" / "rag.schema.yaml", registry_path
-    )
+    _validate_document(registry, root / "registry" / "rag.schema.yaml", registry_path)
     _require_compatible(registry, registry_path, compatibility)
 
     lifecycle = spec["lifecycle"]
@@ -147,6 +156,12 @@ def validate_rag_contracts(root: Path) -> RagContractSet:
     engine_capabilities = set(engine["spec"]["capabilities"])
     if set(registry["capabilities"]) != engine_capabilities:
         raise RagContractError("RAG registry capabilities do not match the engine")
+    active_runtime = set(runtime["spec"]["active_capabilities"])
+    deferred_runtime = set(runtime["spec"]["deferred_capabilities"])
+    if active_runtime | deferred_runtime != engine_capabilities:
+        raise RagContractError("RAG runtime capability partition is incomplete")
+    if active_runtime & deferred_runtime:
+        raise RagContractError("RAG runtime capabilities cannot be active and deferred")
 
     dependency_ids = [dependency["id"] for dependency in registry["dependencies"]]
     if len(dependency_ids) != len(set(dependency_ids)):
@@ -233,4 +248,5 @@ def validate_rag_contracts(root: Path) -> RagContractSet:
         installable=spec["installable"],
         component_ids=tuple(component_ids),
         dependency_ids=tuple(dependency_ids),
+        runtime_capabilities=tuple(sorted(active_runtime)),
     )

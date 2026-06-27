@@ -94,10 +94,12 @@ def validate_bootstrap_catalogs(root: Path) -> CatalogSummary:
         )
 
     manifest_modules = {
-        entry["id"]: entry["lifecycle"] for entry in manifests["modules.yaml"]["modules"]
+        entry["id"]: entry["lifecycle"]
+        for entry in manifests["modules.yaml"]["modules"]
     }
     registry_modules = {
-        entry["id"]: entry["lifecycle"] for entry in registries["modules.yaml"]["modules"]
+        entry["id"]: entry["lifecycle"]
+        for entry in registries["modules.yaml"]["modules"]
     }
     if manifest_modules != registry_modules:
         raise CatalogError("Module manifest and registry do not match")

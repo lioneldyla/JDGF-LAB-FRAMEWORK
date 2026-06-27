@@ -1,0 +1,21 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: RuntimeControlProfile
+metadata:
+  version: 0.9.3
+  lifecycle: specified
+spec:
+  execution_enabled: false
+  mode: validation-only
+  persistence: none
+  max_concurrency: 1
+  task_schema: runtime/task.schema.yaml
+  event_schema: runtime/event.schema.yaml
+  transitions:
+    - {from: proposed, to: validated, approval_required: false}
+    - {from: proposed, to: cancelled, approval_required: false}
+    - {from: validated, to: awaiting-approval, approval_required: false}
+    - {from: validated, to: cancelled, approval_required: false}
+    - {from: awaiting-approval, to: approved, approval_required: true}
+    - {from: awaiting-approval, to: cancelled, approval_required: false}
+    - {from: approved, to: cancelled, approval_required: false}

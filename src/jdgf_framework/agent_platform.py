@@ -40,7 +40,9 @@ def _validate(document: dict[str, Any], schema_path: Path, path: Path) -> None:
     try:
         Draft202012Validator.check_schema(schema)
     except SchemaError as exc:
-        raise AgentPlatformError(f"Invalid schema in {schema_path}: {exc.message}") from exc
+        raise AgentPlatformError(
+            f"Invalid schema in {schema_path}: {exc.message}"
+        ) from exc
     errors = sorted(
         Draft202012Validator(schema).iter_errors(document),
         key=lambda error: tuple(str(part) for part in error.absolute_path),
@@ -114,7 +116,9 @@ def validate_agent_platform(root: Path) -> AgentPlatformSummary:
         if spec["route_ref"] not in known_routes:
             raise AgentPlatformError(f"Agent references unknown route: {entry['id']}")
         if metadata["lifecycle"] != "active" and spec["enabled"]:
-            raise AgentPlatformError(f"Non-active agent cannot be enabled: {entry['id']}")
+            raise AgentPlatformError(
+                f"Non-active agent cannot be enabled: {entry['id']}"
+            )
 
         tools = spec["tools"]
         tool_ids = [tool["id"] for tool in tools]
@@ -123,7 +127,9 @@ def validate_agent_platform(root: Path) -> AgentPlatformSummary:
         if any(tool["enabled"] for tool in tools):
             raise AgentPlatformError(f"Agent tools must remain disabled: {entry['id']}")
         if any(store["enabled"] for store in spec["memory"].values()):
-            raise AgentPlatformError(f"Agent memory must remain disabled: {entry['id']}")
+            raise AgentPlatformError(
+                f"Agent memory must remain disabled: {entry['id']}"
+            )
 
         permissions = spec["permissions"]
         if (

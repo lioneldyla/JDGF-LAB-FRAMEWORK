@@ -1,0 +1,15 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://jdgf.io/schemas/runtime-event.schema.yaml
+title: JDGF Runtime Transition Event
+type: object
+additionalProperties: false
+required: [task_id, previous_state, state, actor, approval_reference]
+properties:
+  task_id: {type: string, pattern: "^[a-z][a-z0-9-]{2,62}$"}
+  previous_state: {enum: [proposed, validated, awaiting-approval, approved]}
+  state: {enum: [validated, awaiting-approval, approved, cancelled]}
+  actor: {type: string, minLength: 1, maxLength: 200}
+  approval_reference:
+    type: [string, "null"]
+    minLength: 1
+    maxLength: 500

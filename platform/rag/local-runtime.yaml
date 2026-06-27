@@ -1,0 +1,23 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: RagRuntimeProfile
+metadata:
+  version: 0.9.2
+  lifecycle: active
+spec:
+  scope: retrieval-only
+  inputs: in-memory-documents
+  active_capabilities: [lexical-retrieval, citation-preservation]
+  deferred_capabilities:
+    - semantic-retrieval
+    - hybrid-retrieval
+    - graph-retrieval
+    - evidence-reranking
+    - context-building
+    - governed-memory
+    - prompt-composition
+    - answer-validation
+    - confidence-scoring
+  generation: false
+  persistence: false
+  external_adapters: false

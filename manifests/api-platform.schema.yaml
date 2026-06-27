@@ -1,0 +1,30 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://jdgf.io/schemas/api-platform.schema.yaml
+title: JDGF Local API Platform Manifest
+type: object
+additionalProperties: false
+required: [api_version, contract_version, kind, metadata, spec]
+properties:
+  api_version: {const: jdgf.io/v1alpha1}
+  contract_version: {const: "1.0"}
+  kind: {const: PlatformManifest}
+  metadata:
+    type: object
+    additionalProperties: false
+    required: [id, name, version]
+    properties:
+      id: {const: local-api-platform}
+      name: {const: Local API Platform}
+      version: {type: string, pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$"}
+  spec:
+    type: object
+    additionalProperties: false
+    required: [lifecycle, installable, runtime_tested, registry, network_scope, authentication, mutating_endpoints]
+    properties:
+      lifecycle: {const: preview}
+      installable: {const: true}
+      runtime_tested: {const: true}
+      registry: {const: registry/api.yaml}
+      network_scope: {const: loopback}
+      authentication: {const: none}
+      mutating_endpoints: {const: false}

@@ -1,0 +1,53 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://jdgf.io/schemas/judicial-intelligence-profile.schema.yaml
+title: JDGF Judicial Intelligence Extension Profile
+type: object
+additionalProperties: false
+required: [api_version, contract_version, kind, metadata, spec]
+properties:
+  api_version: {const: jdgf.io/v1alpha1}
+  contract_version: {const: "1.0"}
+  kind: {const: ExtensionProfile}
+  metadata:
+    type: object
+    additionalProperties: false
+    required: [id, name, version, lifecycle]
+    properties:
+      id: {const: judicial-intelligence}
+      name: {const: Judicial Intelligence Extension}
+      version: {type: string, pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$"}
+      lifecycle: {enum: [specified, deprecated]}
+  spec:
+    type: object
+    additionalProperties: false
+    required: [enabled, runtime_implemented, composition, outputs, safeguards]
+    properties:
+      enabled: {const: false}
+      runtime_implemented: {const: false}
+      composition:
+        type: object
+        additionalProperties: false
+        required: [document_metadata, knowledge_registry, rag_engine, citation_engine]
+        properties:
+          document_metadata: {$ref: "#/$defs/path"}
+          knowledge_registry: {$ref: "#/$defs/path"}
+          rag_engine: {$ref: "#/$defs/path"}
+          citation_engine: {$ref: "#/$defs/path"}
+      outputs:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items: {enum: [search-contract, cited-answer-contract]}
+      safeguards:
+        type: object
+        additionalProperties: false
+        required: [source_traceability, human_review, confidence_labels, legal_advice]
+        properties:
+          source_traceability: {const: required}
+          human_review: {const: required}
+          confidence_labels: {const: required}
+          legal_advice: {const: prohibited}
+$defs:
+  path:
+    type: string
+    pattern: "^[A-Za-z0-9._/-]+$"

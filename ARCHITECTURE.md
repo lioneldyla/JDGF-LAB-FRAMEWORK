@@ -35,17 +35,18 @@ projects/<name>/project.yaml --> contract validation --> CLI result
 
 ## Deferred capabilities
 
-Agent execution, orchestration engines, application services, portals, SDKs and
+Agent execution, orchestration engines, application services, portals and
 release automation remain deferred. Agent profiles, database, vector-store,
 automation and monitoring contracts now exist, but their runtimes remain
 inactive until integration and recovery tests provide operational evidence.
 
-## Specified slice: Advanced RAG contracts
+## Specified engine with active local RAG slice
 
 The RAG capability manifest resolves an engine definition and component
 registry. Each component configuration is schema-validated and repository
-bound. This slice defines portable contracts only: storage, model and graph
-adapters are disabled and the capability is not installable.
+bound. A deterministic in-memory lexical retriever preserves source citations;
+storage, semantic, model and graph adapters remain disabled and the complete
+capability is not installable.
 
 ## Specified slice: Docker service contracts
 
@@ -104,6 +105,48 @@ Nine policies declare lifecycle, enforcement mode, implementation state and
 local evidence. Validation prevents unsupported enforcement claims. RBAC,
 durable audit, encryption verification, backups and release automation remain
 unavailable runtime capabilities.
+
+## Specified slice: DevSecOps contracts
+
+Three least-privilege GitHub workflows define validation, container-contract
+checks and manual release-candidate builds. Actions are SHA-pinned and
+dependencies are lock-bound. Publishing, image pushes, signing and deployment
+remain disabled because no authorized targets or credentials exist.
+
+## Active slice: SDK and Framework Core
+
+The SDK currently implements one validated vertical slice: atomic project
+scaffolding without implicit registry mutation. The Core reuses existing
+authoritative configuration and adds an offline, read-only doctor. Unsupported
+generators, updates, backups and restores remain explicitly deferred.
+
+## Specified extension: Judicial Intelligence
+
+The optional Judicial Intelligence profile composes authoritative Knowledge
+and RAG contracts. It remains disabled, non-installable and outside the generic
+core boundary; it contains no consumer-project references or runtime claims.
+
+## Active slice: local document processing
+
+TXT and Markdown files can be processed within an explicit source boundary.
+The engine normalizes text, fingerprints original bytes, emits Knowledge
+Platform-compatible metadata and creates deterministic chunks. Rich formats,
+OCR, archives, external connectors and persistence remain deferred.
+
+## Active control slice: task lifecycle
+
+The Runtime Control Platform implements immutable, side-effect-free lifecycle
+transitions and an explicit approval reference. It does not execute agents or
+tools. Planning, concurrency, persistence, model routing and publishing remain
+deferred.
+
+## Active preview slice: local API
+
+A FastAPI application exposes health, registered projects and in-memory lexical
+retrieval. The route registry is checked against generated application routes.
+The CLI binds only to loopback, CORS is absent and no endpoint mutates framework
+state. Authentication, persistence, uploads and remote deployment remain out of
+scope until their security and operational contracts are implemented.
 
 ## Governance invariants
 

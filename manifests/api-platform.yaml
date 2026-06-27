@@ -1,0 +1,15 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: PlatformManifest
+metadata:
+  id: local-api-platform
+  name: Local API Platform
+  version: 0.10.0
+spec:
+  lifecycle: preview
+  installable: true
+  runtime_tested: true
+  registry: registry/api.yaml
+  network_scope: loopback
+  authentication: none
+  mutating_endpoints: false

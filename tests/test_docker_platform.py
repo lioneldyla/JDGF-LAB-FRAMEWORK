@@ -26,7 +26,7 @@ def test_compose_contract_is_hardened(service: str) -> None:
     definition = document["services"][service]
 
     assert definition["image"].startswith("${")
-    assert definition["ports"][0].startswith('127.0.0.1:${')
+    assert definition["ports"][0].startswith("127.0.0.1:${")
     assert definition["security_opt"] == ["no-new-privileges:true"]
     assert definition["healthcheck"]
     assert document["networks"]["jdgf-network"]["external"] is True
@@ -59,7 +59,8 @@ def test_images_are_pinned_by_version_and_digest() -> None:
     for service in SERVICES:
         env_path = ROOT / "infrastructure" / service / ".env.example"
         image_lines = [
-            line for line in env_path.read_text(encoding="utf-8").splitlines()
+            line
+            for line in env_path.read_text(encoding="utf-8").splitlines()
             if line.endswith(tuple("0123456789abcdef")) and "_IMAGE=" in line
         ]
         assert len(image_lines) == 1
@@ -143,9 +144,9 @@ def test_data_services_have_secure_defaults() -> None:
     postgres_config = (
         ROOT / "infrastructure" / "postgres" / "config" / "postgresql.conf"
     ).read_text(encoding="utf-8")
-    redis_compose = (
-        ROOT / "infrastructure" / "redis" / "compose.yaml"
-    ).read_text(encoding="utf-8")
+    redis_compose = (ROOT / "infrastructure" / "redis" / "compose.yaml").read_text(
+        encoding="utf-8"
+    )
     qdrant = yaml.safe_load(
         (ROOT / "infrastructure" / "qdrant" / "compose.yaml").read_text(
             encoding="utf-8"
@@ -155,8 +156,6 @@ def test_data_services_have_secure_defaults() -> None:
     assert "password_encryption = 'scram-sha-256'" in postgres_config
     assert "--requirepass" in redis_compose
     assert (
-        qdrant["services"]["qdrant"]["environment"][
-            "QDRANT__SERVICE__ENABLE_CORS"
-        ]
+        qdrant["services"]["qdrant"]["environment"]["QDRANT__SERVICE__ENABLE_CORS"]
         == "false"
     )

@@ -163,7 +163,9 @@ def validate_orchestration_platform(root: Path) -> OrchestrationPlatformSummary:
         if entry["enabled"] != spec["enabled"]:
             raise OrchestrationPlatformError("Orchestrator enabled state mismatch")
         if spec["enabled"]:
-            raise OrchestrationPlatformError("Orchestrator runtime must remain disabled")
+            raise OrchestrationPlatformError(
+                "Orchestrator runtime must remain disabled"
+            )
         for role, declaration in spec["roles"].items():
             agent = agents.get(declaration["agent_ref"])
             if agent is None:
@@ -204,9 +206,7 @@ def validate_orchestration_platform(root: Path) -> OrchestrationPlatformSummary:
 
         step_ids = [step["id"] for step in spec["steps"]]
         if len(step_ids) != len(set(step_ids)):
-            raise OrchestrationPlatformError(
-                f"Duplicate workflow step: {entry['id']}"
-            )
+            raise OrchestrationPlatformError(f"Duplicate workflow step: {entry['id']}")
         seen: set[str] = set()
         human_gate = False
         for step in spec["steps"]:

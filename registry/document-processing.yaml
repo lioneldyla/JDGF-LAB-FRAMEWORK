@@ -1,0 +1,14 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: DocumentProcessingRegistry
+metadata:
+  version: 0.9.1
+  lifecycle: active
+engine: platform/document-processing/engine.yaml
+connectors:
+  - {id: local-filesystem, lifecycle: active, enabled: true}
+  - {id: github, lifecycle: deferred, enabled: false}
+  - {id: google-drive, lifecycle: deferred, enabled: false}
+  - {id: notion, lifecycle: deferred, enabled: false}
+  - {id: sharepoint, lifecycle: deferred, enabled: false}
+  - {id: web, lifecycle: deferred, enabled: false}

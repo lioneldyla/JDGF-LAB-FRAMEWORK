@@ -1,0 +1,17 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: DocumentProcessingEngine
+metadata:
+  version: 0.9.1
+  lifecycle: active
+spec:
+  connector: local-filesystem
+  metadata_schema: knowledge/metadata.schema.yaml
+  active_formats: [text, markdown]
+  deferred_formats: [pdf, docx, html, csv, json, xml, xlsx, pptx, image, archive]
+  limits:
+    max_bytes: 1048576
+    encoding: utf-8
+    max_chunk_chars: 1000
+  stages: [validate, decode, normalize, fingerprint, metadata, chunk]
+  outputs: [metadata, chunks]

@@ -1,0 +1,15 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: PlatformManifest
+metadata:
+  id: runtime-platform
+  name: Runtime Control Platform
+  version: 0.9.3
+spec:
+  lifecycle: specified
+  installable: false
+  runtime_tested: false
+  execution_enabled: false
+  profile: runtime/runtime.yaml
+  registry: registry/runtime.yaml
+  active_components: [lifecycle-controller]

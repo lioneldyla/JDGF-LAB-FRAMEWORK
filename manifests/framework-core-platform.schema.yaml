@@ -1,0 +1,32 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://jdgf.io/schemas/framework-core-platform.schema.yaml
+title: JDGF Framework Core Platform Manifest
+type: object
+additionalProperties: false
+required: [api_version, contract_version, kind, metadata, spec]
+properties:
+  api_version: {const: jdgf.io/v1alpha1}
+  contract_version: {const: "1.0"}
+  kind: {const: PlatformManifest}
+  metadata:
+    type: object
+    additionalProperties: false
+    required: [id, name, version]
+    properties:
+      id: {const: framework-core-platform}
+      name: {const: Framework Core Platform}
+      version: {type: string, pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$"}
+  spec:
+    type: object
+    additionalProperties: false
+    required: [lifecycle, installable, runtime_tested, definition, active_operations]
+    properties:
+      lifecycle: {enum: [active, deprecated]}
+      installable: {type: boolean}
+      runtime_tested: {type: boolean}
+      definition: {const: core/framework.yaml}
+      active_operations:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items: {enum: [bootstrap, validate, doctor, package, update, backup, restore]}

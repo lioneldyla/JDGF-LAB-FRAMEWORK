@@ -66,7 +66,7 @@ def test_compose_contract_is_hardened(service: str, directory: Path) -> None:
     definition = compose["services"][service]
 
     assert definition["image"].startswith("${")
-    assert definition["ports"][0].startswith('127.0.0.1:${')
+    assert definition["ports"][0].startswith("127.0.0.1:${")
     assert definition["security_opt"] == ["no-new-privileges:true"]
     assert definition["healthcheck"]
     assert compose["networks"]["jdgf-network"]["external"] is True
@@ -98,9 +98,9 @@ def test_images_are_pinned_by_version_and_digest() -> None:
     for directory in SERVICE_PATHS.values():
         image_lines = [
             line
-            for line in (directory / ".env.example").read_text(
-                encoding="utf-8"
-            ).splitlines()
+            for line in (directory / ".env.example")
+            .read_text(encoding="utf-8")
+            .splitlines()
             if "_IMAGE=" in line
         ]
         assert len(image_lines) == 1
@@ -160,18 +160,12 @@ def test_private_and_honest_defaults() -> None:
     assert monitoring["alerting_configured"] is False
     assert monitoring["log_collection_configured"] is False
 
-    searxng = _load(
-        ROOT / "infrastructure" / "searxng" / "config" / "settings.yml"
-    )
+    searxng = _load(ROOT / "infrastructure" / "searxng" / "config" / "settings.yml")
     assert searxng["server"]["limiter"] is True
     assert searxng["server"]["public_instance"] is False
 
-    grafana = _load(
-        ROOT / "infrastructure" / "monitoring" / "grafana" / "compose.yaml"
-    )
+    grafana = _load(ROOT / "infrastructure" / "monitoring" / "grafana" / "compose.yaml")
     assert (
-        grafana["services"]["grafana"]["environment"][
-            "GF_AUTH_ANONYMOUS_ENABLED"
-        ]
+        grafana["services"]["grafana"]["environment"]["GF_AUTH_ANONYMOUS_ENABLED"]
         == "false"
     )

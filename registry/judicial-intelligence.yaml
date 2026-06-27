@@ -1,0 +1,11 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: ExtensionRegistry
+metadata:
+  version: 0.9.0
+  lifecycle: specified
+extensions:
+  - id: judicial-intelligence
+    lifecycle: specified
+    enabled: false
+    profile: platform/judicial-intelligence/profile.yaml

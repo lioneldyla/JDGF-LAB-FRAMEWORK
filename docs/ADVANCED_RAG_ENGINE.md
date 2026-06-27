@@ -2,9 +2,10 @@
 
 ## Status
 
-The Advanced RAG Engine is a validated capability specification. It is not an
-installed runtime: every external adapter and memory backend remains disabled
-until an implementation, security review and integration test exist.
+The Advanced RAG Engine combines a validated capability specification with a
+small local retrieval runtime. Lexical retrieval over caller-provided in-memory
+documents and stable source citations are implemented. The full engine remains
+non-installable and every external adapter stays disabled.
 
 ## Contract
 
@@ -46,13 +47,17 @@ success.
 - optional memory and graph adapters, disabled by default;
 - source alignment, contradiction and unsupported-claim checks.
 
+## Implemented local slice
+
+`lexical_retrieve` performs deterministic query-term coverage ranking. It
+rejects empty queries, duplicate document identifiers and incomplete evidence,
+returns no unsupported matches and preserves each document's source locator.
+It does not generate or synthesize an answer.
+
 ## Not implemented
 
-No retriever, reranker, embedding pipeline, graph traversal, model call,
-persistent memory or answer-generation runtime is implemented. The product
-demonstrator found in the reviewed source archive is not used as an
-implementation because it performs only title matching and synthesized text
-formatting.
+No semantic or hybrid retriever, reranker, embedding pipeline, graph traversal,
+model call, persistent memory or answer-generation runtime is implemented.
 
 All six external dependencies are explicitly registered as `unavailable`.
 Every component has `experimental` maturity, the capability lifecycle remains

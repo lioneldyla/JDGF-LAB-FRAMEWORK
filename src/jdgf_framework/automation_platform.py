@@ -127,7 +127,9 @@ def validate_automation_platform(root: Path) -> AutomationPlatformSummary:
     n8n = _load_mapping(root / "infrastructure" / "n8n" / "compose.yaml")
     n8n_environment = n8n["services"]["n8n"]["environment"]
     if n8n_environment.get("N8N_BLOCK_ENV_ACCESS_IN_NODE") != "true":
-        raise AutomationPlatformError("n8n code-node environment access must be blocked")
+        raise AutomationPlatformError(
+            "n8n code-node environment access must be blocked"
+        )
     if n8n_environment.get("N8N_DIAGNOSTICS_ENABLED") != "false":
         raise AutomationPlatformError("n8n diagnostics must be disabled by default")
 
@@ -147,11 +149,7 @@ def validate_automation_platform(root: Path) -> AutomationPlatformSummary:
         raise AutomationPlatformError("Grafana anonymous access must be disabled")
 
     prometheus = _load_mapping(
-        root
-        / "infrastructure"
-        / "monitoring"
-        / "prometheus"
-        / "prometheus.yml"
+        root / "infrastructure" / "monitoring" / "prometheus" / "prometheus.yml"
     )
     jobs = {job["job_name"] for job in prometheus["scrape_configs"]}
     if jobs != {"prometheus", "loki", "n8n"}:

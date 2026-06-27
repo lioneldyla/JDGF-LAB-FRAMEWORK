@@ -1,0 +1,38 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://jdgf.io/schemas/rag-local-runtime.schema.yaml
+title: JDGF Local RAG Runtime Profile
+type: object
+additionalProperties: false
+required: [api_version, contract_version, kind, metadata, spec]
+properties:
+  api_version: {const: jdgf.io/v1alpha1}
+  contract_version: {const: "1.0"}
+  kind: {const: RagRuntimeProfile}
+  metadata:
+    type: object
+    additionalProperties: false
+    required: [version, lifecycle]
+    properties:
+      version: {type: string, pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$"}
+      lifecycle: {const: active}
+  spec:
+    type: object
+    additionalProperties: false
+    required: [scope, inputs, active_capabilities, deferred_capabilities, generation, persistence, external_adapters]
+    properties:
+      scope: {const: retrieval-only}
+      inputs: {const: in-memory-documents}
+      active_capabilities:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items: {enum: [lexical-retrieval, citation-preservation]}
+      deferred_capabilities:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          enum: [semantic-retrieval, hybrid-retrieval, graph-retrieval, evidence-reranking, context-building, governed-memory, prompt-composition, answer-validation, confidence-scoring]
+      generation: {const: false}
+      persistence: {const: false}
+      external_adapters: {const: false}

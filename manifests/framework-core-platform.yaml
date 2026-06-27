@@ -1,0 +1,13 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: PlatformManifest
+metadata:
+  id: framework-core-platform
+  name: Framework Core Platform
+  version: 0.8.0
+spec:
+  lifecycle: active
+  installable: true
+  runtime_tested: true
+  definition: core/framework.yaml
+  active_operations: [bootstrap, validate, doctor, package]

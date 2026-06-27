@@ -1,0 +1,14 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: PlatformManifest
+metadata:
+  id: document-processing-platform
+  name: Document Processing Platform
+  version: 0.9.1
+spec:
+  lifecycle: active
+  installable: true
+  runtime_tested: true
+  engine: platform/document-processing/engine.yaml
+  registry: registry/document-processing.yaml
+  persistence: none

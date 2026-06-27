@@ -30,7 +30,7 @@ The framework is designed to support:
 
 ## Current foundation
 
-The executable `v0.5.0` foundation provides:
+The executable `v0.10.0` developer preview provides:
 
 - an active Projects Platform with versioned manifests, governance and
   documentation boundaries;
@@ -46,9 +46,20 @@ The executable `v0.5.0` foundation provides:
 - six schema-validated Agent Platform profiles, disabled by default.
 - five supervised orchestration workflow contracts with execution disabled.
 - nine evidence-aware governance policy contracts without runtime enforcement.
+- least-privilege CI, dependency auditing and release-candidate packaging.
+- a safe project scaffolder and an offline framework doctor.
+- a disabled Judicial Intelligence extension profile that composes existing
+  Knowledge and RAG contracts without importing project-specific logic.
+- bounded TXT/Markdown processing with schema-compatible metadata and stable
+  chunks.
+- deterministic in-memory lexical retrieval with source citations.
+- an approval-gated, side-effect-free task lifecycle controller.
+- a loopback-only FastAPI service for health, project discovery and bounded
+  lexical retrieval.
 
-The RAG runtime and every external service adapter remain disabled until their
-implementations, security reviews and integration tests exist.
+Semantic RAG, answer generation, multi-agent execution and every external
+service adapter remain disabled until their implementations, security reviews
+and integration tests exist.
 
 ## Architecture
 
@@ -91,6 +102,7 @@ hosted model providers remain architectural candidates.
 ```bash
 ./install.sh
 .venv/bin/jdgf projects
+.venv/bin/jdgf serve
 ./verify.sh
 ```
 
@@ -105,11 +117,19 @@ hosted model providers remain architectural candidates.
 - [Agent Platform](docs/AGENT_PLATFORM.md)
 - [Orchestration Platform](docs/ORCHESTRATION_PLATFORM.md)
 - [Governance Platform](docs/GOVERNANCE_PLATFORM.md)
+- [DevSecOps Platform](docs/DEVSECOPS_PLATFORM.md)
+- [SDK and CLI Platform](docs/SDK_PLATFORM.md)
+- [Framework Core Platform](docs/FRAMEWORK_CORE_PLATFORM.md)
+- [Judicial Intelligence Extension](docs/JUDICIAL_INTELLIGENCE_PLATFORM.md)
+- [Document Processing Engine](docs/DOCUMENT_PROCESSING_ENGINE.md)
+- [Runtime Control Platform](docs/RUNTIME_CONTROL_PLATFORM.md)
+- [Local API Preview](docs/LOCAL_API.md)
+- [Release Readiness Criteria](docs/RELEASE_CRITERIA.md)
 - [Historical archive integration](docs/ARCHIVE_INTEGRATION.md)
 
 ## Version
 
-`0.5.0`
+`0.10.0`
 
 ## License
 

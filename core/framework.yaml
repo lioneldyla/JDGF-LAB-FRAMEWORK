@@ -1,0 +1,53 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: FrameworkCore
+metadata:
+  version: 0.8.0
+  lifecycle: active
+spec:
+  authoritative_sources:
+    version: VERSION
+    environment: pyproject.toml
+    framework: manifests/framework.yaml
+    modules: registry/modules.yaml
+    projects: registry/projects.yaml
+  operations:
+    - id: bootstrap
+      lifecycle: active
+      implementation: bootstrap.sh
+      mutating: true
+      approval_required: false
+    - id: validate
+      lifecycle: active
+      implementation: verify.sh
+      mutating: false
+      approval_required: false
+    - id: doctor
+      lifecycle: active
+      implementation: src/jdgf_framework/core_platform.py
+      mutating: false
+      approval_required: false
+    - id: package
+      lifecycle: active
+      implementation: scripts/devsecops/build-release.sh
+      mutating: true
+      approval_required: true
+    - id: update
+      lifecycle: deferred
+      implementation: null
+      mutating: true
+      approval_required: true
+    - id: backup
+      lifecycle: deferred
+      implementation: null
+      mutating: true
+      approval_required: true
+    - id: restore
+      lifecycle: deferred
+      implementation: null
+      mutating: true
+      approval_required: true
+  invariants:
+    locked_environment: true
+    repository_bound: true
+    no_implicit_network_mutation: true

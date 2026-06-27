@@ -41,7 +41,9 @@ def _validate(document: dict[str, Any], schema_path: Path, path: Path) -> None:
     try:
         Draft202012Validator.check_schema(schema)
     except SchemaError as exc:
-        raise AiPlatformError(f"Invalid schema in {schema_path}: {exc.message}") from exc
+        raise AiPlatformError(
+            f"Invalid schema in {schema_path}: {exc.message}"
+        ) from exc
     errors = sorted(
         Draft202012Validator(schema).iter_errors(document),
         key=lambda error: tuple(str(part) for part in error.absolute_path),
@@ -62,12 +64,8 @@ def validate_ai_platform(root: Path) -> AiPlatformSummary:
     registry_path = root / "registry" / "ai-services.yaml"
     manifest = _load_mapping(manifest_path)
     registry = _load_mapping(registry_path)
-    _validate(
-        manifest, root / "manifests" / "ai-platform.schema.yaml", manifest_path
-    )
-    _validate(
-        registry, root / "registry" / "ai-services.schema.yaml", registry_path
-    )
+    _validate(manifest, root / "manifests" / "ai-platform.schema.yaml", manifest_path)
+    _validate(registry, root / "registry" / "ai-services.schema.yaml", registry_path)
 
     services = registry["services"]
     service_ids = [service["id"] for service in services]
@@ -99,9 +97,7 @@ def validate_ai_platform(root: Path) -> AiPlatformSummary:
             service["lifecycle"],
             service["enabled"],
         ):
-            raise AiPlatformError(
-                f"AI service catalog mismatch for {service['id']}"
-            )
+            raise AiPlatformError(f"AI service catalog mismatch for {service['id']}")
 
     litellm_config = _load_mapping(
         root / "infrastructure" / "litellm" / "config" / "config.yaml"
@@ -136,7 +132,8 @@ def validate_ai_platform(root: Path) -> AiPlatformSummary:
 
     spec = manifest["spec"]
     if spec["installable"] and (
-        not spec["runtime_tested"] or not all(service["enabled"] for service in services)
+        not spec["runtime_tested"]
+        or not all(service["enabled"] for service in services)
     ):
         raise AiPlatformError(
             "AI platform cannot be installable before runtime tests and activation"

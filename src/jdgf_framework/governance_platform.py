@@ -87,7 +87,9 @@ def validate_governance_platform(root: Path) -> GovernancePlatformSummary:
 
     version = manifest["metadata"]["version"]
     if registry["metadata"]["version"] != version:
-        raise GovernancePlatformError("Governance manifest and registry versions differ")
+        raise GovernancePlatformError(
+            "Governance manifest and registry versions differ"
+        )
     expected_components = {
         "policies",
         "access-control",
@@ -139,9 +141,7 @@ def validate_governance_platform(root: Path) -> GovernancePlatformSummary:
 
         rule_ids = [rule["id"] for rule in spec["rules"]]
         if len(rule_ids) != len(set(rule_ids)):
-            raise GovernancePlatformError(
-                f"Duplicate governance rule: {entry['id']}"
-            )
+            raise GovernancePlatformError(f"Duplicate governance rule: {entry['id']}")
         for rule in spec["rules"]:
             if rule["implemented"]:
                 implemented_rule_count += 1
@@ -163,17 +163,20 @@ def validate_governance_platform(root: Path) -> GovernancePlatformSummary:
         roles = spec["parameters"].get("roles", [])
         role_ids = [role["id"] for role in roles]
         if len(role_ids) != len(set(role_ids)):
-            raise GovernancePlatformError(
-                f"Duplicate governance role: {entry['id']}"
-            )
+            raise GovernancePlatformError(f"Duplicate governance role: {entry['id']}")
         policy_ids.append(entry["id"])
 
-    access_policy = _load_mapping(root / "governance" / "policies" / "access-control.yaml")
+    access_policy = _load_mapping(
+        root / "governance" / "policies" / "access-control.yaml"
+    )
     access_roles = {
         role["id"]: set(role["permissions"])
         for role in access_policy["spec"]["parameters"]["roles"]
     }
-    if "administrator" not in access_roles or "administer" not in access_roles["administrator"]:
+    if (
+        "administrator" not in access_roles
+        or "administer" not in access_roles["administrator"]
+    ):
         raise GovernancePlatformError("Access-control policy lacks administrator role")
     if access_roles.get("observer") != {"read"}:
         raise GovernancePlatformError("Observer role must remain read-only")
@@ -186,12 +189,16 @@ def validate_governance_platform(root: Path) -> GovernancePlatformSummary:
 
     backup_policy = _load_mapping(root / "governance" / "policies" / "backup.yaml")
     if any(rule["implemented"] for rule in backup_policy["spec"]["rules"]):
-        raise GovernancePlatformError("Backup policy cannot claim runtime implementation")
+        raise GovernancePlatformError(
+            "Backup policy cannot claim runtime implementation"
+        )
 
     spec = manifest["spec"]
     policies_enabled = any(entry["enabled"] for entry in registry["policies"])
     if spec["policies_enabled"] != policies_enabled:
-        raise GovernancePlatformError("Governance policy activation claim is inconsistent")
+        raise GovernancePlatformError(
+            "Governance policy activation claim is inconsistent"
+        )
     governance_enforcement = framework["spec"]["enforcement"]
     if spec["rbac_enforced"] != governance_enforcement["rbac_runtime"]:
         raise GovernancePlatformError("RBAC enforcement claim is inconsistent")

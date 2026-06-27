@@ -18,7 +18,7 @@ def copy_rag_contracts(target: Path) -> None:
 def test_repository_rag_contracts_are_valid() -> None:
     contracts = validate_rag_contracts(ROOT)
 
-    assert contracts.manifest_version == "0.1.0"
+    assert contracts.manifest_version == "0.9.2"
     assert contracts.engine_version == "1.0.0"
     assert contracts.contract_version == "1.0"
     assert contracts.lifecycle == "specified"
@@ -26,6 +26,21 @@ def test_repository_rag_contracts_are_valid() -> None:
     assert contracts.installable is False
     assert len(contracts.component_ids) == 9
     assert len(contracts.dependency_ids) == 6
+    assert contracts.runtime_capabilities == (
+        "citation-preservation",
+        "lexical-retrieval",
+    )
+
+
+def test_runtime_capability_partition_must_be_complete(tmp_path: Path) -> None:
+    copy_rag_contracts(tmp_path)
+    path = tmp_path / "platform" / "rag" / "local-runtime.yaml"
+    runtime = yaml.safe_load(path.read_text(encoding="utf-8"))
+    runtime["spec"]["deferred_capabilities"].remove("confidence-scoring")
+    path.write_text(yaml.safe_dump(runtime), encoding="utf-8")
+
+    with pytest.raises(RagContractError, match="partition is incomplete"):
+        validate_rag_contracts(tmp_path)
 
 
 def test_component_schema_rejects_unknown_fields(tmp_path: Path) -> None:

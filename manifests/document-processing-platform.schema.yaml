@@ -1,0 +1,29 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://jdgf.io/schemas/document-processing-platform.schema.yaml
+title: JDGF Document Processing Platform Manifest
+type: object
+additionalProperties: false
+required: [api_version, contract_version, kind, metadata, spec]
+properties:
+  api_version: {const: jdgf.io/v1alpha1}
+  contract_version: {const: "1.0"}
+  kind: {const: PlatformManifest}
+  metadata:
+    type: object
+    additionalProperties: false
+    required: [id, name, version]
+    properties:
+      id: {const: document-processing-platform}
+      name: {const: Document Processing Platform}
+      version: {type: string, pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$"}
+  spec:
+    type: object
+    additionalProperties: false
+    required: [lifecycle, installable, runtime_tested, engine, registry, persistence]
+    properties:
+      lifecycle: {enum: [active, deprecated]}
+      installable: {type: boolean}
+      runtime_tested: {type: boolean}
+      engine: {const: platform/document-processing/engine.yaml}
+      registry: {const: registry/document-processing.yaml}
+      persistence: {const: none}

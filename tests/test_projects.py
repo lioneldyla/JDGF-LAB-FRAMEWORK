@@ -110,7 +110,7 @@ def test_repository_registry_is_valid() -> None:
 
     assert [project.project_id for project in projects] == ["jdgf-framework"]
     assert projects[0].lifecycle == "active"
-    assert projects[0].version == "0.5.0"
+    assert projects[0].version == "0.10.0"
 
 
 def test_projects_platform_is_active_and_validated() -> None:

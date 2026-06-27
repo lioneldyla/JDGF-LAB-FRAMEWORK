@@ -71,9 +71,7 @@ def _required_mapping(value: Any, label: str, path: Path) -> dict[str, Any]:
     return value
 
 
-def _validate_document(
-    document: dict[str, Any], schema_path: Path, label: str
-) -> None:
+def _validate_document(document: dict[str, Any], schema_path: Path, label: str) -> None:
     """Validate a YAML document against its authoritative JSON Schema."""
 
     schema = _load_mapping(schema_path)
@@ -83,9 +81,9 @@ def _validate_document(
         raise RegistryError(f"Invalid schema in {schema_path}: {exc.message}") from exc
 
     errors = sorted(
-        Draft202012Validator(
-            schema, format_checker=FormatChecker()
-        ).iter_errors(document),
+        Draft202012Validator(schema, format_checker=FormatChecker()).iter_errors(
+            document
+        ),
         key=lambda error: tuple(str(part) for part in error.absolute_path),
     )
     if errors:
@@ -114,16 +112,16 @@ def validate_project_manifest(
     owner = spec.get("owner")
     governance = _required_mapping(spec.get("governance"), "governance", path)
     capabilities = tuple(spec.get("capabilities", ()))
-    documentation = _required_mapping(
-        spec.get("documentation"), "documentation", path
-    )
+    documentation = _required_mapping(spec.get("documentation"), "documentation", path)
 
     if not isinstance(project_id, str) or not PROJECT_ID.fullmatch(project_id):
         raise RegistryError(f"{path}: metadata.id is not a valid project id")
     if not isinstance(name, str) or not name.strip():
         raise RegistryError(f"{path}: metadata.name is required")
     if lifecycle not in LIFECYCLES:
-        raise RegistryError(f"{path}: spec.lifecycle must be one of {sorted(LIFECYCLES)}")
+        raise RegistryError(
+            f"{path}: spec.lifecycle must be one of {sorted(LIFECYCLES)}"
+        )
     if not isinstance(owner, str) or not owner.strip():
         raise RegistryError(f"{path}: spec.owner is required")
 
@@ -161,7 +159,9 @@ def load_project_registry(root: Path | None = None) -> list[ProjectRecord]:
         project_id = entry.get("id")
         relative_manifest = entry.get("manifest")
         if not isinstance(relative_manifest, str) or not relative_manifest:
-            raise RegistryError(f"{registry_path}: projects[{index}].manifest is required")
+            raise RegistryError(
+                f"{registry_path}: projects[{index}].manifest is required"
+            )
         manifest_path = (root / relative_manifest).resolve()
         if not manifest_path.is_relative_to(root):
             raise RegistryError(f"{registry_path}: manifest path escapes repository")
@@ -224,7 +224,9 @@ def validate_projects_platform(root: Path) -> ProjectsPlatformSummary:
     known_capabilities = {module["id"] for module in module_manifest["modules"]}
     for record in records:
         if record.lifecycle == "template":
-            raise RegistryError(f"Template project cannot be registered: {record.project_id}")
+            raise RegistryError(
+                f"Template project cannot be registered: {record.project_id}"
+            )
         if record.lifecycle == "active" and not record.human_approval_required:
             raise RegistryError(
                 f"Active project requires human approval: {record.project_id}"

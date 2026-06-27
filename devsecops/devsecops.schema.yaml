@@ -1,0 +1,74 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://jdgf.io/schemas/devsecops.schema.yaml
+title: JDGF DevSecOps Platform
+type: object
+additionalProperties: false
+required: [api_version, contract_version, kind, metadata, spec]
+properties:
+  api_version: {const: jdgf.io/v1alpha1}
+  contract_version: {const: "1.0"}
+  kind: {const: DevSecOpsConfig}
+  metadata:
+    type: object
+    additionalProperties: false
+    required: [id, version, owner, lifecycle]
+    properties:
+      id: {const: jdgf-devsecops}
+      version:
+        type: string
+        pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+      owner: {type: string, minLength: 1}
+      lifecycle: {enum: [specified, active, deprecated]}
+  spec:
+    type: object
+    additionalProperties: false
+    required: [repository, ci, security, packaging, release, deployment]
+    properties:
+      repository:
+        type: object
+        additionalProperties: false
+        required: [provider, minimum_permissions, actions_pinned]
+        properties:
+          provider: {const: github}
+          minimum_permissions: {const: contents-read}
+          actions_pinned: {const: true}
+      ci:
+        type: object
+        additionalProperties: false
+        required: [configured, locked_dependencies, lint, tests]
+        properties:
+          configured: {const: true}
+          locked_dependencies: {const: true}
+          lint: {const: true}
+          tests: {const: true}
+      security:
+        type: object
+        additionalProperties: false
+        required: [dependency_audit, secret_heuristics, workflow_policy]
+        properties:
+          dependency_audit: {const: true}
+          secret_heuristics: {const: true}
+          workflow_policy: {const: true}
+      packaging:
+        type: object
+        additionalProperties: false
+        required: [wheel, source_distribution, checksums]
+        properties:
+          wheel: {const: true}
+          source_distribution: {const: true}
+          checksums: {const: sha256}
+      release:
+        type: object
+        additionalProperties: false
+        required: [candidate_build, publishing, signing]
+        properties:
+          candidate_build: {const: true}
+          publishing: {const: false}
+          signing: {const: false}
+      deployment:
+        type: object
+        additionalProperties: false
+        required: [staging, production]
+        properties:
+          staging: {const: false}
+          production: {const: false}
