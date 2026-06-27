@@ -1,0 +1,23 @@
+api_version: jdgf.io/v1alpha1
+kind: Framework
+metadata:
+  name: JDGF Lab Framework
+  version: 0.1.0
+spec:
+  status: foundation
+  active_capabilities:
+    - project-registry
+    - manifest-validation
+  deferred_platforms:
+    - agents
+    - orchestration
+    - knowledge
+    - governance
+    - infrastructure
+    - monitoring
+    - sdk
+    - runtime
+    - applications
+    - portal
+    - backend
+    - release

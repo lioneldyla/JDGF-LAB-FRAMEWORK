@@ -1,0 +1,5 @@
+api_version: jdgf.io/v1alpha1
+kind: ProjectRegistry
+projects:
+  - id: jdgf-framework
+    manifest: projects/JDGF/project.yaml

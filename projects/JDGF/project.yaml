@@ -1,0 +1,14 @@
+api_version: jdgf.io/v1alpha1
+kind: Project
+metadata:
+  id: jdgf-framework
+  name: JDGF Lab Framework
+  description: Independent control framework for governed AI-assisted projects.
+spec:
+  lifecycle: active
+  owner: JDGF Lab
+  governance:
+    human_approval_required: true
+  capabilities:
+    - project-registry
+    - manifest-validation

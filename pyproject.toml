@@ -1,0 +1,26 @@
+[build-system]
+requires = ["hatchling==1.28.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "jdgf-lab-framework"
+version = "0.1.0"
+description = "Governed, manifest-driven foundation for AI-assisted projects"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "jsonschema>=4.23,<5",
+  "PyYAML>=6.0,<7",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<9"]
+
+[project.scripts]
+jdgf = "jdgf_framework.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/jdgf_framework"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]
