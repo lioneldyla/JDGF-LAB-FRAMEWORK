@@ -1,0 +1,24 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: GovernancePolicy
+metadata:
+  id: data-governance
+  version: 1.0.0
+  owner: JDGF Lab Framework contributors
+  status: review
+spec:
+  domain: data
+  rules:
+    - id: metadata-first
+      statement: Knowledge sources require schema-valid metadata and provenance.
+      enforcement: test
+      implemented: true
+      evidence: [knowledge/metadata.schema.yaml, tests/test_knowledge_platform.py]
+    - id: recovery-evidence
+      statement: Persistent data services require tested restoration before activation.
+      enforcement: test
+      implemented: true
+      evidence: [src/jdgf_framework/data_platform.py, tests/test_data_platform.py]
+  parameters:
+    classifications: [public, internal, confidential, restricted]
+    controls: [metadata, lineage, quality, stewardship, retention, deletion]

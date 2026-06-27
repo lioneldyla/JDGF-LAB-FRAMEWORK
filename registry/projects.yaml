@@ -1,5 +1,11 @@
 api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
 kind: ProjectRegistry
+metadata:
+  version: 0.3.0
+  lifecycle: active
 projects:
   - id: jdgf-framework
+    version: 0.5.0
+    lifecycle: active
     manifest: projects/JDGF/project.yaml

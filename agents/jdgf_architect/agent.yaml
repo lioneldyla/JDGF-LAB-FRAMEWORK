@@ -1,0 +1,34 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: AgentProfile
+metadata:
+  id: jdgf-architect
+  name: JDGF Architect
+  description: Reviews framework architecture, contracts and lifecycle boundaries.
+  version: 1.0.0
+  owner: JDGF Lab Framework contributors
+  lifecycle: specified
+spec:
+  enabled: false
+  purpose: Produce supervised architecture analysis without changing repositories.
+  route_ref: reasoning
+  capabilities: [planning, reasoning, documentation]
+  tools:
+    - {id: filesystem, enabled: false, access: read}
+    - {id: git, enabled: false, access: read}
+  memory: &disabled_memory
+    short_term: {enabled: false, adapter: redis}
+    long_term: {enabled: false, adapter: null}
+    vector_store: {enabled: false, adapter: qdrant}
+    graph_store: {enabled: false, adapter: neo4j}
+  permissions: &read_only_permissions
+    read: [repository, contracts]
+    write: []
+    execute: []
+    delete: false
+    external_actions: false
+  execution: &supervised_execution
+    mode: supervised
+    unattended: false
+    network_access: false
+    human_approval_required: true

@@ -1,0 +1,20 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: Workflow
+metadata:
+  id: framework
+  name: Framework Change Review
+  version: 1.0.0
+  lifecycle: specified
+spec:
+  enabled: false
+  mode: sequential
+  trigger: manual
+  side_effects: false
+  human_approval_required: true
+  steps:
+    - {id: plan, handler: agent:jdgf-architect, dependencies: []}
+    - {id: design, handler: agent:jdgf-architect, dependencies: [plan]}
+    - {id: implement, handler: agent:coding-agent, dependencies: [design]}
+    - {id: validate, handler: internal:contract-validation, dependencies: [implement]}
+    - {id: approve, handler: human:review-gate, dependencies: [validate]}

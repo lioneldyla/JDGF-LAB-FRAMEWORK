@@ -1,0 +1,23 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: GovernancePolicy
+metadata:
+  id: release
+  version: 1.0.0
+  owner: JDGF Lab Framework contributors
+  status: review
+spec:
+  domain: release
+  rules:
+    - id: release-validation
+      statement: A release requires locked dependencies and passing verification.
+      enforcement: test
+      implemented: true
+      evidence: [uv.lock, verify.sh]
+    - id: automated-deployment
+      statement: Automated deployment requires a separately reviewed delivery pipeline.
+      enforcement: runtime
+      implemented: false
+      evidence: []
+  parameters:
+    release_stages: [planning, implementation, testing, validation, approval, publication]

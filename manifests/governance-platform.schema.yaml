@@ -1,0 +1,49 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://jdgf.io/schemas/governance-platform.schema.yaml
+title: JDGF Governance Platform Manifest
+type: object
+additionalProperties: false
+required: [api_version, contract_version, kind, metadata, spec]
+properties:
+  api_version: {const: jdgf.io/v1alpha1}
+  contract_version: {const: "1.0"}
+  kind: {const: PlatformManifest}
+  metadata:
+    type: object
+    additionalProperties: false
+    required: [id, name, version]
+    properties:
+      id: {const: governance-platform}
+      name: {const: Governance Platform}
+      version:
+        type: string
+        pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+  spec:
+    type: object
+    additionalProperties: false
+    required:
+      - lifecycle
+      - installable
+      - runtime_tested
+      - registry
+      - framework
+      - components
+      - policies_enabled
+      - rbac_enforced
+      - audit_enabled
+      - enforcement_mode
+    properties:
+      lifecycle: {enum: [specified, active, deprecated]}
+      installable: {type: boolean}
+      runtime_tested: {type: boolean}
+      registry: {const: registry/governance.yaml}
+      framework: {const: governance/governance.yaml}
+      components:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items: {enum: [policies, access-control, ai-governance, data-governance, release, quality, audit]}
+      policies_enabled: {const: false}
+      rbac_enforced: {const: false}
+      audit_enabled: {const: false}
+      enforcement_mode: {const: validation-only}

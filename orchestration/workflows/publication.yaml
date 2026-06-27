@@ -1,0 +1,19 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: Workflow
+metadata:
+  id: publication
+  name: Publication Draft Review
+  version: 1.0.0
+  lifecycle: specified
+spec:
+  enabled: false
+  mode: sequential
+  trigger: manual
+  side_effects: false
+  human_approval_required: true
+  steps:
+    - {id: outline, handler: agent:research-architect, dependencies: []}
+    - {id: draft, handler: agent:publication-agent, dependencies: [outline]}
+    - {id: verify, handler: internal:citation-validation, dependencies: [draft]}
+    - {id: approve, handler: human:publication-gate, dependencies: [verify]}

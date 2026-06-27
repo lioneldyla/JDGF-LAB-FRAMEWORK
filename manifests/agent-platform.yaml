@@ -1,0 +1,16 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: PlatformManifest
+metadata:
+  id: agent-platform
+  name: Agent Platform
+  version: 0.3.0
+spec:
+  lifecycle: specified
+  installable: false
+  runtime_tested: false
+  registry: registry/agents.yaml
+  schema: agents/agent.schema.yaml
+  components: [profiles, registry, permissions, routing, memory]
+  orchestration_enabled: false
+  unattended_execution: false

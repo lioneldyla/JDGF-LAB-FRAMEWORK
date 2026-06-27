@@ -1,0 +1,20 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: Workflow
+metadata:
+  id: rag
+  name: Governed RAG Review
+  version: 1.0.0
+  lifecycle: specified
+spec:
+  enabled: false
+  mode: sequential
+  trigger: manual
+  side_effects: false
+  human_approval_required: true
+  steps:
+    - {id: vectors, handler: service:qdrant, dependencies: []}
+    - {id: graph, handler: service:neo4j, dependencies: [vectors]}
+    - {id: synthesis, handler: service:litellm, dependencies: [graph]}
+    - {id: citations, handler: internal:citation-validation, dependencies: [synthesis]}
+    - {id: approve, handler: human:answer-gate, dependencies: [citations]}

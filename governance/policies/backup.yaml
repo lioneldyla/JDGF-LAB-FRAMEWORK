@@ -1,0 +1,23 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: GovernancePolicy
+metadata:
+  id: backup
+  version: 1.0.0
+  owner: JDGF Lab Framework contributors
+  status: draft
+spec:
+  domain: operations
+  rules:
+    - id: encrypted-backups
+      statement: Persistent production data requires encrypted backups.
+      enforcement: runtime
+      implemented: false
+      evidence: []
+    - id: tested-restoration
+      statement: Restoration must be tested before a data platform becomes installable.
+      enforcement: runtime
+      implemented: false
+      evidence: []
+  parameters:
+    proposed_retention_days: {daily: 30, weekly: 84, monthly: 730}

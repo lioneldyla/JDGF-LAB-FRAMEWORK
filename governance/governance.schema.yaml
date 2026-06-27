@@ -1,0 +1,51 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://jdgf.io/schemas/governance.schema.yaml
+title: JDGF Governance Framework
+type: object
+additionalProperties: false
+required: [api_version, contract_version, kind, metadata, spec]
+properties:
+  api_version: {const: jdgf.io/v1alpha1}
+  contract_version: {const: "1.0"}
+  kind: {const: GovernanceFramework}
+  metadata:
+    type: object
+    additionalProperties: false
+    required: [id, version, owner, lifecycle]
+    properties:
+      id: {const: jdgf-governance}
+      version:
+        type: string
+        pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+      owner: {type: string, minLength: 1}
+      lifecycle: {enum: [specified, active, deprecated]}
+  spec:
+    type: object
+    additionalProperties: false
+    required: [domains, policy_lifecycle, decision_model, enforcement]
+    properties:
+      domains:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          enum: [architecture, security, data, ai, infrastructure, projects, documentation, operations, compliance, quality, release]
+      policy_lifecycle:
+        type: array
+        uniqueItems: true
+        const: [draft, review, approved, deprecated, archived]
+      decision_model:
+        type: object
+        additionalProperties: false
+        required: [human_approval_required, autonomous_approval]
+        properties:
+          human_approval_required: {const: true}
+          autonomous_approval: {const: false}
+      enforcement:
+        type: object
+        additionalProperties: false
+        required: [mode, audit_sink, rbac_runtime]
+        properties:
+          mode: {const: validation-only}
+          audit_sink: {type: "null"}
+          rbac_runtime: {const: false}

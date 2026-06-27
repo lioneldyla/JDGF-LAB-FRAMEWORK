@@ -2,7 +2,7 @@ api_version: jdgf.io/v1alpha1
 kind: Framework
 metadata:
   name: JDGF Lab Framework
-  version: 0.3.0
+  version: 0.5.0
   codename: Foundation
 spec:
   status: foundation
@@ -18,10 +18,10 @@ spec:
     - monitoring
     - automation
     - knowledge-platform-contracts
+    - agent-platform-contracts
+    - orchestration-platform-contracts
+    - governance-platform-contracts
   deferred_platforms:
-    - agents
-    - orchestration
-    - governance
     - sdk
     - runtime
     - applications

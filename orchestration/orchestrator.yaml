@@ -1,0 +1,34 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: Orchestrator
+metadata:
+  id: master-orchestrator
+  version: 1.0.0
+  owner: JDGF Lab Framework contributors
+  description: Supervised workflow coordination contract without an execution runtime.
+  lifecycle: specified
+spec:
+  enabled: false
+  router: orchestration/router.yaml
+  workflow_registry: registry/workflows.yaml
+  roles:
+    planner: {enabled: false, agent_ref: jdgf-architect}
+    executor: {enabled: false, agent_ref: coding-agent}
+    reviewer: {enabled: false, agent_ref: jdgf-architect}
+    publisher: {enabled: false, agent_ref: publication-agent}
+  memory:
+    short_term: false
+    long_term: false
+    vector: false
+    graph: false
+  audit:
+    required: true
+    enabled: false
+    sink: null
+  monitoring:
+    enabled: false
+  execution:
+    unattended: false
+    recursive: false
+    max_concurrency: 1
+    human_approval_required: true

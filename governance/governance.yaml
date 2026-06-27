@@ -1,0 +1,18 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: GovernanceFramework
+metadata:
+  id: jdgf-governance
+  version: 1.0.0
+  owner: JDGF Lab Framework contributors
+  lifecycle: specified
+spec:
+  domains: [architecture, security, data, ai, infrastructure, projects, documentation, operations, compliance, quality, release]
+  policy_lifecycle: [draft, review, approved, deprecated, archived]
+  decision_model:
+    human_approval_required: true
+    autonomous_approval: false
+  enforcement:
+    mode: validation-only
+    audit_sink: null
+    rbac_runtime: false

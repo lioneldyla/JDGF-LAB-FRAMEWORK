@@ -1,0 +1,23 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: GovernancePolicy
+metadata:
+  id: versioning
+  version: 1.0.0
+  owner: JDGF Lab Framework contributors
+  status: review
+spec:
+  domain: release
+  rules:
+    - id: semantic-versioning
+      statement: Framework and contract releases use semantic versions.
+      enforcement: schema
+      implemented: true
+      evidence: [manifests/bootstrap.schema.yaml, projects/project.schema.yaml]
+    - id: signed-releases
+      statement: Stable release artifacts should be signed and verified.
+      enforcement: runtime
+      implemented: false
+      evidence: []
+  parameters:
+    controls: [semantic-versioning, changelog, immutable-tags, signed-artifacts]

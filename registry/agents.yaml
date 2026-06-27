@@ -1,0 +1,43 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: AgentRegistry
+metadata:
+  version: 0.3.0
+  lifecycle: specified
+agents:
+  - id: jdgf-architect
+    version: 1.0.0
+    lifecycle: specified
+    enabled: false
+    route_ref: reasoning
+    manifest: agents/jdgf_architect/agent.yaml
+  - id: research-architect
+    version: 1.0.0
+    lifecycle: specified
+    enabled: false
+    route_ref: reasoning
+    manifest: agents/research_architect/agent.yaml
+  - id: coding-agent
+    version: 1.0.0
+    lifecycle: specified
+    enabled: false
+    route_ref: coding
+    manifest: agents/coding_agent/agent.yaml
+  - id: publication-agent
+    version: 1.0.0
+    lifecycle: specified
+    enabled: false
+    route_ref: default-chat
+    manifest: agents/publication_agent/agent.yaml
+  - id: benchmark-agent
+    version: 1.0.0
+    lifecycle: specified
+    enabled: false
+    route_ref: reasoning
+    manifest: agents/benchmark_agent/agent.yaml
+  - id: data-governance-agent
+    version: 1.0.0
+    lifecycle: specified
+    enabled: false
+    route_ref: reasoning
+    manifest: agents/data_governance_agent/agent.yaml

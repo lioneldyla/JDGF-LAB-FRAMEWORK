@@ -1,0 +1,29 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: GovernancePolicy
+metadata:
+  id: ai-governance
+  version: 1.0.0
+  owner: JDGF Lab Framework contributors
+  status: review
+spec:
+  domain: ai
+  rules:
+    - id: human-oversight
+      statement: Agent and orchestration actions require human approval.
+      enforcement: test
+      implemented: true
+      evidence: [src/jdgf_framework/agent_platform.py, src/jdgf_framework/orchestration_platform.py]
+    - id: no-unattended-execution
+      statement: Unattended agent execution is prohibited by default.
+      enforcement: schema
+      implemented: true
+      evidence: [agents/agent.schema.yaml, orchestration/orchestrator.schema.yaml]
+    - id: runtime-monitoring
+      statement: Active AI runtimes require operational monitoring and audit evidence.
+      enforcement: runtime
+      implemented: false
+      evidence: []
+  parameters:
+    risk_levels: [low, medium, high, prohibited]
+    controls: [explainability, reproducibility, citations, approval, monitoring]

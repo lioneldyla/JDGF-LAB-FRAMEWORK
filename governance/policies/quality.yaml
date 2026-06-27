@@ -1,0 +1,23 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: GovernancePolicy
+metadata:
+  id: quality
+  version: 1.0.0
+  owner: JDGF Lab Framework contributors
+  status: review
+spec:
+  domain: quality
+  rules:
+    - id: deterministic-validation
+      statement: Contract validation and adversarial tests must pass before release.
+      enforcement: test
+      implemented: true
+      evidence: [verify.sh, tests]
+    - id: clean-diff
+      statement: Versioned changes must pass whitespace and generated-file checks.
+      enforcement: manual
+      implemented: false
+      evidence: []
+  parameters:
+    quality_checks: [contract-validation, adversarial-tests, dependency-check, diff-check]

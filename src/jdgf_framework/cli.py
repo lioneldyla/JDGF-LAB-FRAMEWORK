@@ -7,14 +7,25 @@ from pathlib import Path
 import sys
 
 from .ai_platform import AiPlatformError, validate_ai_platform
+from .agent_platform import AgentPlatformError, validate_agent_platform
 from .automation_platform import (
     AutomationPlatformError,
     validate_automation_platform,
 )
 from .catalogs import CatalogError, validate_bootstrap_catalogs
 from .data_platform import DataPlatformError, validate_data_platform
+from .governance_platform import GovernancePlatformError, validate_governance_platform
 from .knowledge_platform import KnowledgePlatformError, validate_knowledge_platform
-from .projects import RegistryError, load_project_registry, repository_root
+from .orchestration_platform import (
+    OrchestrationPlatformError,
+    validate_orchestration_platform,
+)
+from .projects import (
+    RegistryError,
+    load_project_registry,
+    repository_root,
+    validate_projects_platform,
+)
 from .rag import RagContractError, validate_rag_contracts
 
 
@@ -46,12 +57,29 @@ def main(argv: list[str] | None = None) -> int:
         knowledge_platform = (
             validate_knowledge_platform(root) if args.command == "validate" else None
         )
+        projects_platform = (
+            validate_projects_platform(root) if args.command == "validate" else None
+        )
+        agent_platform = (
+            validate_agent_platform(root) if args.command == "validate" else None
+        )
+        orchestration_platform = (
+            validate_orchestration_platform(root)
+            if args.command == "validate"
+            else None
+        )
+        governance_platform = (
+            validate_governance_platform(root) if args.command == "validate" else None
+        )
     except (
         AiPlatformError,
+        AgentPlatformError,
         AutomationPlatformError,
         CatalogError,
         DataPlatformError,
+        GovernancePlatformError,
         KnowledgePlatformError,
+        OrchestrationPlatformError,
         RegistryError,
         RagContractError,
     ) as exc:
@@ -65,6 +93,10 @@ def main(argv: list[str] | None = None) -> int:
         assert data_platform is not None
         assert automation_platform is not None
         assert knowledge_platform is not None
+        assert projects_platform is not None
+        assert agent_platform is not None
+        assert orchestration_platform is not None
+        assert governance_platform is not None
         print(
             "JDGF validation passed: "
             f"{len(projects)} project(s), "
@@ -76,7 +108,11 @@ def main(argv: list[str] | None = None) -> int:
             f"{len(automation_platform.service_ids)} automation/monitoring "
             "service contract(s), "
             f"{len(knowledge_platform.collection_ids)} knowledge collection "
-            "contract(s)."
+            "contract(s), "
+            f"{len(projects_platform.project_ids)} registered project contract(s), "
+            f"{len(agent_platform.agent_ids)} agent profile contract(s), "
+            f"{len(orchestration_platform.workflow_ids)} workflow contract(s), "
+            f"{len(governance_platform.policy_ids)} governance policy contract(s)."
         )
     else:
         if not projects:

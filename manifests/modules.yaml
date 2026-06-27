@@ -17,6 +17,12 @@ modules:
     lifecycle: specified
   - id: knowledge-platform-contracts
     lifecycle: specified
+  - id: agent-platform-contracts
+    lifecycle: specified
+  - id: orchestration-platform-contracts
+    lifecycle: specified
+  - id: governance-platform-contracts
+    lifecycle: specified
   - id: infrastructure
     lifecycle: specified
   - id: model-adapters

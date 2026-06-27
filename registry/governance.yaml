@@ -1,0 +1,17 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: GovernanceRegistry
+metadata:
+  version: 0.5.0
+  lifecycle: specified
+framework: governance/governance.yaml
+policies:
+  - {id: access-control, version: 1.0.0, status: review, enabled: false, manifest: governance/policies/access-control.yaml}
+  - {id: data-governance, version: 1.0.0, status: review, enabled: false, manifest: governance/policies/data-governance.yaml}
+  - {id: ai-governance, version: 1.0.0, status: review, enabled: false, manifest: governance/policies/ai-governance.yaml}
+  - {id: security, version: 1.0.0, status: review, enabled: false, manifest: governance/policies/security.yaml}
+  - {id: versioning, version: 1.0.0, status: review, enabled: false, manifest: governance/policies/versioning.yaml}
+  - {id: documentation, version: 1.0.0, status: review, enabled: false, manifest: governance/policies/documentation.yaml}
+  - {id: quality, version: 1.0.0, status: review, enabled: false, manifest: governance/policies/quality.yaml}
+  - {id: backup, version: 1.0.0, status: draft, enabled: false, manifest: governance/policies/backup.yaml}
+  - {id: release, version: 1.0.0, status: review, enabled: false, manifest: governance/policies/release.yaml}

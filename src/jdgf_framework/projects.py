@@ -7,7 +7,7 @@ from pathlib import Path
 import re
 from typing import Any
 
-from jsonschema import Draft202012Validator
+from jsonschema import Draft202012Validator, FormatChecker
 from jsonschema.exceptions import SchemaError
 import yaml
 
@@ -20,9 +20,21 @@ LIFECYCLES = {"proposed", "active", "paused", "retired", "template"}
 class ProjectRecord:
     project_id: str
     name: str
+    version: str
     lifecycle: str
     owner: str
+    human_approval_required: bool
+    capabilities: tuple[str, ...]
+    documentation: tuple[str, ...]
     manifest_path: Path
+
+
+@dataclass(frozen=True)
+class ProjectsPlatformSummary:
+    version: str
+    lifecycle: str
+    installable: bool
+    project_ids: tuple[str, ...]
 
 
 class RegistryError(ValueError):
@@ -71,7 +83,9 @@ def _validate_document(
         raise RegistryError(f"Invalid schema in {schema_path}: {exc.message}") from exc
 
     errors = sorted(
-        Draft202012Validator(schema).iter_errors(document),
+        Draft202012Validator(
+            schema, format_checker=FormatChecker()
+        ).iter_errors(document),
         key=lambda error: tuple(str(part) for part in error.absolute_path),
     )
     if errors:
@@ -95,8 +109,14 @@ def validate_project_manifest(
     spec = _required_mapping(document.get("spec"), "spec", path)
     project_id = metadata.get("id")
     name = metadata.get("name")
+    version = metadata.get("version")
     lifecycle = spec.get("lifecycle")
     owner = spec.get("owner")
+    governance = _required_mapping(spec.get("governance"), "governance", path)
+    capabilities = tuple(spec.get("capabilities", ()))
+    documentation = _required_mapping(
+        spec.get("documentation"), "documentation", path
+    )
 
     if not isinstance(project_id, str) or not PROJECT_ID.fullmatch(project_id):
         raise RegistryError(f"{path}: metadata.id is not a valid project id")
@@ -107,7 +127,17 @@ def validate_project_manifest(
     if not isinstance(owner, str) or not owner.strip():
         raise RegistryError(f"{path}: spec.owner is required")
 
-    return ProjectRecord(project_id, name.strip(), lifecycle, owner.strip(), path)
+    return ProjectRecord(
+        project_id=project_id,
+        name=name.strip(),
+        version=version,
+        lifecycle=lifecycle,
+        owner=owner.strip(),
+        human_approval_required=governance["human_approval_required"],
+        capabilities=capabilities,
+        documentation=tuple(documentation.values()),
+        manifest_path=path,
+    )
 
 
 def load_project_registry(root: Path | None = None) -> list[ProjectRecord]:
@@ -147,8 +177,86 @@ def load_project_registry(root: Path | None = None) -> list[ProjectRecord]:
             raise RegistryError(
                 f"{registry_path}: id '{project_id}' does not match '{record.project_id}'"
             )
+        if entry["version"] != record.version:
+            raise RegistryError(
+                f"{registry_path}: version for '{project_id}' does not match its manifest"
+            )
+        if entry["lifecycle"] != record.lifecycle:
+            raise RegistryError(
+                f"{registry_path}: lifecycle for '{project_id}' does not match its manifest"
+            )
         if record.project_id in seen:
             raise RegistryError(f"{registry_path}: duplicate id '{record.project_id}'")
         seen.add(record.project_id)
         records.append(record)
     return records
+
+
+def validate_projects_platform(root: Path) -> ProjectsPlatformSummary:
+    """Validate the active Projects Platform and its repository boundaries."""
+
+    root = root.resolve()
+    manifest_path = root / "manifests" / "projects-platform.yaml"
+    manifest = _load_mapping(manifest_path)
+    _validate_document(
+        manifest,
+        root / "manifests" / "projects-platform.schema.yaml",
+        str(manifest_path),
+    )
+    registry = _load_mapping(root / "registry" / "projects.yaml")
+    records = load_project_registry(root)
+
+    version = manifest["metadata"]["version"]
+    if registry["metadata"]["version"] != version:
+        raise RegistryError("Projects Platform and project registry versions differ")
+
+    expected_components = {
+        "project-registry",
+        "project-schema",
+        "governance",
+        "lifecycle",
+        "documentation",
+    }
+    if set(manifest["spec"]["components"]) != expected_components:
+        raise RegistryError("Projects Platform component set is incomplete")
+
+    module_manifest = _load_mapping(root / "manifests" / "modules.yaml")
+    known_capabilities = {module["id"] for module in module_manifest["modules"]}
+    for record in records:
+        if record.lifecycle == "template":
+            raise RegistryError(f"Template project cannot be registered: {record.project_id}")
+        if record.lifecycle == "active" and not record.human_approval_required:
+            raise RegistryError(
+                f"Active project requires human approval: {record.project_id}"
+            )
+        unknown = set(record.capabilities) - known_capabilities
+        if unknown:
+            raise RegistryError(
+                f"Project {record.project_id} references unknown capabilities: "
+                + ", ".join(sorted(unknown))
+            )
+        for relative in record.documentation:
+            path = (root / relative).resolve()
+            if not path.is_relative_to(root):
+                raise RegistryError(
+                    f"Project documentation escapes repository: {record.project_id}"
+                )
+            if not path.is_file():
+                raise RegistryError(
+                    f"Project documentation is missing for {record.project_id}: {relative}"
+                )
+
+    spec = manifest["spec"]
+    if spec["installable"] and not (
+        spec["lifecycle"] == "active" and spec["runtime_tested"]
+    ):
+        raise RegistryError(
+            "Projects Platform cannot be installable before activation and tests"
+        )
+
+    return ProjectsPlatformSummary(
+        version=version,
+        lifecycle=spec["lifecycle"],
+        installable=spec["installable"],
+        project_ids=tuple(record.project_id for record in records),
+    )

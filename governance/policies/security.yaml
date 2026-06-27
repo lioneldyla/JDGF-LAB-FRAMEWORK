@@ -1,0 +1,28 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: GovernancePolicy
+metadata:
+  id: security
+  version: 1.0.0
+  owner: JDGF Lab Framework contributors
+  status: review
+spec:
+  domain: security
+  rules:
+    - id: no-committed-secrets
+      statement: Secrets and populated environment files must not be committed.
+      enforcement: test
+      implemented: true
+      evidence: [.gitignore, tests/test_docker_platform.py]
+    - id: local-service-boundary
+      statement: Optional service ports bind to loopback by default.
+      enforcement: test
+      implemented: true
+      evidence: [tests/test_docker_platform.py, tests/test_automation_platform.py]
+    - id: runtime-encryption
+      statement: Production data requires verified encryption in transit and at rest.
+      enforcement: runtime
+      implemented: false
+      evidence: []
+  parameters:
+    controls: [secret-isolation, authentication, encryption, audit, vulnerability-management]

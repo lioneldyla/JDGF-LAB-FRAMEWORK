@@ -1,0 +1,16 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: OrchestrationRouter
+metadata:
+  id: default-router
+  version: 1.0.0
+  lifecycle: specified
+routes:
+  - {intent: reasoning, route_ref: reasoning, enabled: false}
+  - {intent: coding, route_ref: coding, enabled: false}
+  - {intent: publication, route_ref: default-chat, enabled: false}
+  - {intent: governance, route_ref: reasoning, enabled: false}
+  - {intent: benchmark, route_ref: reasoning, enabled: false}
+fallback:
+  enabled: false
+  route_ref: default-chat

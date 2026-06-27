@@ -1,7 +1,30 @@
 # Changelog
 
+## 0.5.0 - 2026-06-27
+
+- Added nine strict governance policies with lifecycle, enforcement mode,
+  implementation state and repository-bound evidence.
+- Added validation that rejects unsupported runtime, RBAC, audit, backup,
+  encryption and release claims.
+- Kept every policy disabled and the Governance Platform non-installable until
+  real enforcement adapters and an authorized approval process exist.
+
+## 0.4.0 - 2026-06-27
+
+- Added a strict Orchestration Platform foundation with one disabled
+  orchestrator, alias-based routing and five supervised workflow contracts.
+- Enforced ordered dependencies, known agent/service references, mandatory
+  human gates, no side effects and no runtime activation claims.
+- Kept recursion, parallel execution, memory, audit persistence and autonomous
+  coordination unavailable until a sandboxed engine is implemented and tested.
+
 ## 0.3.0 - 2026-06-27
 
+- Added six disabled Agent Platform profiles with strict routing, tool, memory,
+  permission and supervised-execution contracts; no runtime is claimed.
+- Expanded the active Projects Platform with strict identity, version,
+  governance, architecture, lifecycle and documentation contracts while
+  preserving external project independence.
 - Added a corpus-neutral Knowledge Platform foundation with strict metadata,
   ontology, collection, indexing, graph, vector-profile and pipeline contracts.
 - Added cross-artifact validation, repository-bound source metadata and

@@ -1,0 +1,18 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: PlatformManifest
+metadata:
+  id: governance-platform
+  name: Governance Platform
+  version: 0.5.0
+spec:
+  lifecycle: specified
+  installable: false
+  runtime_tested: false
+  registry: registry/governance.yaml
+  framework: governance/governance.yaml
+  components: [policies, access-control, ai-governance, data-governance, release, quality, audit]
+  policies_enabled: false
+  rbac_enforced: false
+  audit_enabled: false
+  enforcement_mode: validation-only

@@ -6,7 +6,7 @@ active.
 
 ## Foundation — active
 
-- project and registry JSON Schemas;
+- project and registry JSON Schemas with governance and lifecycle checks;
 - deterministic project discovery;
 - repository-bound manifest resolution;
 - local validation CLI and tests.
@@ -19,9 +19,18 @@ active.
 
 ## Capability contracts — planned
 
-- agent and tool capability declarations;
 - workflow and event contracts;
 - knowledge-source and data-governance contracts.
+
+Agent and tool capability declarations are now specified with all execution
+disabled. A sandboxed agent runtime remains planned.
+
+Orchestration routing and workflow contracts are now specified. The sandboxed
+engine, durable audit trail, retries and multi-agent execution remain deferred.
+
+Governance policies and evidence checks are now specified. Runtime RBAC, audit,
+encryption verification, backups, compliance mapping and release signing remain
+deferred.
 
 Advanced RAG component contracts are now specified. Runtime retrieval,
 generation, memory and graph adapters remain deferred.

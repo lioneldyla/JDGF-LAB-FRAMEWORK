@@ -1,0 +1,12 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: WorkflowRegistry
+metadata:
+  version: 0.4.0
+  lifecycle: specified
+workflows:
+  - {id: research, version: 1.0.0, lifecycle: specified, enabled: false, manifest: orchestration/workflows/research.yaml}
+  - {id: framework, version: 1.0.0, lifecycle: specified, enabled: false, manifest: orchestration/workflows/framework.yaml}
+  - {id: publication, version: 1.0.0, lifecycle: specified, enabled: false, manifest: orchestration/workflows/publication.yaml}
+  - {id: rag, version: 1.0.0, lifecycle: specified, enabled: false, manifest: orchestration/workflows/rag.yaml}
+  - {id: project, version: 1.0.0, lifecycle: specified, enabled: false, manifest: orchestration/workflows/project.yaml}

@@ -1,0 +1,17 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: PlatformManifest
+metadata:
+  id: orchestration-platform
+  name: Orchestration Platform
+  version: 0.4.0
+spec:
+  lifecycle: specified
+  installable: false
+  runtime_tested: false
+  orchestrator_registry: registry/orchestrators.yaml
+  workflow_registry: registry/workflows.yaml
+  router: orchestration/router.yaml
+  components: [orchestrator, router, workflows, routing, human-gates, audit]
+  agents_enabled: false
+  execution_enabled: false

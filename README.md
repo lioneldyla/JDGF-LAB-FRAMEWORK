@@ -30,9 +30,10 @@ The framework is designed to support:
 
 ## Current foundation
 
-The executable `v0.3.0` foundation provides:
+The executable `v0.5.0` foundation provides:
 
-- a project manifest and registry contract;
+- an active Projects Platform with versioned manifests, governance and
+  documentation boundaries;
 - JSON Schema validation through the `jdgf` CLI;
 - repository-bound path and identifier checks;
 - a locked Python 3.12 environment;
@@ -42,6 +43,9 @@ The executable `v0.3.0` foundation provides:
 - schema-validated PostgreSQL, Redis, Neo4j and Qdrant service contracts;
 - opt-in n8n, SearXNG, Prometheus, Grafana and Loki service contracts.
 - a schema-validated, corpus-neutral Knowledge Platform foundation.
+- six schema-validated Agent Platform profiles, disabled by default.
+- five supervised orchestration workflow contracts with execution disabled.
+- nine evidence-aware governance policy contracts without runtime enforcement.
 
 The RAG runtime and every external service adapter remain disabled until their
 implementations, security reviews and integration tests exist.
@@ -98,11 +102,14 @@ hosted model providers remain architectural candidates.
 - [Data Platform](docs/DATABASE_ARCHITECTURE.md)
 - [Automation and Monitoring](docs/AUTOMATION_ARCHITECTURE.md)
 - [Knowledge Platform](docs/KNOWLEDGE_PLATFORM.md)
+- [Agent Platform](docs/AGENT_PLATFORM.md)
+- [Orchestration Platform](docs/ORCHESTRATION_PLATFORM.md)
+- [Governance Platform](docs/GOVERNANCE_PLATFORM.md)
 - [Historical archive integration](docs/ARCHIVE_INTEGRATION.md)
 
 ## Version
 
-`0.3.0`
+`0.5.0`
 
 ## License
 

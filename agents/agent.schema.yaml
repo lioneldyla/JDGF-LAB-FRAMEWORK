@@ -1,0 +1,110 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://jdgf.io/schemas/agent.schema.yaml
+title: JDGF Agent Profile
+type: object
+additionalProperties: false
+required: [api_version, contract_version, kind, metadata, spec]
+properties:
+  api_version: {const: jdgf.io/v1alpha1}
+  contract_version: {const: "1.0"}
+  kind: {const: AgentProfile}
+  metadata:
+    type: object
+    additionalProperties: false
+    required: [id, name, description, version, owner, lifecycle]
+    properties:
+      id: {$ref: "#/$defs/identifier"}
+      name: {type: string, minLength: 1, maxLength: 100}
+      description: {type: string, minLength: 1, maxLength: 1000}
+      version: {$ref: "#/$defs/version"}
+      owner: {type: string, minLength: 1, maxLength: 200}
+      lifecycle: {enum: [specified, active, deprecated]}
+  spec:
+    type: object
+    additionalProperties: false
+    required:
+      - enabled
+      - purpose
+      - route_ref
+      - capabilities
+      - tools
+      - memory
+      - permissions
+      - execution
+    properties:
+      enabled: {type: boolean}
+      purpose: {type: string, minLength: 1, maxLength: 1000}
+      route_ref: {enum: [default-chat, coding, reasoning]}
+      capabilities:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          enum:
+            - planning
+            - reasoning
+            - coding
+            - retrieval
+            - documentation
+            - publication
+            - benchmarking
+            - data-governance
+      tools:
+        type: array
+        uniqueItems: true
+        items:
+          type: object
+          additionalProperties: false
+          required: [id, enabled, access]
+          properties:
+            id: {enum: [filesystem, docker, git, shell, browser, database, rag]}
+            enabled: {type: boolean}
+            access: {enum: [read, write, execute]}
+      memory:
+        type: object
+        additionalProperties: false
+        required: [short_term, long_term, vector_store, graph_store]
+        properties:
+          short_term: {$ref: "#/$defs/memory_store"}
+          long_term: {$ref: "#/$defs/memory_store"}
+          vector_store: {$ref: "#/$defs/memory_store"}
+          graph_store: {$ref: "#/$defs/memory_store"}
+      permissions:
+        type: object
+        additionalProperties: false
+        required: [read, write, execute, delete, external_actions]
+        properties:
+          read: {$ref: "#/$defs/scope_list"}
+          write: {$ref: "#/$defs/scope_list"}
+          execute: {$ref: "#/$defs/scope_list"}
+          delete: {type: boolean}
+          external_actions: {type: boolean}
+      execution:
+        type: object
+        additionalProperties: false
+        required: [mode, unattended, network_access, human_approval_required]
+        properties:
+          mode: {enum: [manual, supervised]}
+          unattended: {type: boolean}
+          network_access: {type: boolean}
+          human_approval_required: {const: true}
+$defs:
+  identifier:
+    type: string
+    pattern: "^[a-z][a-z0-9-]{2,62}$"
+  version:
+    type: string
+    pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+  memory_store:
+    type: object
+    additionalProperties: false
+    required: [enabled, adapter]
+    properties:
+      enabled: {type: boolean}
+      adapter:
+        type: [string, "null"]
+        enum: [redis, qdrant, neo4j, null]
+  scope_list:
+    type: array
+    uniqueItems: true
+    items: {$ref: "#/$defs/identifier"}

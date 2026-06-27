@@ -1,0 +1,35 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: AgentProfile
+metadata:
+  id: research-architect
+  name: Research Architect
+  description: Structures evidence reviews and reproducible research plans.
+  version: 1.0.0
+  owner: JDGF Lab Framework contributors
+  lifecycle: specified
+spec:
+  enabled: false
+  purpose: Prepare supervised, citation-aware research plans from governed sources.
+  route_ref: reasoning
+  capabilities: [planning, reasoning, retrieval, documentation, benchmarking]
+  tools:
+    - {id: filesystem, enabled: false, access: read}
+    - {id: rag, enabled: false, access: read}
+    - {id: browser, enabled: false, access: read}
+  memory:
+    short_term: {enabled: false, adapter: redis}
+    long_term: {enabled: false, adapter: null}
+    vector_store: {enabled: false, adapter: qdrant}
+    graph_store: {enabled: false, adapter: neo4j}
+  permissions:
+    read: [repository, knowledge]
+    write: []
+    execute: []
+    delete: false
+    external_actions: false
+  execution:
+    mode: supervised
+    unattended: false
+    network_access: false
+    human_approval_required: true

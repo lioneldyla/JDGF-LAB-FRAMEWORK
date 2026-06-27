@@ -1,12 +1,30 @@
 api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
 kind: Project
 metadata:
   id: example-project
   name: Example Project
+  short_name: EXAMPLE
+  version: 0.1.0
   description: Copyable template for a future JDGF-managed project.
+  license: Replace with project license
 spec:
   lifecycle: template
   owner: Replace with project owner
   governance:
     human_approval_required: true
+    roles: {}
+  architecture:
+    modules: []
+    services: []
+    dependencies: []
+    datasets: []
+    knowledge: []
+    agents: []
   capabilities: []
+  timeline:
+    created: "2026-06-27"
+    updated: "2026-06-27"
+    release: 0.1.0
+  documentation:
+    readme: projects/example_project/README.md

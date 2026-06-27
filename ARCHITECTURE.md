@@ -20,10 +20,11 @@ the JDGF core must not import project-specific code.
 
 ## Active slice: project registry
 
-The initial control plane reads `registry/projects.yaml`, resolves each
-manifest within the repository and validates the required project contract.
-Paths that escape the repository are rejected. A registry identifier must
-match the identifier declared by its manifest.
+The control plane reads `registry/projects.yaml`, resolves each manifest within
+the repository and validates identity, version, lifecycle, governance,
+architecture and documentation. Paths that escape the repository are rejected;
+registry identity, version and lifecycle must match the manifest. Templates are
+never registered.
 
 ```text
 registry/projects.yaml
@@ -35,7 +36,7 @@ projects/<name>/project.yaml --> contract validation --> CLI result
 ## Deferred capabilities
 
 Agent execution, orchestration engines, application services, portals, SDKs and
-release automation remain architectural placeholders. Database, vector-store,
+release automation remain deferred. Agent profiles, database, vector-store,
 automation and monitoring contracts now exist, but their runtimes remain
 inactive until integration and recovery tests provide operational evidence.
 
@@ -82,6 +83,27 @@ The Knowledge Platform validates generic ontologies, document metadata,
 collection catalogs, indexing plans and RAG integration without owning a domain
 corpus. All ingestion, vector and graph runtimes remain disabled; consuming
 projects keep their source ownership and connect through versioned metadata.
+
+## Specified slice: Agent Platform contracts
+
+Six generic agent profiles declare capabilities, route references, tools,
+memory and permissions. Profiles, tools and stores are disabled. The control
+plane rejects write, execution, deletion, network and unattended authority;
+there is no agent execution engine in this release.
+
+## Specified slice: Orchestration Platform contracts
+
+The orchestration layer defines a disabled router, orchestrator roles and five
+sequential workflows. Every workflow ends in a human gate and has no declared
+side effects. Runtime execution, recursion, concurrency, audit persistence and
+agent coordination remain unavailable.
+
+## Specified slice: Governance Platform contracts
+
+Nine policies declare lifecycle, enforcement mode, implementation state and
+local evidence. Validation prevents unsupported enforcement claims. RBAC,
+durable audit, encryption verification, backups and release automation remain
+unavailable runtime capabilities.
 
 ## Governance invariants
 

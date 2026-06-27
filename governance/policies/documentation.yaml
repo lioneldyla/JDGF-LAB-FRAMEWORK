@@ -1,0 +1,23 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: GovernancePolicy
+metadata:
+  id: documentation
+  version: 1.0.0
+  owner: JDGF Lab Framework contributors
+  status: review
+spec:
+  domain: documentation
+  rules:
+    - id: core-documentation
+      statement: Core architecture, roadmap and change history remain versioned.
+      enforcement: test
+      implemented: true
+      evidence: [README.md, ARCHITECTURE.md, ROADMAP.md, CHANGELOG.md]
+    - id: project-documentation
+      statement: Registered projects reference existing documentation.
+      enforcement: test
+      implemented: true
+      evidence: [src/jdgf_framework/projects.py, tests/test_projects.py]
+  parameters:
+    required_documents: [README.md, ARCHITECTURE.md, ROADMAP.md, CHANGELOG.md]

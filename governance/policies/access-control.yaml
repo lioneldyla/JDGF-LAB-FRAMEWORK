@@ -1,0 +1,28 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: GovernancePolicy
+metadata:
+  id: access-control
+  version: 1.0.0
+  owner: JDGF Lab Framework contributors
+  status: review
+spec:
+  domain: security
+  rules:
+    - id: least-privilege
+      statement: Runtime identities must receive only explicitly required permissions.
+      enforcement: runtime
+      implemented: false
+      evidence: []
+    - id: human-approval
+      statement: Consequential actions require explicit human approval.
+      enforcement: test
+      implemented: true
+      evidence: [tests/test_agent_platform.py, tests/test_orchestration_platform.py]
+  parameters:
+    roles:
+      - {id: administrator, permissions: [read, write, execute, review, approve, release, monitor, administer]}
+      - {id: architect, permissions: [read, write, review]}
+      - {id: reviewer, permissions: [read, review, approve]}
+      - {id: operator, permissions: [read, execute, monitor]}
+      - {id: observer, permissions: [read]}

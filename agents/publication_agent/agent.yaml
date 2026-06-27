@@ -1,0 +1,34 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: AgentProfile
+metadata:
+  id: publication-agent
+  name: Publication Agent
+  description: Drafts and reviews publication structures with source attribution.
+  version: 1.0.0
+  owner: JDGF Lab Framework contributors
+  lifecycle: specified
+spec:
+  enabled: false
+  purpose: Prepare supervised publication drafts without publishing externally.
+  route_ref: default-chat
+  capabilities: [reasoning, retrieval, documentation, publication]
+  tools:
+    - {id: filesystem, enabled: false, access: read}
+    - {id: rag, enabled: false, access: read}
+  memory:
+    short_term: {enabled: false, adapter: redis}
+    long_term: {enabled: false, adapter: null}
+    vector_store: {enabled: false, adapter: qdrant}
+    graph_store: {enabled: false, adapter: null}
+  permissions:
+    read: [repository, knowledge]
+    write: []
+    execute: []
+    delete: false
+    external_actions: false
+  execution:
+    mode: supervised
+    unattended: false
+    network_access: false
+    human_approval_required: true

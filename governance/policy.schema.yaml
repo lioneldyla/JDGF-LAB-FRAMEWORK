@@ -1,0 +1,96 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://jdgf.io/schemas/governance-policy.schema.yaml
+title: JDGF Governance Policy
+type: object
+additionalProperties: false
+required: [api_version, contract_version, kind, metadata, spec]
+properties:
+  api_version: {const: jdgf.io/v1alpha1}
+  contract_version: {const: "1.0"}
+  kind: {const: GovernancePolicy}
+  metadata:
+    type: object
+    additionalProperties: false
+    required: [id, version, owner, status]
+    properties:
+      id: {$ref: "#/$defs/identifier"}
+      version: {$ref: "#/$defs/version"}
+      owner: {type: string, minLength: 1}
+      status: {enum: [draft, review, approved, deprecated, archived]}
+  spec:
+    type: object
+    additionalProperties: false
+    required: [domain, rules, parameters]
+    properties:
+      domain: {enum: [architecture, security, data, ai, infrastructure, projects, documentation, operations, compliance, quality, release]}
+      rules:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: object
+          additionalProperties: false
+          required: [id, statement, enforcement, implemented, evidence]
+          properties:
+            id: {$ref: "#/$defs/identifier"}
+            statement: {type: string, minLength: 1}
+            enforcement: {enum: [schema, test, manual, runtime]}
+            implemented: {type: boolean}
+            evidence:
+              type: array
+              uniqueItems: true
+              items: {$ref: "#/$defs/path"}
+      parameters:
+        type: object
+        additionalProperties: false
+        properties:
+          roles:
+            type: array
+            uniqueItems: true
+            items:
+              type: object
+              additionalProperties: false
+              required: [id, permissions]
+              properties:
+                id: {$ref: "#/$defs/identifier"}
+                permissions:
+                  type: array
+                  uniqueItems: true
+                  items: {enum: [read, write, execute, review, approve, release, publish, monitor, administer]}
+          classifications:
+            type: array
+            uniqueItems: true
+            items: {enum: [public, internal, confidential, restricted]}
+          risk_levels:
+            type: array
+            uniqueItems: true
+            items: {enum: [low, medium, high, prohibited]}
+          controls: {$ref: "#/$defs/identifier_list"}
+          required_documents: {$ref: "#/$defs/path_list"}
+          quality_checks: {$ref: "#/$defs/identifier_list"}
+          release_stages: {$ref: "#/$defs/identifier_list"}
+          proposed_retention_days:
+            type: object
+            additionalProperties: false
+            properties:
+              daily: {type: integer, minimum: 1}
+              weekly: {type: integer, minimum: 1}
+              monthly: {type: integer, minimum: 1}
+$defs:
+  identifier:
+    type: string
+    pattern: "^[a-z][a-z0-9-]{2,62}$"
+  identifier_list:
+    type: array
+    uniqueItems: true
+    items: {$ref: "#/$defs/identifier"}
+  version:
+    type: string
+    pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+  path:
+    type: string
+    pattern: "^[A-Za-z0-9._/-]+$"
+  path_list:
+    type: array
+    uniqueItems: true
+    items: {$ref: "#/$defs/path"}

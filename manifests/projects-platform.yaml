@@ -1,0 +1,16 @@
+api_version: jdgf.io/v1alpha1
+contract_version: "1.0"
+kind: PlatformManifest
+metadata:
+  id: projects-platform
+  name: Projects Platform
+  version: 0.3.0
+spec:
+  lifecycle: active
+  installable: true
+  runtime_tested: true
+  registry: registry/projects.yaml
+  schema: projects/project.schema.yaml
+  components: [project-registry, project-schema, governance, lifecycle, documentation]
+  external_projects_embedded: false
+  templates_registered: false
