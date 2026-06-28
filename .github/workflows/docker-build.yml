@@ -21,7 +21,7 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Build & Push
+    - name: Build & Push Docker image
       uses: docker/build-push-action@v6
       with:
         context: .
@@ -29,3 +29,6 @@ jobs:
         tags: |
           ghcr.io/lioneldyla/jdgf-lab-framework:latest
           ghcr.io/lioneldyla/jdgf-lab-framework:${{ github.sha }}
+        build-args: |
+          OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
+          GROQ_API_KEY=${{ secrets.GROQ_API_KEY }}
