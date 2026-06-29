@@ -6,7 +6,6 @@ from jdgf_framework.rag_runtime import (
     lexical_retrieve,
 )
 
-
 DOCUMENTS = (
     EvidenceDocument(
         id="doc-b",

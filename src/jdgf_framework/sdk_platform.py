@@ -2,16 +2,16 @@
 
 from __future__ import annotations
 
+import shutil
+import tempfile
 from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
-import shutil
-import tempfile
 from typing import Any
 
+import yaml
 from jsonschema import Draft202012Validator
 from jsonschema.exceptions import SchemaError
-import yaml
 
 from .projects import PROJECT_ID, RegistryError, validate_project_manifest
 

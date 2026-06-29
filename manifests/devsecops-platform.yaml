@@ -11,6 +11,6 @@ spec:
   runtime_tested: false
   registry: registry/devsecops.yaml
   config: devsecops/devsecops.yaml
-  components: [github-actions, ci, security, quality, packaging, release-candidates]
+  components: [github-actions, dependency-updates, ci, security, quality, packaging, release-candidates]
   deployment_enabled: false
   release_publishing_enabled: false

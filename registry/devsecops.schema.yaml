@@ -44,7 +44,7 @@ properties:
       additionalProperties: false
       required: [id, purpose]
       properties:
-        id: {enum: [uv, pytest, ruff, pip-audit, bash]}
+        id: {enum: [uv, pytest, ruff, mypy, pip-audit, bash]}
         purpose: {$ref: "#/$defs/identifier"}
 $defs:
   identifier:

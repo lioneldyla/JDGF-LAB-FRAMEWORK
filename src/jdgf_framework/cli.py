@@ -3,12 +3,12 @@
 from __future__ import annotations
 
 import argparse
-from pathlib import Path
 import sys
+from pathlib import Path
 
-from .api_platform import ApiPlatformError, validate_api_platform
-from .ai_platform import AiPlatformError, validate_ai_platform
 from .agent_platform import AgentPlatformError, validate_agent_platform
+from .ai_platform import AiPlatformError, validate_ai_platform
+from .api_platform import ApiPlatformError, validate_api_platform
 from .automation_platform import (
     AutomationPlatformError,
     validate_automation_platform,
@@ -43,6 +43,16 @@ from .runtime_platform import RuntimePlatformError, validate_runtime_platform
 from .sdk_platform import SdkPlatformError, scaffold_project, validate_sdk_platform
 
 
+def _port(value: str) -> int:
+    try:
+        port = int(value)
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError("port must be an integer") from exc
+    if not 1024 <= port <= 65535:
+        raise argparse.ArgumentTypeError("port must be between 1024 and 65535")
+    return port
+
+
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="jdgf", description="JDGF control plane")
     parser.add_argument("--root", type=Path, help="Framework repository root")
@@ -61,8 +71,52 @@ def _parser() -> argparse.ArgumentParser:
     )
     process.add_argument("path", type=Path, help="Path relative to the framework root")
     serve = subcommands.add_parser("serve", help="Run the local preview API")
-    serve.add_argument("--port", type=int, default=8765, choices=range(1024, 65536))
+    serve.add_argument("--port", type=_port, default=8765)
     return parser
+
+
+def _validation_message(root: Path, project_count: int) -> str:
+    rag = validate_rag_contracts(root)
+    catalogs = validate_bootstrap_catalogs(root)
+    ai_platform = validate_ai_platform(root)
+    data_platform = validate_data_platform(root)
+    automation_platform = validate_automation_platform(root)
+    knowledge_platform = validate_knowledge_platform(root)
+    projects_platform = validate_projects_platform(root)
+    agent_platform = validate_agent_platform(root)
+    orchestration_platform = validate_orchestration_platform(root)
+    governance_platform = validate_governance_platform(root)
+    devsecops_platform = validate_devsecops_platform(root)
+    sdk_platform = validate_sdk_platform(root)
+    core_platform = validate_core_platform(root)
+    judicial_intelligence = validate_judicial_intelligence(root)
+    document_processing = validate_document_processing(root)
+    runtime_platform = validate_runtime_platform(root)
+    api_platform = validate_api_platform(root)
+    return (
+        "JDGF validation passed: "
+        f"{project_count} project(s), "
+        f"{len(rag.component_ids)} RAG component(s), "
+        f"{catalogs.manifest_count} bootstrap manifest(s), "
+        f"{catalogs.registry_count} bootstrap registry catalog(s), "
+        f"{len(ai_platform.service_ids)} AI service contract(s), "
+        f"{len(data_platform.service_ids)} data service contract(s), "
+        f"{len(automation_platform.service_ids)} automation/monitoring "
+        "service contract(s), "
+        f"{len(knowledge_platform.collection_ids)} knowledge collection contract(s), "
+        f"{len(projects_platform.project_ids)} registered project contract(s), "
+        f"{len(agent_platform.agent_ids)} agent profile contract(s), "
+        f"{len(orchestration_platform.workflow_ids)} workflow contract(s), "
+        f"{len(governance_platform.policy_ids)} governance policy contract(s), "
+        f"{len(devsecops_platform.workflow_ids)} CI workflow contract(s), "
+        f"{len(sdk_platform.active_generators)} active SDK generator(s), "
+        f"{len(core_platform.active_operations)} core operation(s), "
+        f"{len(judicial_intelligence.outputs)} judicial intelligence output "
+        f"contract(s), {len(document_processing.active_formats)} document format(s), "
+        f"{len(rag.runtime_capabilities)} active local RAG capability(s), "
+        f"{len(runtime_platform.active_components)} runtime control component(s), "
+        f"{len(api_platform.endpoint_ids)} local API endpoint(s)."
+    )
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -103,55 +157,9 @@ def main(argv: list[str] | None = None) -> int:
             )
             return 0
         projects = load_project_registry(root)
-        rag = validate_rag_contracts(root) if args.command == "validate" else None
-        catalogs = (
-            validate_bootstrap_catalogs(root) if args.command == "validate" else None
-        )
-        ai_platform = validate_ai_platform(root) if args.command == "validate" else None
-        data_platform = (
-            validate_data_platform(root) if args.command == "validate" else None
-        )
-        automation_platform = (
-            validate_automation_platform(root) if args.command == "validate" else None
-        )
-        knowledge_platform = (
-            validate_knowledge_platform(root) if args.command == "validate" else None
-        )
-        projects_platform = (
-            validate_projects_platform(root) if args.command == "validate" else None
-        )
-        agent_platform = (
-            validate_agent_platform(root) if args.command == "validate" else None
-        )
-        orchestration_platform = (
-            validate_orchestration_platform(root)
-            if args.command == "validate"
-            else None
-        )
-        governance_platform = (
-            validate_governance_platform(root) if args.command == "validate" else None
-        )
-        devsecops_platform = (
-            validate_devsecops_platform(root) if args.command == "validate" else None
-        )
-        sdk_platform = (
-            validate_sdk_platform(root) if args.command == "validate" else None
-        )
-        core_platform = (
-            validate_core_platform(root) if args.command == "validate" else None
-        )
-        judicial_intelligence = (
-            validate_judicial_intelligence(root) if args.command == "validate" else None
-        )
-        document_processing = (
-            validate_document_processing(root) if args.command == "validate" else None
-        )
-        runtime_platform = (
-            validate_runtime_platform(root) if args.command == "validate" else None
-        )
-        api_platform = (
-            validate_api_platform(root) if args.command == "validate" else None
-        )
+        if args.command == "validate":
+            print(_validation_message(root, len(projects)))
+            return 0
     except (
         AiPlatformError,
         ApiPlatformError,
@@ -174,55 +182,10 @@ def main(argv: list[str] | None = None) -> int:
         print(f"JDGF validation failed: {exc}", file=sys.stderr)
         return 1
 
-    if args.command == "validate":
-        assert rag is not None
-        assert catalogs is not None
-        assert ai_platform is not None
-        assert data_platform is not None
-        assert automation_platform is not None
-        assert knowledge_platform is not None
-        assert projects_platform is not None
-        assert agent_platform is not None
-        assert orchestration_platform is not None
-        assert governance_platform is not None
-        assert devsecops_platform is not None
-        assert sdk_platform is not None
-        assert core_platform is not None
-        assert judicial_intelligence is not None
-        assert document_processing is not None
-        assert runtime_platform is not None
-        assert api_platform is not None
-        print(
-            "JDGF validation passed: "
-            f"{len(projects)} project(s), "
-            f"{len(rag.component_ids)} RAG component(s), "
-            f"{catalogs.manifest_count} bootstrap manifest(s), "
-            f"{catalogs.registry_count} bootstrap registry catalog(s), "
-            f"{len(ai_platform.service_ids)} AI service contract(s), "
-            f"{len(data_platform.service_ids)} data service contract(s), "
-            f"{len(automation_platform.service_ids)} automation/monitoring "
-            "service contract(s), "
-            f"{len(knowledge_platform.collection_ids)} knowledge collection "
-            "contract(s), "
-            f"{len(projects_platform.project_ids)} registered project contract(s), "
-            f"{len(agent_platform.agent_ids)} agent profile contract(s), "
-            f"{len(orchestration_platform.workflow_ids)} workflow contract(s), "
-            f"{len(governance_platform.policy_ids)} governance policy contract(s), "
-            f"{len(devsecops_platform.workflow_ids)} CI workflow contract(s), "
-            f"{len(sdk_platform.active_generators)} active SDK generator(s), "
-            f"{len(core_platform.active_operations)} core operation(s), "
-            f"{len(judicial_intelligence.outputs)} judicial intelligence output "
-            f"contract(s), {len(document_processing.active_formats)} document "
-            f"format(s), {len(rag.runtime_capabilities)} active local RAG "
-            f"capability(s), {len(runtime_platform.active_components)} runtime "
-            f"control component(s), {len(api_platform.endpoint_ids)} local API "
-            "endpoint(s)."
-        )
-    else:
-        if not projects:
-            print("No projects registered.")
-        for project in projects:
-            print(f"{project.project_id}\t{project.lifecycle}\t{project.name}")
+    if not projects:
+        print("No projects registered.")
+    for project in projects:
+        print(f"{project.project_id}\t{project.lifecycle}\t{project.name}")
     return 0
 
 

@@ -2,17 +2,16 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
-from pathlib import Path
 import re
 import stat
 import tomllib
+from dataclasses import dataclass
+from pathlib import Path
 from typing import Any
 
+import yaml
 from jsonschema import Draft202012Validator
 from jsonschema.exceptions import SchemaError
-import yaml
-
 
 ACTION_PIN = re.compile(r"^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+@[0-9a-f]{40}$")
 
@@ -33,11 +32,14 @@ class DevSecOpsPlatformError(ValueError):
 def _load_mapping(path: Path, *, base_loader: bool = False) -> dict[str, Any]:
     try:
         text = path.read_text(encoding="utf-8")
-        document = (
-            yaml.load(text, Loader=yaml.BaseLoader)
-            if base_loader
-            else yaml.safe_load(text)
-        )
+        if base_loader:
+            loader = yaml.BaseLoader(text)
+            try:
+                document = loader.get_single_data()
+            finally:
+                loader.dispose()  # type: ignore[no-untyped-call]
+        else:
+            document = yaml.safe_load(text)
     except FileNotFoundError as exc:
         raise DevSecOpsPlatformError(f"Missing DevSecOps artifact: {path}") from exc
     except yaml.YAMLError as exc:
@@ -121,6 +123,7 @@ def validate_devsecops_platform(root: Path) -> DevSecOpsPlatformSummary:
         raise DevSecOpsPlatformError("DevSecOps manifest and registry versions differ")
     expected_components = {
         "github-actions",
+        "dependency-updates",
         "ci",
         "security",
         "quality",
@@ -135,6 +138,25 @@ def validate_devsecops_platform(root: Path) -> DevSecOpsPlatformSummary:
         "container-contracts": ".github/workflows/container-contracts.yml",
         "release-candidate": ".github/workflows/release-candidate.yml",
     }
+    workflow_root = root / ".github" / "workflows"
+    actual_workflows = {
+        path.relative_to(root).as_posix()
+        for pattern in ("*.yml", "*.yaml")
+        for path in workflow_root.glob(pattern)
+    }
+    if actual_workflows != set(expected_workflows.values()):
+        unexpected = sorted(actual_workflows - set(expected_workflows.values()))
+        missing = sorted(set(expected_workflows.values()) - actual_workflows)
+        details = []
+        if unexpected:
+            details.append("unregistered: " + ", ".join(unexpected))
+        if missing:
+            details.append("missing: " + ", ".join(missing))
+        raise DevSecOpsPlatformError(
+            "GitHub workflow inventory differs from registry ("
+            + "; ".join(details)
+            + ")"
+        )
     workflow_ids = [entry["id"] for entry in registry["workflows"]]
     if len(workflow_ids) != len(set(workflow_ids)):
         raise DevSecOpsPlatformError("Duplicate DevSecOps workflow id")
@@ -204,8 +226,39 @@ def validate_devsecops_platform(root: Path) -> DevSecOpsPlatformSummary:
     tool_ids = [tool["id"] for tool in registry["tools"]]
     if len(tool_ids) != len(set(tool_ids)):
         raise DevSecOpsPlatformError("Duplicate DevSecOps tool id")
-    if set(tool_ids) != {"uv", "pytest", "ruff", "pip-audit", "bash"}:
+    if set(tool_ids) != {"uv", "pytest", "ruff", "mypy", "pip-audit", "bash"}:
         raise DevSecOpsPlatformError("DevSecOps tool registry is incomplete")
+
+    dependabot_path = _resolve(root, ".github/dependabot.yml", ".github")
+    dependabot = _load_mapping(dependabot_path)
+    if dependabot.get("version") != 2:
+        raise DevSecOpsPlatformError("Dependabot configuration must use version 2")
+    updates = dependabot.get("updates")
+    if not isinstance(updates, list):
+        raise DevSecOpsPlatformError("Dependabot updates must be a list")
+    expected_ecosystems = {"uv", "github-actions"}
+    ecosystems = {
+        entry.get("package-ecosystem") for entry in updates if isinstance(entry, dict)
+    }
+    if ecosystems != expected_ecosystems or len(updates) != len(expected_ecosystems):
+        raise DevSecOpsPlatformError("Dependabot ecosystem set is incomplete")
+    allowed_dependabot_keys = {
+        "package-ecosystem",
+        "directory",
+        "schedule",
+        "open-pull-requests-limit",
+    }
+    for entry in updates:
+        if set(entry) - allowed_dependabot_keys:
+            raise DevSecOpsPlatformError(
+                "Dependabot configuration uses unsupported options"
+            )
+        if entry.get("directory") != "/" or entry.get("schedule") != {
+            "interval": "weekly"
+        }:
+            raise DevSecOpsPlatformError(
+                "Dependabot update location or schedule is invalid"
+            )
 
     scripts = {
         "lint": _resolve(root, "scripts/devsecops/run-lint.sh"),

@@ -1,5 +1,5 @@
-from pathlib import Path
 import shutil
+from pathlib import Path
 
 import pytest
 import yaml
@@ -9,7 +9,6 @@ from jdgf_framework.knowledge_platform import (
     validate_document_metadata,
     validate_knowledge_platform,
 )
-
 
 ROOT = Path(__file__).resolve().parents[1]
 

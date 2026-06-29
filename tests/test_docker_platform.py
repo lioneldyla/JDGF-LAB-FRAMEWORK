@@ -1,10 +1,9 @@
-from pathlib import Path
 import shutil
 import subprocess
+from pathlib import Path
 
 import pytest
 import yaml
-
 
 ROOT = Path(__file__).resolve().parents[1]
 SERVICES = (
@@ -34,12 +33,13 @@ def test_compose_contract_is_hardened(service: str) -> None:
 
 @pytest.mark.parametrize("service", SERVICES)
 def test_compose_configuration_renders(service: str) -> None:
-    if not shutil.which("docker"):
+    docker = shutil.which("docker")
+    if docker is None:
         pytest.skip("Docker CLI is unavailable")
     directory = ROOT / "infrastructure" / service
     result = subprocess.run(
         [
-            "docker",
+            docker,
             "compose",
             "--env-file",
             str(directory / ".env.example"),

@@ -1,5 +1,5 @@
-from pathlib import Path
 import shutil
+from pathlib import Path
 
 import pytest
 import yaml
@@ -10,7 +10,6 @@ from jdgf_framework.projects import (
     validate_project_manifest,
     validate_projects_platform,
 )
-
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -110,7 +109,7 @@ def test_repository_registry_is_valid() -> None:
 
     assert [project.project_id for project in projects] == ["jdgf-framework"]
     assert projects[0].lifecycle == "active"
-    assert projects[0].version == "0.10.0"
+    assert projects[0].version == "0.10.1"
 
 
 def test_projects_platform_is_active_and_validated() -> None:

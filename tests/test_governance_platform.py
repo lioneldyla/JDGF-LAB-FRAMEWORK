@@ -1,5 +1,5 @@
-from pathlib import Path
 import shutil
+from pathlib import Path
 
 import pytest
 import yaml
@@ -8,7 +8,6 @@ from jdgf_framework.governance_platform import (
     GovernancePlatformError,
     validate_governance_platform,
 )
-
 
 ROOT = Path(__file__).resolve().parents[1]
 

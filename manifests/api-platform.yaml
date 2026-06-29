@@ -4,7 +4,7 @@ kind: PlatformManifest
 metadata:
   id: local-api-platform
   name: Local API Platform
-  version: 0.10.0
+  version: 0.10.1
 spec:
   lifecycle: preview
   installable: true

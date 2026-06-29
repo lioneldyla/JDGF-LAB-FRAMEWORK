@@ -1,5 +1,5 @@
-from pathlib import Path
 import shutil
+from pathlib import Path
 
 import pytest
 import yaml
@@ -10,7 +10,6 @@ from jdgf_framework.document_processing import (
     process_document,
     validate_document_processing,
 )
-
 
 ROOT = Path(__file__).resolve().parents[1]
 

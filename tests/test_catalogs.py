@@ -1,11 +1,10 @@
-from pathlib import Path
 import shutil
+from pathlib import Path
 
 import pytest
 import yaml
 
 from jdgf_framework.catalogs import CatalogError, validate_bootstrap_catalogs
-
 
 ROOT = Path(__file__).resolve().parents[1]
 

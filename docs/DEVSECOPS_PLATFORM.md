@@ -21,7 +21,10 @@ services or publish releases.
 - Checkout credentials are not persisted.
 - Python and uv versions come from repository contracts.
 - Dependencies are synchronized from `uv.lock` with `--frozen`.
+- Dependabot monitors the `uv` and GitHub Actions ecosystems weekly.
+- Every workflow file must be registered; undeclared automation is rejected.
 - CI failures, audit findings and missing artifacts are never suppressed.
+- Strict mypy analysis covers every packaged Python module.
 - Tracked secret-bearing filenames and private-key headers are rejected.
 
 ## Honest delivery boundary

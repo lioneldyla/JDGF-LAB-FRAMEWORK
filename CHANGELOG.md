@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.10.1 - 2026-06-29
+
+- Removed unauthorized container publishing, secret-bearing build arguments and
+  a non-functional key-rotation workflow introduced after the 0.10.0 tag.
+- Restored immutable GitHub Action pins, least-privilege workflow permissions
+  and deterministic locked-environment CI.
+- Added complete workflow inventory and Dependabot contract validation so
+  unregistered automation cannot bypass repository policy.
+- Removed local generated artifacts and external-project placeholders, aligned
+  the security policy with verified GitHub settings and strengthened Ruff.
+- Replaced optimization-sensitive CLI assertions and improved port validation.
+- Enabled GitHub private vulnerability reporting, Dependabot security updates
+  and repository-level full-SHA workflow enforcement.
+- Upgraded pytest to the patched 9.x line after GitHub detected vulnerable
+  temporary-directory handling in the former 8.4.2 development dependency.
+
 ## 0.10.0 - 2026-06-27
 
 - Added a tested FastAPI preview for health, registered-project discovery and
