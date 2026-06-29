@@ -1,11 +1,10 @@
-from pathlib import Path
 import shutil
+from pathlib import Path
 
 import pytest
 import yaml
 
 from jdgf_framework.agent_platform import AgentPlatformError, validate_agent_platform
-
 
 ROOT = Path(__file__).resolve().parents[1]
 

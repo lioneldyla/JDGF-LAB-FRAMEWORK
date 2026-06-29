@@ -6,6 +6,6 @@ metadata:
   lifecycle: active
 projects:
   - id: jdgf-framework
-    version: 0.10.0
+    version: 0.10.1
     lifecycle: active
     manifest: projects/JDGF/project.yaml

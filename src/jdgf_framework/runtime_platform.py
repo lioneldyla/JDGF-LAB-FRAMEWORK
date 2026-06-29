@@ -2,15 +2,14 @@
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass, replace
 from pathlib import Path
-import re
 from typing import Any
 
+import yaml
 from jsonschema import Draft202012Validator
 from jsonschema.exceptions import SchemaError
-import yaml
-
 
 TRANSITIONS = {
     ("proposed", "validated"): False,

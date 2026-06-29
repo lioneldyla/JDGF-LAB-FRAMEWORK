@@ -6,10 +6,9 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+import yaml
 from jsonschema import Draft202012Validator, FormatChecker
 from jsonschema.exceptions import SchemaError
-import yaml
-
 
 ARTIFACT_KEYS = {
     "config": "knowledge/knowledge.yaml",

@@ -1,5 +1,5 @@
-from pathlib import Path
 import shutil
+from pathlib import Path
 
 import pytest
 import yaml
@@ -8,7 +8,6 @@ from jdgf_framework.devsecops_platform import (
     DevSecOpsPlatformError,
     validate_devsecops_platform,
 )
-
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -32,7 +31,11 @@ def _copy_contracts(tmp_path: Path) -> Path:
 
 
 def _load_base(path: Path) -> dict:
-    return yaml.load(path.read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
+    loader = yaml.BaseLoader(path.read_text(encoding="utf-8"))
+    try:
+        return loader.get_single_data()
+    finally:
+        loader.dispose()
 
 
 def _write(path: Path, document: dict) -> None:
@@ -46,7 +49,14 @@ def test_devsecops_platform_contracts_are_valid() -> None:
     assert summary.lifecycle == "specified"
     assert summary.installable is False
     assert len(summary.workflow_ids) == 3
-    assert set(summary.tool_ids) == {"uv", "pytest", "ruff", "pip-audit", "bash"}
+    assert set(summary.tool_ids) == {
+        "uv",
+        "pytest",
+        "ruff",
+        "mypy",
+        "pip-audit",
+        "bash",
+    }
 
 
 def test_action_must_be_pinned_by_full_sha(tmp_path: Path) -> None:
@@ -57,6 +67,37 @@ def test_action_must_be_pinned_by_full_sha(tmp_path: Path) -> None:
     _write(path, workflow)
 
     with pytest.raises(DevSecOpsPlatformError, match="not pinned"):
+        validate_devsecops_platform(root)
+
+
+def test_unregistered_workflow_is_rejected(tmp_path: Path) -> None:
+    root = _copy_contracts(tmp_path)
+    source = root / ".github" / "workflows" / "ci.yml"
+    shutil.copy2(source, source.with_name("unexpected.yml"))
+
+    with pytest.raises(DevSecOpsPlatformError, match="unregistered"):
+        validate_devsecops_platform(root)
+
+
+def test_dependabot_rejects_unsupported_options(tmp_path: Path) -> None:
+    root = _copy_contracts(tmp_path)
+    path = root / ".github" / "dependabot.yml"
+    document = yaml.safe_load(path.read_text(encoding="utf-8"))
+    document["updates"][0]["security-updates"] = {"enabled": True}
+    _write(path, document)
+
+    with pytest.raises(DevSecOpsPlatformError, match="unsupported options"):
+        validate_devsecops_platform(root)
+
+
+def test_dependabot_ecosystem_set_is_complete(tmp_path: Path) -> None:
+    root = _copy_contracts(tmp_path)
+    path = root / ".github" / "dependabot.yml"
+    document = yaml.safe_load(path.read_text(encoding="utf-8"))
+    document["updates"].pop()
+    _write(path, document)
+
+    with pytest.raises(DevSecOpsPlatformError, match="ecosystem set"):
         validate_devsecops_platform(root)
 
 

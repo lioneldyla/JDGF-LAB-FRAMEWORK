@@ -2,7 +2,7 @@ api_version: jdgf.io/v1alpha1
 contract_version: "1.0"
 kind: ApiRegistry
 metadata:
-  version: 0.10.0
+  version: 0.10.1
   lifecycle: preview
 endpoints:
   - {id: health, method: GET, path: /healthz, mutating: false, authentication: none}

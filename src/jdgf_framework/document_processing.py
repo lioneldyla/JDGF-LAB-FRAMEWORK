@@ -2,17 +2,16 @@
 
 from __future__ import annotations
 
+import re
+import unicodedata
 from dataclasses import dataclass
 from hashlib import sha256
 from pathlib import Path
-import re
-import unicodedata
 from typing import Any
 
+import yaml
 from jsonschema import Draft202012Validator
 from jsonschema.exceptions import SchemaError
-import yaml
-
 
 SUPPORTED_SUFFIXES = {".txt": "text", ".md": "markdown"}
 

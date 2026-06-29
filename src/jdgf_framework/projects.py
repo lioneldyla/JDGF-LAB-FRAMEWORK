@@ -2,15 +2,14 @@
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from pathlib import Path
-import re
 from typing import Any
 
+import yaml
 from jsonschema import Draft202012Validator, FormatChecker
 from jsonschema.exceptions import SchemaError
-import yaml
-
 
 PROJECT_ID = re.compile(r"^[a-z][a-z0-9-]{2,62}$")
 LIFECYCLES = {"proposed", "active", "paused", "retired", "template"}
@@ -118,6 +117,8 @@ def validate_project_manifest(
         raise RegistryError(f"{path}: metadata.id is not a valid project id")
     if not isinstance(name, str) or not name.strip():
         raise RegistryError(f"{path}: metadata.name is required")
+    if not isinstance(version, str):
+        raise RegistryError(f"{path}: metadata.version is required")
     if lifecycle not in LIFECYCLES:
         raise RegistryError(
             f"{path}: spec.lifecycle must be one of {sorted(LIFECYCLES)}"

@@ -1,6 +1,6 @@
-from pathlib import Path
 import shutil
 import subprocess
+from pathlib import Path
 
 import pytest
 import yaml
@@ -9,7 +9,6 @@ from jdgf_framework.automation_platform import (
     AutomationPlatformError,
     validate_automation_platform,
 )
-
 
 ROOT = Path(__file__).resolve().parents[1]
 SERVICE_PATHS = {
@@ -74,11 +73,12 @@ def test_compose_contract_is_hardened(service: str, directory: Path) -> None:
 
 @pytest.mark.parametrize(("service", "directory"), SERVICE_PATHS.items())
 def test_compose_configuration_renders(service: str, directory: Path) -> None:
-    if not shutil.which("docker"):
+    docker = shutil.which("docker")
+    if docker is None:
         pytest.skip("Docker CLI is unavailable")
     result = subprocess.run(
         [
-            "docker",
+            docker,
             "compose",
             "--env-file",
             str(directory / ".env.example"),

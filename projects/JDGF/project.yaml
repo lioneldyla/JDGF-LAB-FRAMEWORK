@@ -5,7 +5,7 @@ metadata:
   id: jdgf-framework
   name: JDGF Lab Framework
   short_name: JDGF
-  version: 0.10.0
+  version: 0.10.1
   description: Independent control framework for governed AI-assisted projects.
   repository: https://github.com/lioneldyla/JDGF-LAB-FRAMEWORK
   license: MIT
@@ -28,7 +28,7 @@ spec:
   timeline:
     created: "2026-06-27"
     updated: "2026-06-27"
-    release: 0.10.0
+    release: 0.10.1
     roadmap: ROADMAP.md
   documentation:
     readme: projects/JDGF/README.md

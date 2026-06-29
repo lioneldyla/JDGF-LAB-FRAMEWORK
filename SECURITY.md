@@ -1,24 +1,28 @@
-# Politique de Sécurité - JDGF-LAB-FRAMEWORK
+# Security policy
 
-## Versions supportées
+## Supported versions
 
-- **Branche active** : `codex/advanced-rag-contracts`
+JDGF Lab Framework is a developer preview. Only the current default branch is
+maintained; no production support or response-time commitment is offered.
 
-## Signalement de vulnérabilité
+## Reporting a vulnerability
 
-Merci de signaler les problèmes de sécurité de façon responsable :
+Use GitHub's private vulnerability reporting for this repository. Do not place
+secrets, exploit details or personal data in a public issue.
 
-- **Email** : dystonny@gmail.com
-- Ou via **GitHub Security Advisory** (privé)
+Include the affected version, reproduction conditions, impact and any proposed
+mitigation. Maintainers will acknowledge the report when available.
 
-Nous répondons dans les **48 heures**.
+## Verified repository controls
 
-## Mesures de sécurité en place
+As audited on 2026-06-28, GitHub Secret Scanning, push protection, Dependabot
+alerts and security updates, private vulnerability reporting, and full-SHA
+workflow pin enforcement are enabled. Dependency and workflow checks also run
+locally and in CI.
 
-- GitHub Secret Scanning activé
-- Dependabot pour les dépendances
-- Scans de sécurité dans les workflows CI
-- Protection de branche
-- Gestion sécurisée des clés API via GitHub Secrets
+Branch protection is not currently enabled. The repository must not claim that
+control until GitHub reports it active.
 
-Lionel Dyla — Juin 2026
+The local API is unauthenticated and loopback-only. It must not be exposed to a
+network until authentication, authorization, rate limiting and durable audit
+are implemented and reviewed.

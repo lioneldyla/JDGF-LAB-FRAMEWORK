@@ -7,5 +7,6 @@ cd "${ROOT_DIR}"
 git ls-files -z '*.sh' | xargs -0 bash -n
 uv run ruff check .
 uv run ruff format --check .
+uv run mypy
 
 echo "Shell and Python lint checks passed."

@@ -6,10 +6,9 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+import yaml
 from jsonschema import Draft202012Validator
 from jsonschema.exceptions import SchemaError
-import yaml
-
 
 MANIFEST_FILES = ("framework.yaml", "modules.yaml", "projects.yaml")
 REGISTRY_FILES = (

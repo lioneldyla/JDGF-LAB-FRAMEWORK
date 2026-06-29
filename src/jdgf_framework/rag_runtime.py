@@ -2,11 +2,10 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
 import re
-from typing import Iterable
 import unicodedata
-
+from collections.abc import Iterable
+from dataclasses import dataclass
 
 TOKEN = re.compile(r"\w+(?:['-]\w+)*", re.UNICODE)
 

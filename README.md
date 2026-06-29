@@ -30,7 +30,7 @@ The framework is designed to support:
 
 ## Current foundation
 
-The executable `v0.10.0` developer preview provides:
+The executable `v0.10.1` developer preview provides:
 
 - an active Projects Platform with versioned manifests, governance and
   documentation boundaries;
@@ -129,7 +129,7 @@ hosted model providers remain architectural candidates.
 
 ## Version
 
-`0.10.0`
+`0.10.1`
 
 ## License
 

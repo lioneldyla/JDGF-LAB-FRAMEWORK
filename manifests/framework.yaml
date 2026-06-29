@@ -2,7 +2,7 @@ api_version: jdgf.io/v1alpha1
 kind: Framework
 metadata:
   name: JDGF Lab Framework
-  version: 0.10.0
+  version: 0.10.1
   codename: Foundation
 spec:
   status: foundation

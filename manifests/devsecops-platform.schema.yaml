@@ -40,6 +40,6 @@ properties:
         type: array
         minItems: 1
         uniqueItems: true
-        items: {enum: [github-actions, ci, security, quality, packaging, release-candidates]}
+        items: {enum: [github-actions, dependency-updates, ci, security, quality, packaging, release-candidates]}
       deployment_enabled: {const: false}
       release_publishing_enabled: {const: false}

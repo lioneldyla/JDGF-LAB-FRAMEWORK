@@ -1,5 +1,5 @@
-from pathlib import Path
 import shutil
+from pathlib import Path
 
 import pytest
 import yaml
@@ -9,7 +9,6 @@ from jdgf_framework.core_platform import (
     run_doctor,
     validate_core_platform,
 )
-
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -55,7 +54,7 @@ def test_core_platform_contracts_are_valid() -> None:
 def test_doctor_checks_authoritative_local_state() -> None:
     report = run_doctor(ROOT)
 
-    assert report.version == "0.10.0"
+    assert report.version == "0.10.1"
     assert "version-consistency" in report.checks
 
 

@@ -2,15 +2,15 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
-from pathlib import Path
 import sys
 import tomllib
+from dataclasses import dataclass
+from pathlib import Path
 from typing import Any
 
+import yaml
 from jsonschema import Draft202012Validator
 from jsonschema.exceptions import SchemaError
-import yaml
 
 
 @dataclass(frozen=True)
@@ -97,16 +97,14 @@ def validate_core_platform(root: Path) -> CorePlatformSummary:
             raise CorePlatformError(
                 f"Deferred core operation cannot claim implementation: {identifier}"
             )
-        if operation["mutating"] and identifier in {
-            "package",
-            "update",
-            "backup",
-            "restore",
-        }:
-            if not operation["approval_required"]:
-                raise CorePlatformError(
-                    f"Consequential core operation requires approval: {identifier}"
-                )
+        if (
+            operation["mutating"]
+            and identifier in {"package", "update", "backup", "restore"}
+            and not operation["approval_required"]
+        ):
+            raise CorePlatformError(
+                f"Consequential core operation requires approval: {identifier}"
+            )
 
     declared = set(manifest["spec"]["active_operations"])
     if declared != set(active):

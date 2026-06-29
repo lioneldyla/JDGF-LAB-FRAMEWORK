@@ -6,10 +6,10 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+import yaml
 from fastapi.routing import APIRoute
 from jsonschema import Draft202012Validator
 from jsonschema.exceptions import SchemaError
-import yaml
 
 from . import __version__
 from .api import create_app
@@ -87,7 +87,7 @@ def validate_api_platform(root: Path) -> ApiPlatformSummary:
         for route in application.routes
         if isinstance(route, APIRoute)
         and (route.path == "/healthz" or route.path.startswith("/api/v1/"))
-        for method in route.methods
+        for method in route.methods or set()
     }
     if declared != implemented:
         raise ApiPlatformError("API registry and implemented routes differ")

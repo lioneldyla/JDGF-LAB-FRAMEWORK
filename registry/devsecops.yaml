@@ -30,5 +30,6 @@ tools:
   - {id: uv, purpose: dependency-locking}
   - {id: pytest, purpose: adversarial-tests}
   - {id: ruff, purpose: python-lint-format}
+  - {id: mypy, purpose: python-static-typing}
   - {id: pip-audit, purpose: dependency-audit}
   - {id: bash, purpose: shell-syntax}

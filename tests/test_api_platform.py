@@ -1,13 +1,12 @@
-from pathlib import Path
 import shutil
+from pathlib import Path
 
-from fastapi.testclient import TestClient
 import pytest
 import yaml
+from fastapi.testclient import TestClient
 
 from jdgf_framework.api import create_app
 from jdgf_framework.api_platform import ApiPlatformError, validate_api_platform
-
 
 ROOT = Path(__file__).resolve().parents[1]
 CLIENT = TestClient(create_app(ROOT))
@@ -38,7 +37,7 @@ def _copy_contracts(tmp_path: Path) -> Path:
 def test_api_contracts_match_implemented_routes() -> None:
     summary = validate_api_platform(ROOT)
 
-    assert summary.version == "0.10.0"
+    assert summary.version == "0.10.1"
     assert summary.lifecycle == "preview"
     assert summary.endpoint_ids == ("health", "list-projects", "lexical-retrieval")
 
@@ -48,7 +47,7 @@ def test_health_reports_local_framework_state() -> None:
 
     assert response.status_code == 200
     assert response.json()["status"] == "ok"
-    assert response.json()["version"] == "0.10.0"
+    assert response.json()["version"] == "0.10.1"
 
 
 def test_projects_endpoint_is_read_only_projection() -> None:
@@ -56,7 +55,7 @@ def test_projects_endpoint_is_read_only_projection() -> None:
 
     assert response.status_code == 200
     assert response.json()[0]["id"] == "jdgf-framework"
-    assert response.json()[0]["version"] == "0.10.0"
+    assert response.json()[0]["version"] == "0.10.1"
     assert CLIENT.put("/api/v1/projects", json={}).status_code == 405
 
 

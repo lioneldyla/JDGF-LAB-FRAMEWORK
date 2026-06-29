@@ -2,7 +2,7 @@
 
 ## Current classification
 
-JDGF Lab Framework `0.10.0` is a local developer preview. It is not a stable,
+JDGF Lab Framework `0.10.1` is a local developer preview. It is not a stable,
 production or enterprise release.
 
 ## Required before 1.0
