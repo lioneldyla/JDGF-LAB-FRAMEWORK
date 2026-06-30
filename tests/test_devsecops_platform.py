@@ -107,6 +107,25 @@ def test_deployment_command_is_forbidden(tmp_path: Path) -> None:
         validate_devsecops_platform(root)
 
 
+def test_workflow_secret_expansion_is_forbidden(tmp_path: Path) -> None:
+    root = _copy_contracts(tmp_path)
+    path = root / ".github" / "workflows" / "ci.yml"
+    path.write_text(
+        path.read_text(encoding="utf-8").replace(
+            "run: ./verify.sh",
+            (
+                "env:\n"
+                "          API_KEY: ${{ secrets.API_KEY }}\n"
+                "        run: ./verify.sh"
+            ),
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(DevSecOpsPlatformError, match="forbidden authority"):
+        validate_devsecops_platform(root)
+
+
 def test_scripts_cannot_suppress_failures(tmp_path: Path) -> None:
     root = _copy_contracts(tmp_path)
     path = root / "scripts" / "devsecops" / "security-scan.sh"
