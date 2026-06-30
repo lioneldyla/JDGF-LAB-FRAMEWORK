@@ -112,7 +112,12 @@ def test_workflow_secret_expansion_is_forbidden(tmp_path: Path) -> None:
     path = root / ".github" / "workflows" / "ci.yml"
     path.write_text(
         path.read_text(encoding="utf-8").replace(
-            "run: ./verify.sh", "env:\n          API_KEY: ${{ secrets.API_KEY }}\n        run: ./verify.sh"
+            "run: ./verify.sh",
+            (
+                "env:\n"
+                "          API_KEY: ${{ secrets.API_KEY }}\n"
+                "        run: ./verify.sh"
+            ),
         ),
         encoding="utf-8",
     )
