@@ -78,37 +78,25 @@ The dependency direction must always remain:
 
 JDGF-LAB-FRAMEWORK Core
 
-&nbsp;       │
+&nbsp;       ↓
 
-&nbsp;       ├── Contracts
+contracts / registries / governance / runtime / SDK / CLI
 
-&nbsp;       ├── Registries
+&nbsp;       ↓
 
-&nbsp;       ├── Governance
+extension profiles
 
-&nbsp;       ├── Runtime
+&nbsp;       ↓
 
-&nbsp;       ├── SDK
+Judicial Intelligence Extension
 
-&nbsp;       └── CLI
+&nbsp;       ↓
 
-&nbsp;               │
+JDGF domain framework
 
-&nbsp;               ▼
+&nbsp;       ↓
 
-&nbsp;    Judicial Intelligence Extension
-
-&nbsp;               │
-
-&nbsp;               ▼
-
-&nbsp;Judicial Data Governance Framework (JDGF)
-
-&nbsp;               │
-
-&nbsp;               ▼
-
-JDGAT • JDGO • CS GREFFE OS • Research
+JDGAT / JDGO / CS GREFFE OS / research use cases
 
 ```
 
@@ -282,7 +270,7 @@ The first extension should remain documentary.
 
 
 
-Recommended documents:
+\## Phase 1 — delivered in this pull request
 
 
 
@@ -292,11 +280,23 @@ docs/
 
 ├── JDGF\_CONCEPT\_NOTE.md
 
-├── JDGF\_CURRENT\_STATE\_AUDIT.md
+├── JDGF\_LAB\_FRAMEWORK\_STATE\_AUDIT.md
 
 ├── JUDICIAL\_INTELLIGENCE\_EXTENSION\_PLAN.md
 
-├── NEXT\_VERTICAL\_SLICE.md
+└── NEXT\_VERTICAL\_SLICE.md
+
+```
+
+
+
+\## Phase 2 — future deliverables, not part of this pull request
+
+
+
+```text
+
+docs/
 
 ├── JDGAT\_OVERVIEW.md
 
@@ -305,6 +305,14 @@ docs/
 └── JUDICIAL\_GLOSSARY.md
 
 ```
+
+
+
+These three depend on the domain models defined in Phase 2 of the
+
+Development Roadmap (Section 11) and are proposed next outputs only —
+
+they are not created by this pull request.
 
 
 

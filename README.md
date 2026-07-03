@@ -126,6 +126,10 @@ hosted model providers remain architectural candidates.
 - [Local API Preview](docs/LOCAL_API.md)
 - [Release Readiness Criteria](docs/RELEASE_CRITERIA.md)
 - [Historical archive integration](docs/ARCHIVE_INTEGRATION.md)
+- [JDGF concept note](docs/JDGF_CONCEPT_NOTE.md)
+- [JDGF Lab Framework state audit](docs/JDGF_LAB_FRAMEWORK_STATE_AUDIT.md)
+- [Judicial Intelligence extension plan](docs/JUDICIAL_INTELLIGENCE_EXTENSION_PLAN.md)
+- [Next vertical slice](docs/NEXT_VERTICAL_SLICE.md)
 
 ## Version
 

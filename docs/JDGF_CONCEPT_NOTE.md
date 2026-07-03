@@ -188,15 +188,19 @@ The correct dependency direction is:
 
 ```text
 
-JDGF-LAB-FRAMEWORK core
+JDGF-LAB-FRAMEWORK Core
 
 &nbsp;       ↓
 
-contracts / manifests / registries / governance
+contracts / registries / governance / runtime / SDK / CLI
 
 &nbsp;       ↓
 
-Judicial Intelligence extension
+extension profiles
+
+&nbsp;       ↓
+
+Judicial Intelligence Extension
 
 &nbsp;       ↓
 

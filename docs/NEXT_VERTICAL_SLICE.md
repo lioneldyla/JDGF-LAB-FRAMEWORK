@@ -108,7 +108,13 @@ This slice remains primarily documentary while preparing future implementation.
 
 
 
-The following deliverables are included.
+The following are proposed next outputs for a future pull request. None
+
+of them is created or modified by the current pull request, which adds
+
+only \`JDGF\_CONCEPT\_NOTE.md\`, \`JDGF\_LAB\_FRAMEWORK\_STATE\_AUDIT.md\`,
+
+\`JUDICIAL\_INTELLIGENCE\_EXTENSION\_PLAN.md\` and this document.
 
 
 
@@ -116,7 +122,7 @@ The following deliverables are included.
 
 
 
-Create:
+Proposed, not yet created:
 
 
 
@@ -340,23 +346,23 @@ At the end of this slice, the repository should contain:
 
 docs/
 
-├── JDGF\_CONCEPT\_NOTE.md
+├── JDGF\_CONCEPT\_NOTE.md                    (already delivered)
 
-├── JDGF\_CURRENT\_STATE\_AUDIT.md
+├── JDGF\_LAB\_FRAMEWORK\_STATE\_AUDIT.md       (already delivered)
 
-├── JUDICIAL\_INTELLIGENCE\_EXTENSION\_PLAN.md
+├── JUDICIAL\_INTELLIGENCE\_EXTENSION\_PLAN.md (already delivered)
 
-├── NEXT\_VERTICAL\_SLICE.md
+├── NEXT\_VERTICAL\_SLICE.md                  (already delivered)
 
-├── JDGAT\_OVERVIEW.md
+├── JDGAT\_OVERVIEW.md                       (proposed by this slice)
 
-├── JDGAT\_MATURITY\_MODEL.md
+├── JDGAT\_MATURITY\_MODEL.md                 (proposed by this slice)
 
-├── JDGAT\_ASSESSMENT\_DOMAINS.md
+├── JDGAT\_ASSESSMENT\_DOMAINS.md             (proposed by this slice)
 
-├── JDGAT\_SCORING\_MODEL.md
+├── JDGAT\_SCORING\_MODEL.md                  (proposed by this slice)
 
-└── JDGAT\_GLOSSARY.md
+└── JDGAT\_GLOSSARY.md                       (proposed by this slice)
 
 ```
 

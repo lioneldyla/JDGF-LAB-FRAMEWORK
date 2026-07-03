@@ -536,7 +536,7 @@ The following documents fill the identified gap:
 
 docs/JDGF\_CONCEPT\_NOTE.md
 
-docs/JDGF\_CURRENT\_STATE\_AUDIT.md
+docs/JDGF\_LAB\_FRAMEWORK\_STATE\_AUDIT.md
 
 docs/JUDICIAL\_INTELLIGENCE\_EXTENSION\_PLAN.md
 
