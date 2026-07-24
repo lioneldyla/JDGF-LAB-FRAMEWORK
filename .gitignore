@@ -46,6 +46,8 @@ dist
 build
 
 coverage
+.coverage
+coverage.xml
 
 reports
 
